@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Window Professor — Premium Windows & Custom Decks</title>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream: { 50: '#FDFAF6', 100: '#F8F4ED', 200: '#F0EBE1', 300: '#E5DDD0' },
+            charcoal: { 400: '#1A1714', 300: '#211F1C', 200: '#272320', 100: '#38342F', 50: '#4A4540' },
+            gold: { 300: '#D4A96A', 400: '#C4945A', 500: '#B07D45' },
+          },
+          fontFamily: {
+            display: ['Playfair Display', 'Georgia', 'serif'],
+            body: ['DM Sans', 'system-ui', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: #F0EBE1; color: #272320; }
+
+    /* Grain overlay */
+    .grain::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Nav */
+    #main-nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      transition: background 0.4s ease, box-shadow 0.4s ease;
+    }
+    #main-nav.scrolled {
+      background: rgba(27, 24, 20, 0.95);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 1px 0 rgba(255,255,255,0.05);
+    }
+    .nav-link { position: relative; }
+    .nav-link::after {
+      content: ''; position: absolute; bottom: -2px; left: 0;
+      width: 0; height: 1px; background: #C4945A;
+      transition: width 0.3s ease;
+    }
+    .nav-link:hover::after { width: 100%; }
+
+    /* Buttons */
+    .btn-gold {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: linear-gradient(135deg, #C4945A 0%, #A87040 100%);
+      color: #FAF6EF; font-family: 'DM Sans', sans-serif; font-weight: 500;
+      font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 13px 26px; border-radius: 2px; border: none; cursor: pointer;
+      box-shadow: 0 2px 8px rgba(196,148,90,0.25), 0 8px 24px rgba(196,148,90,0.12);
+      transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.25s ease;
+      text-decoration: none;
+    }
+    .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(196,148,90,0.35), 0 12px 32px rgba(196,148,90,0.18); }
+    .btn-gold:active { transform: translateY(0); }
+    .btn-gold:focus-visible { outline: 2px solid #C4945A; outline-offset: 3px; }
+
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: transparent; color: #F0EBE1;
+      border: 1px solid rgba(240,235,225,0.35);
+      font-family: 'DM Sans', sans-serif; font-weight: 500;
+      font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 13px 26px; border-radius: 2px; cursor: pointer; text-decoration: none;
+      transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1), border-color 0.2s ease, background 0.2s ease;
+    }
+    .btn-outline:hover { transform: translateY(-2px); border-color: rgba(240,235,225,0.65); background: rgba(240,235,225,0.07); }
+    .btn-outline:active { transform: translateY(0); }
+    .btn-outline:focus-visible { outline: 2px solid #F0EBE1; outline-offset: 3px; }
+
+    /* Gold accent line */
+    .gold-bar { width: 40px; height: 2px; background: linear-gradient(90deg, #C4945A, #D4A96A); display: block; }
+
+    /* Hero */
+    .hero-section {
+      background-image:
+        radial-gradient(ellipse 80% 60% at 65% 35%, rgba(196,148,90,0.13) 0%, transparent 65%),
+        linear-gradient(to bottom, rgba(20,17,14,0.72) 0%, rgba(20,17,14,0.38) 50%, rgba(20,17,14,0.78) 100%),
+        url('https://placehold.co/1920x1080/222018/3A3530?text=+');
+      background-size: cover; background-position: center; background-attachment: fixed;
+    }
+
+    /* Service cards */
+    .svc-card {
+      position: relative; overflow: hidden; border-radius: 3px; background: #1A1714;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2), 0 8px 24px rgba(0,0,0,0.18), 0 20px 48px rgba(0,0,0,0.14);
+      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.35s ease;
+    }
+    .svc-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.25), 0 16px 40px rgba(0,0,0,0.22), 0 32px 64px rgba(0,0,0,0.18);
+    }
+    .svc-card img { width: 100%; aspect-ratio: 16/10; object-fit: cover; display: block; }
+    .svc-card .overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(20,17,14,0.97) 0%, rgba(20,17,14,0.55) 45%, rgba(20,17,14,0.15) 100%);
+    }
+
+    /* Feature rows */
+    .feature-row {
+      display: flex; gap: 20px; align-items: flex-start;
+      padding: 22px 24px; border-radius: 3px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.055);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.25), 0 4px 12px rgba(0,0,0,0.18);
+    }
+    .feature-icon {
+      width: 42px; height: 42px; flex-shrink: 0; border-radius: 3px;
+      background: rgba(196,148,90,0.12);
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* Portfolio */
+    .port-item { position: relative; overflow: hidden; border-radius: 3px; }
+    .port-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.55s ease; }
+    .port-item:hover img { transform: scale(1.06); }
+    .port-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(20,17,14,0.85) 0%, transparent 55%);
+      opacity: 0; transition: opacity 0.3s ease;
+    }
+    .port-item:hover .port-overlay { opacity: 1; }
+
+    /* Testimonials */
+    .testi-card {
+      background: #F8F4ED; border-radius: 3px; padding: 36px;
+      border-top: 3px solid #C4945A;
+      box-shadow: 0 1px 3px rgba(39,35,32,0.05), 0 6px 20px rgba(39,35,32,0.08), 0 16px 40px rgba(39,35,32,0.05);
+    }
+
+    /* Form */
+    .form-field {
+      width: 100%; background: rgba(240,235,225,0.07); border: 1px solid rgba(240,235,225,0.18);
+      border-radius: 2px; padding: 13px 16px; color: #F0EBE1;
+      font-family: 'DM Sans', sans-serif; font-size: 0.9375rem; line-height: 1.6;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+    .form-field::placeholder { color: rgba(240,235,225,0.32); }
+    .form-field:hover { border-color: rgba(240,235,225,0.35); }
+    .form-field:focus { outline: none; border-color: #C4945A; background: rgba(240,235,225,0.10); }
+    .form-field option { background: #272320; }
+
+    /* Fade-up */
+    .fade-up { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .fade-up.in { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="main-nav" class="px-6 md:px-10 lg:px-16 xl:px-24">
+  <div class="max-w-7xl mx-auto flex items-center justify-between h-[76px]">
+    <a href="#" class="flex items-center gap-3" aria-label="The Window Professor">
+      <div class="w-[38px] h-[38px] rounded-full border border-[#C4945A] flex items-center justify-center">
+        <svg width="19" height="19" viewBox="0 0 20 20" fill="none">
+          <rect x="1.5" y="1.5" width="7" height="7" rx="0.75" stroke="#C4945A" stroke-width="1.3"/>
+          <rect x="11.5" y="1.5" width="7" height="7" rx="0.75" stroke="#C4945A" stroke-width="1.3"/>
+          <rect x="1.5" y="11.5" width="7" height="7" rx="0.75" stroke="#C4945A" stroke-width="1.3"/>
+          <rect x="11.5" y="11.5" width="7" height="7" rx="0.75" stroke="#C4945A" stroke-width="1.3"/>
+        </svg>
+      </div>
+      <div class="leading-none">
+        <span class="font-display text-[#F0EBE1] text-[1.1rem] tracking-[-0.01em] block">The Window</span>
+        <span class="font-display text-[#C4945A] italic text-[1.1rem] tracking-[-0.01em] block">Professor</span>
+      </div>
+    </a>
+
+    <div class="hidden md:flex items-center gap-7">
+      <a href="#services" class="nav-link text-[#F0EBE1]/75 hover:text-[#F0EBE1] text-[0.85rem] font-body tracking-[0.02em] transition-colors">Services</a>
+      <a href="#portfolio" class="nav-link text-[#F0EBE1]/75 hover:text-[#F0EBE1] text-[0.85rem] font-body tracking-[0.02em] transition-colors">Portfolio</a>
+      <a href="#about" class="nav-link text-[#F0EBE1]/75 hover:text-[#F0EBE1] text-[0.85rem] font-body tracking-[0.02em] transition-colors">About</a>
+      <a href="#reviews" class="nav-link text-[#F0EBE1]/75 hover:text-[#F0EBE1] text-[0.85rem] font-body tracking-[0.02em] transition-colors">Reviews</a>
+      <a href="#contact" class="btn-gold">Get a Quote</a>
+    </div>
+
+    <button class="md:hidden p-2 text-[#F0EBE1]" aria-label="Menu">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+        <path d="M3 7h18M3 12h18M3 17h18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+
+<!-- HERO -->
+<section class="hero-section grain relative min-h-screen flex flex-col justify-center overflow-hidden">
+  <div class="relative z-10 max-w-7xl mx-auto px-6 md:px-10 lg:px-16 xl:px-24 pt-36 pb-24">
+    <div class="max-w-2xl">
+      <p class="text-[#C4945A] text-[0.72rem] tracking-[0.22em] uppercase font-body font-medium mb-6 fade-up">Premium Windows & Custom Decks · Serving the Greater Area</p>
+      <h1 class="font-display text-[#F0EBE1] text-[3.5rem] md:text-[4.75rem] lg:text-[5.5rem] leading-[1.04] tracking-[-0.03em] mb-8 fade-up" style="transition-delay:0.1s">
+        Where Craft<br><em style="color:#C4945A;font-style:normal;">Meets</em> Precision.
+      </h1>
+      <p class="text-[#F0EBE1]/68 text-[1.0625rem] leading-[1.78] font-body max-w-lg mb-12 fade-up" style="transition-delay:0.2s">
+        High-end window installation and custom deck construction — executed with the care of a craftsman who signs every project with their name.
+      </p>
+      <div class="flex flex-wrap gap-4 fade-up" style="transition-delay:0.3s">
+        <a href="#contact" class="btn-gold">Schedule a Consultation</a>
+        <a href="#portfolio" class="btn-outline">View Our Work</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll cue -->
+  <div class="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2">
+    <span class="text-[#F0EBE1]/35 text-[0.68rem] tracking-[0.18em] uppercase font-body">Scroll</span>
+    <div class="w-px h-12 bg-gradient-to-b from-[#C4945A]/50 to-transparent"></div>
+  </div>
+</section>
+
+
+<!-- STATS -->
+<div class="bg-[#272320] border-b border-white/[0.06]">
+  <div class="max-w-7xl mx-auto px-6 md:px-10 lg:px-16 xl:px-24 py-12 grid grid-cols-2 md:grid-cols-4 gap-8">
+    <div class="text-center fade-up">
+      <span class="font-display text-[#C4945A] text-[2.5rem] font-semibold leading-none block">15+</span>
+      <span class="text-[#F0EBE1]/45 text-[0.8rem] font-body mt-2 block">Years in Business</span>
+    </div>
+    <div class="text-center fade-up" style="transition-delay:0.08s">
+      <span class="font-display text-[#C4945A] text-[2.5rem] font-semibold leading-none block">600+</span>
+      <span class="text-[#F0EBE1]/45 text-[0.8rem] font-body mt-2 block">Projects Completed</span>
+    </div>
+    <div class="text-center fade-up" style="transition-delay:0.16s">
+      <span class="font-display text-[#C4945A] text-[2.5rem] font-semibold leading-none block">5.0</span>
+      <span class="text-[#F0EBE1]/45 text-[0.8rem] font-body mt-2 block">Average Star Rating</span>
+    </div>
+    <div class="text-center fade-up" style="transition-delay:0.24s">
+      <span class="font-display text-[#C4945A] text-[2.5rem] font-semibold leading-none block">100%</span>
+      <span class="text-[#F0EBE1]/45 text-[0.8rem] font-body mt-2 block">Satisfaction Guaranteed</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- SERVICES -->
+<section id="services" class="py-28 px-6 md:px-10 lg:px-16 xl:px-24 bg-[#F0EBE1]">
+  <div class="max-w-7xl mx-auto">
+    <div class="mb-16 fade-up">
+      <p class="text-[#C4945A] text-[0.72rem] tracking-[0.22em] uppercase font-body font-medium mb-4">What We Do</p>
+      <h2 class="font-display text-[#272320] text-[2.5rem] md:text-[3.25rem] tracking-[-0.03em] leading-[1.08] max-w-md">Expert Services,<br>Premium Results</h2>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-6">
+      <!-- Windows -->
+      <div class="svc-card fade-up">
+        <img src="https://placehold.co/880x550/2A2520/3D3830?text=+" alt="Window Installation">
+        <div class="overlay"></div>
+        <div class="absolute inset-0 flex flex-col justify-end p-9 z-10">
+          <span class="gold-bar mb-5"></span>
+          <h3 class="font-display text-[#F0EBE1] text-[1.9rem] leading-tight mb-3">Premium Window<br>Installation</h3>
+          <p class="text-[#F0EBE1]/60 text-[0.875rem] font-body leading-[1.75] mb-6 max-w-sm">
+            From energy-efficient double-pane to custom architectural windows — precision-fit installations that transform your home inside and out.
+          </p>
+          <div class="flex flex-wrap gap-2 mb-8">
+            <span class="text-[#C4945A] text-[0.72rem] font-body border border-[#C4945A]/30 rounded-[2px] px-3 py-1 tracking-wide">Double-Pane</span>
+            <span class="text-[#C4945A] text-[0.72rem] font-body border border-[#C4945A]/30 rounded-[2px] px-3 py-1 tracking-wide">Bay & Bow</span>
+            <span class="text-[#C4945A] text-[0.72rem] font-body border border-[#C4945A]/30 rounded-[2px] px-3 py-1 tracking-wide">Custom Sizes</span>
+            <span class="text-[#C4945A] text-[0.72rem] font-body border border-[#C4945A]/30 rounded-[2px] px-3 py-1 tracking-wide">Energy Star</span>
+          </div>
+          <a href="#contact" class="btn-gold self-start">Get a Window Quote</a>
+        </div>
+      </div>
+
+      <!-- Decks -->
+      <div class="svc-card fade-up" style="transition-delay:0.12s">
+        <img src="https://placehold.co/880x550/252018/383025?text=+" alt="Custom Deck Construction">
+        <div class="overlay"></div>
+        <div class="absolute inset-0 flex flex-col justify-end p-9 z-10">
+          <span class="gold-bar mb-5"></span>
+          <h3 class="font-display text-[#F0EBE1] text-[1.9rem] leading-tight mb-3">Custom Deck<br>Construction</h3>
+          <p class="text-[#F0EBE1]/60 text-[0.875rem] font-body leading-[1.75] mb-6 max-w-sm">
+            Handcrafted decks built to last — from intimate cedar retreats to sprawling composite spaces that become the heart of your outdoor living.
+          </p>
+          <div class="flex flex-wrap gap-2 mb-8">
+            <span class="text-[#C4945A] text-[0.72rem] font-body border border-[#C4945A]/30 rounded-[2px] px-3 py-1 tracking-wide">Composite</span>
+            <span class="text-[#C4945A] text-[0.72rem] font-body border border-[#C4945A]/30 rounded-[2px] px-3 py-1 tracking-wide">Cedar & Hardwood</span>
+            <span class="text-[#C4945A] text-[0.72rem] font-body border border-[#C4945A]/30 rounded-[2px] px-3 py-1 tracking-wide">Multi-Level</span>
+            <span class="text-[#C4945A] text-[0.72rem] font-body border border-[#C4945A]/30 rounded-[2px] px-3 py-1 tracking-wide">Railings & Pergolas</span>
+          </div>
+          <a href="#contact" class="btn-gold self-start">Get a Deck Quote</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- WHY US -->
+<section id="about" class="bg-[#272320] grain relative overflow-hidden py-28 px-6 md:px-10 lg:px-16 xl:px-24">
+  <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 65% 80% at 8% 50%, rgba(196,148,90,0.07) 0%, transparent 60%)"></div>
+
+  <div class="max-w-7xl mx-auto relative z-10">
+    <div class="grid lg:grid-cols-2 gap-20 items-center">
+      <div class="fade-up">
+        <p class="text-[#C4945A] text-[0.72rem] tracking-[0.22em] uppercase font-body font-medium mb-5">Why The Window Professor</p>
+        <h2 class="font-display text-[#F0EBE1] text-[2.5rem] md:text-[3.25rem] tracking-[-0.03em] leading-[1.08] mb-8">Built on Integrity.<br>Finished to Perfection.</h2>
+        <p class="text-[#F0EBE1]/55 font-body leading-[1.82] mb-10 max-w-md">
+          We don't cut corners because our reputation lives in every seam, every seal, and every board we install. When you invest in your home, you deserve a contractor who treats it like their own.
+        </p>
+        <a href="#contact" class="btn-gold">Start Your Project</a>
+      </div>
+
+      <div class="flex flex-col gap-4 fade-up" style="transition-delay:0.15s">
+        <div class="feature-row">
+          <div class="feature-icon">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="#C4945A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div>
+            <h4 class="font-display text-[#F0EBE1] text-[1.0625rem] mb-1">Lifetime Workmanship Warranty</h4>
+            <p class="text-[#F0EBE1]/48 text-[0.85rem] font-body leading-[1.7]">Every installation backed by our guarantee — if it fails, we fix it. No fine print, no exceptions.</p>
+          </div>
+        </div>
+        <div class="feature-row">
+          <div class="feature-icon">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="#C4945A" stroke-width="1.6"/><path d="M10 6v4l2.5 2.5" stroke="#C4945A" stroke-width="1.6" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <h4 class="font-display text-[#F0EBE1] text-[1.0625rem] mb-1">On-Time, On-Budget</h4>
+            <p class="text-[#F0EBE1]/48 text-[0.85rem] font-body leading-[1.7]">Transparent quoting, no surprise charges. Your timeline is our commitment — not a suggestion.</p>
+          </div>
+        </div>
+        <div class="feature-row">
+          <div class="feature-icon">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2.5l2.2 5 5.3.7-3.8 3.7.9 5.3L10 14.5l-4.6 2.7.9-5.3L2.5 8.2l5.3-.7z" stroke="#C4945A" stroke-width="1.5" stroke-linejoin="round"/></svg>
+          </div>
+          <div>
+            <h4 class="font-display text-[#F0EBE1] text-[1.0625rem] mb-1">Premium Materials Only</h4>
+            <p class="text-[#F0EBE1]/48 text-[0.85rem] font-body leading-[1.7]">We source from trusted manufacturers — nothing that won't look great and hold up decades from now.</p>
+          </div>
+        </div>
+        <div class="feature-row">
+          <div class="feature-icon">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2a8 8 0 100 16A8 8 0 0010 2z" stroke="#C4945A" stroke-width="1.6"/><path d="M7 10s.7 2.5 3 2.5S13 10 13 10" stroke="#C4945A" stroke-width="1.6" stroke-linecap="round"/><path d="M7.5 7.5h.01M12.5 7.5h.01" stroke="#C4945A" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <h4 class="font-display text-[#F0EBE1] text-[1.0625rem] mb-1">White-Glove Experience</h4>
+            <p class="text-[#F0EBE1]/48 text-[0.85rem] font-body leading-[1.7]">We leave your home cleaner than we found it. Professional, respectful, and tidy — every single day.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- PORTFOLIO -->
+<section id="portfolio" class="py-28 px-6 md:px-10 lg:px-16 xl:px-24 bg-[#F8F4ED]">
+  <div class="max-w-7xl mx-auto">
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 fade-up">
+      <div>
+        <p class="text-[#C4945A] text-[0.72rem] tracking-[0.22em] uppercase font-body font-medium mb-4">Our Work</p>
+        <h2 class="font-display text-[#272320] text-[2.5rem] md:text-[3.25rem] tracking-[-0.03em] leading-[1.08]">Recent Projects</h2>
+      </div>
+      <a href="#contact" class="mt-6 md:mt-0 text-[#272320] text-[0.875rem] font-body underline underline-offset-4 decoration-[#C4945A]/50 hover:text-[#C4945A] hover:decoration-[#C4945A] transition-colors">View all projects &rarr;</a>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-4" style="grid-auto-rows: 220px;">
+      <div class="port-item col-span-2 row-span-2 fade-up">
+        <img src="https://placehold.co/840x660/2A2520/403830?text=+" alt="Featured project">
+        <div class="port-overlay flex items-end p-7">
+          <div><p class="text-[#C4945A] text-[0.68rem] font-body tracking-[0.18em] uppercase mb-1">Windows</p><p class="text-[#F0EBE1] font-display text-[1.25rem]">Modern Bay Window Suite</p></div>
+        </div>
+      </div>
+      <div class="port-item fade-up" style="transition-delay:0.1s">
+        <img src="https://placehold.co/420x220/352E26/4A4035?text=+" alt="Cedar deck">
+        <div class="port-overlay flex items-end p-5">
+          <div><p class="text-[#C4945A] text-[0.65rem] font-body tracking-[0.18em] uppercase mb-1">Decks</p><p class="text-[#F0EBE1] font-display text-[1.05rem]">Cedar Wraparound</p></div>
+        </div>
+      </div>
+      <div class="port-item fade-up" style="transition-delay:0.18s">
+        <img src="https://placehold.co/420x220/272320/3A3530?text=+" alt="Window project">
+        <div class="port-overlay flex items-end p-5">
+          <div><p class="text-[#C4945A] text-[0.65rem] font-body tracking-[0.18em] uppercase mb-1">Windows</p><p class="text-[#F0EBE1] font-display text-[1.05rem]">Casement Replacement</p></div>
+        </div>
+      </div>
+      <div class="port-item fade-up" style="transition-delay:0.12s">
+        <img src="https://placehold.co/420x220/302A22/463D32?text=+" alt="Composite deck">
+        <div class="port-overlay flex items-end p-5">
+          <div><p class="text-[#C4945A] text-[0.65rem] font-body tracking-[0.18em] uppercase mb-1">Decks</p><p class="text-[#F0EBE1] font-display text-[1.05rem]">Composite Patio Deck</p></div>
+        </div>
+      </div>
+      <div class="port-item fade-up" style="transition-delay:0.22s">
+        <img src="https://placehold.co/420x220/222018/38342E?text=+" alt="Multi-level deck">
+        <div class="port-overlay flex items-end p-5">
+          <div><p class="text-[#C4945A] text-[0.65rem] font-body tracking-[0.18em] uppercase mb-1">Decks</p><p class="text-[#F0EBE1] font-display text-[1.05rem]">Multi-Level Retreat</p></div>
+        </div>
+      </div>
+      <div class="port-item fade-up" style="transition-delay:0.3s">
+        <img src="https://placehold.co/420x220/1A1714/2E2A26?text=+" alt="Skylight">
+        <div class="port-overlay flex items-end p-5">
+          <div><p class="text-[#C4945A] text-[0.65rem] font-body tracking-[0.18em] uppercase mb-1">Windows</p><p class="text-[#F0EBE1] font-display text-[1.05rem]">Skylight Installation</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- TESTIMONIALS -->
+<section id="reviews" class="py-28 px-6 md:px-10 lg:px-16 xl:px-24 bg-[#F0EBE1]">
+  <div class="max-w-7xl mx-auto">
+    <div class="mb-16 text-center fade-up">
+      <p class="text-[#C4945A] text-[0.72rem] tracking-[0.22em] uppercase font-body font-medium mb-4">What Clients Say</p>
+      <h2 class="font-display text-[#272320] text-[2.5rem] md:text-[3.25rem] tracking-[-0.03em] leading-[1.08]">Trusted by Homeowners</h2>
+    </div>
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="testi-card fade-up">
+        <div class="flex gap-1 mb-6">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="#C4945A"><path d="M7 1l1.5 3.7L12 5.2l-2.6 2.6.6 3.8L7 9.7l-3 1.9.6-3.8L2 5.2l3.5-.5z"/></svg>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="#C4945A"><path d="M7 1l1.5 3.7L12 5.2l-2.6 2.6.6 3.8L7 9.7l-3 1.9.6-3.8L2 5.2l3.5-.5z"/></svg>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="#C4945A"><path d="M7 1l1.5 3.7L12 5.2l-2.6 2.6.6 3.8L7 9.7l-3 1.9.6-3.8L2 5.2l3.5-.5z"/></svg>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="#C4945A"><path d="M7 1l1.5 3.7L12 5.2l-2.6 2.6.6 3.8L7 9.7l-3 1.9.6-3.8L2 5.2l3.5-.5z"/></svg>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="#C4945A"><path d="M7 1l1.5 3.7L12 5.2l-2.6 2.6.6 3.8L7 9.7l-3 1.9.6-3.8L2 5.2l3.5-.5z"/></svg>
+        </div>
+        <p class="font-display text-[#272320] text-[1.0625rem] italic leading-[1.72] mb-7">"The team replaced every window in our 1920s craftsman without a single issue. The craftsmanship is stunning — our heating bill dropped 30% that winter."</p>
+        <div class="flex items-center gap-3 pt-5 border-t border-[#272320]/10">
+          <div class="w-9 h-9 rounded-full bg-[#272320]/12 flex items-center justify-center font-display text-[#272320] font-semibold text-sm">M</div>
+          <div>
+            <p class="font-body font-medium text-[#272320] text-[0.875rem]">Margaret T.</p>
+            <p class="font-body text-[#7A706A] text-[0.78rem]">Window Replacement — 14 windows</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-card fade-up" style="transition-delay:0.1s">
+        <div class="flex gap-1 mb-6">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="#C4945A"><path d="M7 1l1.5 3.7L12 5.2l-2.6 2.6.6 3.8L7 9.7l-3 1.9.6-3.8L2 5.2l3.5-.5z"/></svg>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="#C4945A"><path d="M7 1l1.5 3.7L12 5.2l-2.6 2.6.6 3.8L7 9.7l-3 1.9.6-3.8L2 5.2l3.5-.5z"/></svg>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="#C4945A"><path d="M7 1l1.5 3.7L12 5.2l-2.6 2.6.6 3.8L7 9.7l-3 1.9.6-3.8L2 5.2l3.5-.5z"/></svg>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="#C4945A"><path d="M7 1l1.5 3.7L12 5.2l-2.6 2.6.6 3.8L7 9.7l-3 1.9.6-3.8L2 5.2l3.5-.5z"/></svg>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="#C4945A"><path d="M7 1l1.5 3.7L12 5.2l-2.6 2.6.6 3.8L7 9.7l-3 1.9.6-3.8L2 5.2l3.5-.5z"/></svg>
+        </div>
+        <p class="font-display text-[#272320] text-[1.0625rem] italic leading-[1.72] mb-7">"We had three contractors bid our deck. We chose The Window Professor because they were the only ones who actually listened. The result exceeded every expectation."</p>
+        <div class="flex items-center gap-3 pt-5 border-t border-[#272320]/10">
+          <div class="w-9 h-9 rounded-full bg-[#272320]/12 flex items-center justify-center font-display text-[#272320] font-semibold text-sm">R</div>
+          <div>
+            <p class="font-body font-medium text-[#272320] text-[0.875rem]">Robert & Lisa H.</p>
+            <p class="font-body text-[#7A706A] text-[0.78rem]">Composite Deck — 800 sq ft</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-card fade-up" style="transition-delay:0.2s">
+        <div class="flex gap-1 mb-6">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="#C4945A"><path d="M7 1l1.5 3.7L12 5.2l-2.6 2.6.6 3.8L7 9.7l-3 1.9.6-3.8L2 5.2l3.5-.5z"/></svg>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="#C4945A"><path d="M7 1l1.5 3.7L12 5.2l-2.6 2.6.6 3.8L7 9.7l-3 1.9.6-3.8L2 5.2l3.5-.5z"/></svg>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="#C4945A"><path d="M7 1l1.5 3.7L12 5.2l-2.6 2.6.6 3.8L7 9.7l-3 1.9.6-3.8L2 5.2l3.5-.5z"/></svg>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="#C4945A"><path d="M7 1l1.5 3.7L12 5.2l-2.6 2.6.6 3.8L7 9.7l-3 1.9.6-3.8L2 5.2l3.5-.5z"/></svg>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="#C4945A"><path d="M7 1l1.5 3.7L12 5.2l-2.6 2.6.6 3.8L7 9.7l-3 1.9.6-3.8L2 5.2l3.5-.5z"/></svg>
+        </div>
+        <p class="font-display text-[#272320] text-[1.0625rem] italic leading-[1.72] mb-7">"Hired them for the whole house. Professional from day one — prompt, clean, and the finish work is immaculate. Already referring them to everyone on our street."</p>
+        <div class="flex items-center gap-3 pt-5 border-t border-[#272320]/10">
+          <div class="w-9 h-9 rounded-full bg-[#272320]/12 flex items-center justify-center font-display text-[#272320] font-semibold text-sm">S</div>
+          <div>
+            <p class="font-body font-medium text-[#272320] text-[0.875rem]">Sarah K.</p>
+            <p class="font-body text-[#7A706A] text-[0.78rem]">Full Home Window Replacement</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- CONTACT -->
+<section id="contact" class="bg-[#272320] grain relative overflow-hidden py-28 px-6 md:px-10 lg:px-16 xl:px-24">
+  <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 55% 65% at 92% 50%, rgba(196,148,90,0.08) 0%, transparent 60%)"></div>
+
+  <div class="max-w-7xl mx-auto relative z-10">
+    <div class="grid lg:grid-cols-2 gap-20">
+      <div class="fade-up">
+        <p class="text-[#C4945A] text-[0.72rem] tracking-[0.22em] uppercase font-body font-medium mb-5">Get in Touch</p>
+        <h2 class="font-display text-[#F0EBE1] text-[2.5rem] md:text-[3.25rem] tracking-[-0.03em] leading-[1.08] mb-8">Ready to Start<br>Your Project?</h2>
+        <p class="text-[#F0EBE1]/55 font-body leading-[1.82] mb-12 max-w-sm">
+          Schedule a free consultation and get a detailed, no-obligation quote. We typically respond within one business day.
+        </p>
+
+        <div class="flex flex-col gap-7">
+          <div class="flex items-center gap-4">
+            <div class="w-10 h-10 rounded-[3px] bg-[#C4945A]/12 flex items-center justify-center flex-shrink-0">
+              <svg width="17" height="17" viewBox="0 0 18 18" fill="none"><path d="M3 5a1 1 0 011-1h10a1 1 0 011 1v9a1 1 0 01-1 1H4a1 1 0 01-1-1V5z" stroke="#C4945A" stroke-width="1.3"/><path d="M3 5l6 5 6-5" stroke="#C4945A" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div>
+              <p class="text-[#F0EBE1]/38 text-[0.68rem] font-body uppercase tracking-wider mb-0.5">Email</p>
+              <a href="mailto:info@thewindowprofessor.com" class="text-[#F0EBE1] font-body text-[0.9375rem] hover:text-[#C4945A] transition-colors">info@thewindowprofessor.com</a>
+            </div>
+          </div>
+          <div class="flex items-center gap-4">
+            <div class="w-10 h-10 rounded-[3px] bg-[#C4945A]/12 flex items-center justify-center flex-shrink-0">
+              <svg width="17" height="17" viewBox="0 0 18 18" fill="none"><path d="M2.5 3.5a1 1 0 011-1h2.7a.5.5 0 01.48.36l.9 3.2a.5.5 0 01-.17.53L5.9 7.7a10.5 10.5 0 004.4 4.4l1.12-1.5a.5.5 0 01.52-.18l3.2.9a.5.5 0 01.36.48v2.7a1 1 0 01-1 1C6 15.5 2.5 12 2.5 7.5v-4z" stroke="#C4945A" stroke-width="1.3"/></svg>
+            </div>
+            <div>
+              <p class="text-[#F0EBE1]/38 text-[0.68rem] font-body uppercase tracking-wider mb-0.5">Phone</p>
+              <a href="tel:+15555555555" class="text-[#F0EBE1] font-body text-[0.9375rem] hover:text-[#C4945A] transition-colors">(555) 555-5555</a>
+            </div>
+          </div>
+          <div class="flex items-center gap-4">
+            <div class="w-10 h-10 rounded-[3px] bg-[#C4945A]/12 flex items-center justify-center flex-shrink-0">
+              <svg width="17" height="17" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7" stroke="#C4945A" stroke-width="1.3"/><path d="M9 5v4l2.5 2.5" stroke="#C4945A" stroke-width="1.3" stroke-linecap="round"/></svg>
+            </div>
+            <div>
+              <p class="text-[#F0EBE1]/38 text-[0.68rem] font-body uppercase tracking-wider mb-0.5">Hours</p>
+              <p class="text-[#F0EBE1] font-body text-[0.9375rem]">Mon – Fri: 7am – 6pm &nbsp;·&nbsp; Sat: 8am – 2pm</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="fade-up" style="transition-delay:0.15s">
+        <form class="flex flex-col gap-4" novalidate>
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="text-[#F0EBE1]/40 text-[0.68rem] uppercase tracking-wider font-body block mb-2" for="fname">First Name</label>
+              <input id="fname" type="text" placeholder="John" class="form-field">
+            </div>
+            <div>
+              <label class="text-[#F0EBE1]/40 text-[0.68rem] uppercase tracking-wider font-body block mb-2" for="lname">Last Name</label>
+              <input id="lname" type="text" placeholder="Smith" class="form-field">
+            </div>
+          </div>
+          <div>
+            <label class="text-[#F0EBE1]/40 text-[0.68rem] uppercase tracking-wider font-body block mb-2" for="email">Email Address</label>
+            <input id="email" type="email" placeholder="john@email.com" class="form-field">
+          </div>
+          <div>
+            <label class="text-[#F0EBE1]/40 text-[0.68rem] uppercase tracking-wider font-body block mb-2" for="phone">Phone Number</label>
+            <input id="phone" type="tel" placeholder="(555) 000-0000" class="form-field">
+          </div>
+          <div>
+            <label class="text-[#F0EBE1]/40 text-[0.68rem] uppercase tracking-wider font-body block mb-2" for="service">Service Needed</label>
+            <select id="service" class="form-field cursor-pointer">
+              <option value="">Select a service...</option>
+              <option value="windows">Window Installation / Replacement</option>
+              <option value="decks">Custom Deck Construction</option>
+              <option value="both">Both Windows & Decks</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-[#F0EBE1]/40 text-[0.68rem] uppercase tracking-wider font-body block mb-2" for="msg">Project Details</label>
+            <textarea id="msg" rows="4" placeholder="Tell us about your project — size, timeline, any specific requirements..." class="form-field resize-none"></textarea>
+          </div>
+          <button type="submit" class="btn-gold justify-center mt-1">
+            Request a Free Quote
+            <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- FOOTER -->
+<footer class="bg-[#1A1714] py-12 px-6 md:px-10 lg:px-16 xl:px-24 border-t border-white/[0.05]">
+  <div class="max-w-7xl mx-auto">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 pb-10 mb-10 border-b border-white/[0.06]">
+      <a href="#" class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-full border border-[#C4945A]/55 flex items-center justify-center">
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
+            <rect x="1.5" y="1.5" width="7" height="7" rx="0.75" stroke="#C4945A" stroke-width="1.3"/>
+            <rect x="11.5" y="1.5" width="7" height="7" rx="0.75" stroke="#C4945A" stroke-width="1.3"/>
+            <rect x="1.5" y="11.5" width="7" height="7" rx="0.75" stroke="#C4945A" stroke-width="1.3"/>
+            <rect x="11.5" y="11.5" width="7" height="7" rx="0.75" stroke="#C4945A" stroke-width="1.3"/>
+          </svg>
+        </div>
+        <div class="leading-none">
+          <span class="font-display text-[#F0EBE1] text-[1rem] tracking-[-0.01em] block">The Window</span>
+          <span class="font-display text-[#C4945A] italic text-[1rem] tracking-[-0.01em] block">Professor</span>
+        </div>
+      </a>
+      <div class="flex flex-wrap gap-7">
+        <a href="#services" class="text-[#F0EBE1]/42 hover:text-[#F0EBE1] text-[0.85rem] font-body transition-colors">Services</a>
+        <a href="#portfolio" class="text-[#F0EBE1]/42 hover:text-[#F0EBE1] text-[0.85rem] font-body transition-colors">Portfolio</a>
+        <a href="#about" class="text-[#F0EBE1]/42 hover:text-[#F0EBE1] text-[0.85rem] font-body transition-colors">About</a>
+        <a href="#reviews" class="text-[#F0EBE1]/42 hover:text-[#F0EBE1] text-[0.85rem] font-body transition-colors">Reviews</a>
+        <a href="#contact" class="text-[#F0EBE1]/42 hover:text-[#F0EBE1] text-[0.85rem] font-body transition-colors">Contact</a>
+      </div>
+    </div>
+    <div class="flex flex-col md:flex-row justify-between items-center gap-3">
+      <p class="text-[#F0EBE1]/28 text-[0.78rem] font-body">© 2025 The Window Professor. All rights reserved. &nbsp;·&nbsp; Licensed & Insured</p>
+      <p class="text-[#F0EBE1]/18 text-[0.78rem] font-body">Premium Windows & Custom Decks</p>
+    </div>
+  </div>
+</footer>
+
+
+<script>
+  // Sticky nav
+  const nav = document.getElementById('main-nav');
+  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 50);
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // Fade-up on scroll
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
