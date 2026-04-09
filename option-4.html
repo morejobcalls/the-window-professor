@@ -1,0 +1,1524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Window Professor | Window &amp; Deck Contractor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,300;1,9..144,600&family=Nunito+Sans:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            bg: '#FAF7F2',
+            surface: '#F2ECE3',
+            'dark-surface': '#2D3B2A',
+            'green-mid': '#3D5239',
+            'green-light': '#EBF0E8',
+            terra: '#C4734A',
+            'terra-light': '#F5E8DF',
+            'text-dark': '#1C2419',
+            'text-mid': '#4A5C47',
+            'text-light': '#8A9E87',
+            rule: '#DDD5C8',
+          },
+          fontFamily: {
+            display: ['Fraunces', 'Georgia', 'serif'],
+            body: ['Nunito Sans', 'system-ui', 'sans-serif'],
+          },
+          borderRadius: {
+            'card': '12px',
+            'btn': '8px',
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Nunito Sans', system-ui, sans-serif;
+      background-color: #FAF7F2;
+      color: #1C2419;
+    }
+
+    /* ---------- TOP BAR ---------- */
+    #top-bar {
+      background-color: #2D3B2A;
+      color: #EBF0E8;
+      font-family: 'Nunito Sans', sans-serif;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+    }
+    #top-bar a { color: #EBF0E8; text-decoration: none; }
+    #top-bar a:hover { color: #C4734A; }
+    .top-bar-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0.5rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    .top-bar-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .top-bar-divider {
+      width: 1px;
+      height: 14px;
+      background: rgba(235,240,232,0.25);
+    }
+    /* Mobile: show only phone + licensed */
+    @media (max-width: 639px) {
+      .top-bar-hours { display: none !important; }
+      .top-bar-divider.hours-div { display: none !important; }
+    }
+
+    /* ---------- NAV ---------- */
+    #main-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #fff;
+      border-bottom: 3px solid #2D3B2A;
+      box-shadow: 0 2px 12px rgba(29,36,25,0.06);
+      transition: box-shadow 0.3s ease;
+    }
+    #main-nav.scrolled {
+      box-shadow: 0 4px 20px rgba(29,36,25,0.12);
+    }
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 68px;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+      text-decoration: none;
+    }
+    .nav-logo-icon {
+      width: 38px;
+      height: 38px;
+      background: #2D3B2A;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .nav-logo-text {
+      font-family: 'Fraunces', Georgia, serif;
+      font-weight: 600;
+      font-size: 1.15rem;
+      color: #1C2419;
+      line-height: 1.15;
+    }
+    .nav-logo-sub {
+      font-family: 'Nunito Sans', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: #8A9E87;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      display: block;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: 'Nunito Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #4A5C47;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: #2D3B2A; }
+    .nav-cta {
+      background: #C4734A;
+      color: #fff !important;
+      padding: 0.5rem 1.1rem;
+      border-radius: 8px;
+      font-weight: 700 !important;
+      transition: background 0.2s, transform 0.15s !important;
+      white-space: nowrap;
+    }
+    .nav-cta:hover {
+      background: #a85e39 !important;
+      transform: translateY(-1px);
+      color: #fff !important;
+    }
+    #hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 36px;
+      height: 36px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+    #hamburger span {
+      display: block;
+      width: 100%;
+      height: 2px;
+      background: #2D3B2A;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+    #hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    #hamburger.open span:nth-child(2) { opacity: 0; }
+    #hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    #mobile-menu {
+      display: none;
+      background: #2D3B2A;
+      padding: 1rem 1.5rem 1.5rem;
+    }
+    #mobile-menu.open { display: block; }
+    #mobile-menu ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    #mobile-menu ul li {
+      border-bottom: 1px solid rgba(235,240,232,0.12);
+    }
+    #mobile-menu ul li:last-child { border-bottom: none; }
+    #mobile-menu ul a {
+      display: block;
+      padding: 0.85rem 0;
+      font-family: 'Nunito Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #EBF0E8;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    #mobile-menu ul a:hover { color: #C4734A; }
+    #mobile-menu .mobile-cta {
+      display: block;
+      margin-top: 1.1rem;
+      background: #C4734A;
+      color: #fff;
+      text-align: center;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      font-family: 'Nunito Sans', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      text-decoration: none;
+    }
+    @media (max-width: 767px) {
+      #hamburger { display: flex; }
+      .nav-links { display: none; }
+    }
+
+    /* ---------- HERO ---------- */
+    #hero {
+      background-color: #FAF7F2;
+      padding: 5rem 1.5rem 4.5rem;
+    }
+    .hero-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 4rem;
+      align-items: center;
+    }
+    .hero-headline {
+      font-family: 'Fraunces', Georgia, serif;
+      font-weight: 700;
+      font-size: clamp(2.25rem, 4vw, 3.25rem);
+      line-height: 1.12;
+      color: #1C2419;
+      margin-bottom: 1.25rem;
+    }
+    .hero-headline .accent { color: #C4734A; font-style: italic; }
+    .hero-body {
+      font-size: 1.05rem;
+      font-weight: 400;
+      line-height: 1.7;
+      color: #4A5C47;
+      margin-bottom: 2rem;
+      max-width: 520px;
+    }
+    .hero-buttons {
+      display: flex;
+      gap: 0.875rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+    .btn-primary {
+      background: #C4734A;
+      color: #fff;
+      font-family: 'Nunito Sans', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 0.8rem 1.6rem;
+      border-radius: 8px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      box-shadow: 0 2px 8px rgba(196,115,74,0.25);
+    }
+    .btn-primary:hover {
+      background: #a85e39;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(196,115,74,0.32);
+    }
+    .btn-ghost {
+      background: transparent;
+      color: #2D3B2A;
+      font-family: 'Nunito Sans', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 0.8rem 1.6rem;
+      border-radius: 8px;
+      border: 2px solid #2D3B2A;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: background 0.2s, color 0.2s, transform 0.15s;
+    }
+    .btn-ghost:hover {
+      background: #2D3B2A;
+      color: #EBF0E8;
+      transform: translateY(-2px);
+    }
+    .hero-trust {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+    }
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 0.375rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #4A5C47;
+    }
+    .trust-item .stars {
+      color: #D4A017;
+      font-size: 0.9rem;
+      letter-spacing: -0.5px;
+    }
+    .trust-sep { color: #DDD5C8; font-size: 0.9rem; }
+
+    /* Stats circles */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+    .stat-circle {
+      background: #2D3B2A;
+      border-radius: 50%;
+      width: 160px;
+      height: 160px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 1rem;
+      margin: 0 auto;
+      box-shadow: 0 8px 28px rgba(29,36,25,0.18);
+      transition: transform 0.3s ease;
+    }
+    .stat-circle:hover { transform: scale(1.04); }
+    .stat-circle.alt { background: #3D5239; }
+    .stat-number {
+      font-family: 'Fraunces', Georgia, serif;
+      font-weight: 700;
+      font-size: 2rem;
+      color: #fff;
+      line-height: 1;
+    }
+    .stat-number .stat-sup {
+      font-size: 1.1rem;
+      vertical-align: super;
+      font-weight: 600;
+    }
+    .stat-label {
+      font-family: 'Nunito Sans', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #8A9E87;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-top: 0.25rem;
+      line-height: 1.3;
+    }
+
+    @media (max-width: 900px) {
+      .hero-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+      .stats-grid { max-width: 400px; }
+      .stat-circle { width: 140px; height: 140px; }
+    }
+    @media (max-width: 639px) {
+      #hero { padding: 2.5rem 1rem 2rem; }
+      .hero-body { font-size: 0.95rem; }
+      .stat-circle { width: 130px; height: 130px; }
+      .stat-number { font-size: 1.7rem; }
+    }
+
+    /* ---------- SERVICES ---------- */
+    #services {
+      background: #F2ECE3;
+      padding: 5rem 1.5rem;
+    }
+    .section-label {
+      font-family: 'Nunito Sans', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #C4734A;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.5rem;
+    }
+    .section-heading {
+      font-family: 'Fraunces', Georgia, serif;
+      font-weight: 700;
+      font-size: clamp(1.75rem, 3vw, 2.5rem);
+      color: #1C2419;
+      line-height: 1.2;
+      margin-bottom: 0.75rem;
+    }
+    .section-sub {
+      font-size: 1rem;
+      color: #4A5C47;
+      max-width: 560px;
+      line-height: 1.65;
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.75rem;
+      margin-top: 3rem;
+    }
+    .service-card {
+      background: #FAF7F2;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #DDD5C8;
+      box-shadow: 0 4px 16px rgba(29,36,25,0.07);
+      transition: box-shadow 0.3s, transform 0.3s;
+      display: flex;
+      flex-direction: column;
+    }
+    .service-card:hover {
+      box-shadow: 0 10px 32px rgba(29,36,25,0.12);
+      transform: translateY(-3px);
+    }
+    .service-card-img {
+      position: relative;
+      overflow: hidden;
+      height: 220px;
+      flex-shrink: 0;
+    }
+    .service-card-img::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 4px;
+      background: #2D3B2A;
+      z-index: 1;
+    }
+    .service-card-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+    .service-card:hover .service-card-img img { transform: scale(1.04); }
+    .service-card-body {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      flex: 1;
+    }
+    .service-tag {
+      display: inline-block;
+      background: #EBF0E8;
+      color: #3D5239;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 0.25rem 0.65rem;
+      border-radius: 4px;
+    }
+    .service-heading {
+      font-family: 'Fraunces', Georgia, serif;
+      font-weight: 600;
+      font-size: 1.35rem;
+      color: #1C2419;
+      line-height: 1.25;
+    }
+    .service-desc {
+      font-size: 0.9rem;
+      color: #4A5C47;
+      line-height: 1.65;
+      flex: 1;
+    }
+    .service-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: #C4734A;
+      text-decoration: none;
+      margin-top: 0.25rem;
+      transition: gap 0.2s;
+    }
+    .service-link:hover { gap: 0.55rem; }
+
+    @media (max-width: 767px) {
+      #services { padding: 2.5rem 1rem; }
+      .services-grid { grid-template-columns: 1fr; }
+      .service-card-img { height: 200px; }
+    }
+
+    /* ---------- HOW IT WORKS ---------- */
+    #how-it-works {
+      background: #FAF7F2;
+      padding: 5rem 1.5rem;
+    }
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      margin-top: 3rem;
+      position: relative;
+    }
+    .steps-grid::before {
+      content: '';
+      position: absolute;
+      top: 28px;
+      left: calc(12.5% + 28px);
+      right: calc(12.5% + 28px);
+      height: 2px;
+      background: linear-gradient(to right, #2D3B2A, #3D5239, #C4734A, #D4A017);
+      opacity: 0.25;
+      z-index: 0;
+    }
+    .step-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .step-number {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: #2D3B2A;
+      color: #fff;
+      font-family: 'Fraunces', Georgia, serif;
+      font-weight: 700;
+      font-size: 1.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      box-shadow: 0 4px 14px rgba(45,59,42,0.25);
+      transition: transform 0.25s, background 0.25s;
+    }
+    .step-card:hover .step-number {
+      background: #C4734A;
+      transform: scale(1.08);
+    }
+    .step-heading {
+      font-family: 'Fraunces', Georgia, serif;
+      font-weight: 600;
+      font-size: 1.05rem;
+      color: #1C2419;
+      margin-bottom: 0.4rem;
+    }
+    .step-desc {
+      font-size: 0.85rem;
+      color: #4A5C47;
+      line-height: 1.6;
+    }
+    @media (max-width: 767px) {
+      #how-it-works { padding: 2.5rem 1rem; }
+      .steps-grid { grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+      .steps-grid::before { display: none; }
+    }
+
+    /* ---------- WHY US ---------- */
+    #why-us {
+      background: #2D3B2A;
+      padding: 5rem 1.5rem;
+    }
+    #why-us .section-label { color: #C4734A; }
+    #why-us .section-heading { color: #FAF7F2; }
+    #why-us .section-sub { color: #8A9E87; }
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+      margin-top: 3rem;
+    }
+    .why-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(235,240,232,0.12);
+      border-radius: 12px;
+      padding: 1.75rem;
+      transition: background 0.25s, border-color 0.25s, transform 0.25s;
+    }
+    .why-card:hover {
+      background: rgba(255,255,255,0.09);
+      border-color: rgba(196,115,74,0.4);
+      transform: translateY(-3px);
+    }
+    .why-icon {
+      width: 44px;
+      height: 44px;
+      background: rgba(196,115,74,0.15);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+    .why-heading {
+      font-family: 'Fraunces', Georgia, serif;
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: #FAF7F2;
+      margin-bottom: 0.5rem;
+    }
+    .why-desc {
+      font-size: 0.875rem;
+      color: #8A9E87;
+      line-height: 1.65;
+    }
+    @media (max-width: 639px) {
+      #why-us { padding: 2.5rem 1rem; }
+      .why-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ---------- TESTIMONIALS ---------- */
+    #testimonials {
+      background: #F2ECE3;
+      padding: 5rem 1.5rem;
+    }
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .review-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.75rem;
+      box-shadow: 0 4px 20px rgba(29,36,25,0.08);
+      border: 1px solid #DDD5C8;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .review-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 36px rgba(29,36,25,0.12);
+    }
+    .review-stars { color: #D4A017; font-size: 1.05rem; letter-spacing: 1px; }
+    .review-quote {
+      font-family: 'Fraunces', Georgia, serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: 1rem;
+      color: #1C2419;
+      line-height: 1.65;
+      flex: 1;
+    }
+    .review-author {
+      border-top: 1px solid #DDD5C8;
+      padding-top: 0.875rem;
+    }
+    .review-name {
+      font-family: 'Nunito Sans', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: #1C2419;
+    }
+    .review-project {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #C4734A;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    @media (max-width: 900px) {
+      .reviews-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 639px) {
+      #testimonials { padding: 2.5rem 1rem; }
+      .reviews-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ---------- CTA BAND ---------- */
+    #cta-band {
+      background: linear-gradient(135deg, #C4734A 0%, #a85e39 100%);
+      padding: 5rem 1.5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    #cta-band::before {
+      content: '';
+      position: absolute;
+      top: -80px; right: -80px;
+      width: 280px; height: 280px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+      pointer-events: none;
+    }
+    #cta-band::after {
+      content: '';
+      position: absolute;
+      bottom: -100px; left: -60px;
+      width: 320px; height: 320px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.04);
+      pointer-events: none;
+    }
+    .cta-heading {
+      font-family: 'Fraunces', Georgia, serif;
+      font-weight: 700;
+      font-size: clamp(2rem, 4vw, 2.9rem);
+      color: #fff;
+      line-height: 1.15;
+      margin-bottom: 0.875rem;
+      position: relative;
+      z-index: 1;
+    }
+    .cta-sub {
+      font-size: 1rem;
+      color: rgba(255,255,255,0.82);
+      margin-bottom: 2rem;
+      position: relative;
+      z-index: 1;
+    }
+    .cta-phone {
+      font-family: 'Fraunces', Georgia, serif;
+      font-weight: 700;
+      font-size: clamp(2rem, 5vw, 3rem);
+      color: #fff;
+      text-decoration: none;
+      display: block;
+      margin-bottom: 1.75rem;
+      letter-spacing: -0.02em;
+      position: relative;
+      z-index: 1;
+      transition: opacity 0.2s;
+    }
+    .cta-phone:hover { opacity: 0.85; }
+    .cta-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
+    }
+    .btn-white {
+      background: #fff;
+      color: #C4734A;
+      font-family: 'Nunito Sans', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 0.8rem 1.75rem;
+      border-radius: 8px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: transform 0.15s, box-shadow 0.2s;
+      box-shadow: 0 4px 16px rgba(29,36,25,0.15);
+    }
+    .btn-white:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(29,36,25,0.2);
+    }
+    .btn-outline-white {
+      background: transparent;
+      color: #fff;
+      font-family: 'Nunito Sans', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 0.8rem 1.75rem;
+      border-radius: 8px;
+      border: 2px solid rgba(255,255,255,0.6);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: background 0.2s, border-color 0.2s, transform 0.15s;
+    }
+    .btn-outline-white:hover {
+      background: rgba(255,255,255,0.12);
+      border-color: #fff;
+      transform: translateY(-2px);
+    }
+    @media (max-width: 639px) {
+      #cta-band { padding: 2.5rem 1rem; }
+    }
+
+    /* ---------- FOOTER ---------- */
+    #footer {
+      background: #2D3B2A;
+      padding: 3.5rem 1.5rem 2rem;
+    }
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .footer-top {
+      display: grid;
+      grid-template-columns: 280px 1fr 1fr;
+      gap: 3rem;
+      padding-bottom: 2.5rem;
+      border-bottom: 1px solid rgba(235,240,232,0.12);
+    }
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      text-decoration: none;
+      margin-bottom: 1rem;
+    }
+    .footer-logo-icon {
+      width: 36px;
+      height: 36px;
+      background: rgba(235,240,232,0.12);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .footer-logo-text {
+      font-family: 'Fraunces', Georgia, serif;
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: #EBF0E8;
+    }
+    .footer-desc {
+      font-size: 0.85rem;
+      color: #8A9E87;
+      line-height: 1.7;
+      margin-bottom: 1.25rem;
+    }
+    .footer-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(235,240,232,0.08);
+      border: 1px solid rgba(235,240,232,0.15);
+      border-radius: 6px;
+      padding: 0.35rem 0.75rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #8A9E87;
+      letter-spacing: 0.04em;
+    }
+    .footer-col-heading {
+      font-family: 'Nunito Sans', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #EBF0E8;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 1.1rem;
+    }
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+    .footer-links a {
+      font-size: 0.87rem;
+      color: #8A9E87;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: #C4734A; }
+    .footer-address {
+      font-size: 0.87rem;
+      color: #8A9E87;
+      line-height: 1.7;
+      font-style: normal;
+    }
+    .footer-address strong {
+      color: #EBF0E8;
+      font-weight: 600;
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 1.75rem;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+    .footer-copy {
+      font-size: 0.78rem;
+      color: rgba(138,158,135,0.65);
+    }
+    @media (max-width: 900px) {
+      .footer-top { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 639px) {
+      #footer { padding: 2rem 1rem 1.5rem; }
+      .footer-top { grid-template-columns: 1fr; gap: 1.75rem; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; }
+    }
+
+    /* ---------- ANIMATIONS ---------- */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .fade-up-delay-1 { transition-delay: 0.1s; }
+    .fade-up-delay-2 { transition-delay: 0.2s; }
+    .fade-up-delay-3 { transition-delay: 0.3s; }
+    .fade-up-delay-4 { transition-delay: 0.4s; }
+
+    /* ---------- MISC ---------- */
+    .max-content {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .text-center-section {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================
+       TOP BAR
+  ============================= -->
+  <div id="top-bar">
+    <div class="top-bar-inner">
+      <a href="tel:+15555551234" class="top-bar-item">
+        <!-- Phone icon -->
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.06 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3 1.17h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 8.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 21 16.92z"/>
+        </svg>
+        (555) 555-1234
+      </a>
+      <div class="top-bar-divider hours-div"></div>
+      <span class="top-bar-item top-bar-hours">
+        <!-- Clock icon -->
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+        </svg>
+        Mon–Sat 7am–6pm
+      </span>
+      <div class="top-bar-divider"></div>
+      <span class="top-bar-item">
+        <!-- Checkmark icon -->
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C4734A" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+        Licensed &amp; Insured
+      </span>
+    </div>
+  </div>
+
+  <!-- ============================
+       NAV
+  ============================= -->
+  <header id="main-nav" role="banner">
+    <div class="nav-inner">
+      <!-- Logo -->
+      <a href="#" class="nav-logo" aria-label="The Window Professor — Home">
+        <div class="nav-logo-icon" aria-hidden="true">
+          <!-- House + leaf SVG -->
+          <svg width="22" height="22" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+            <path d="M6 16L18 5l12 11v14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V16z" fill="#EBF0E8" opacity="0.9"/>
+            <path d="M13 31v-9h10v9" fill="#2D3B2A" stroke="#EBF0E8" stroke-width="1.5"/>
+            <!-- leaf -->
+            <path d="M22 8c0 0 6-2 6 6s-6 2-6 2" stroke="#C4734A" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+            <path d="M22 8c2 4 2 6 0 8" stroke="#C4734A" stroke-width="1.4" stroke-linecap="round" fill="none" opacity="0.6"/>
+          </svg>
+        </div>
+        <div>
+          <span class="nav-logo-text">The Window Professor</span>
+          <span class="nav-logo-sub">Windows &amp; Decks</span>
+        </div>
+      </a>
+
+      <!-- Desktop nav -->
+      <nav aria-label="Primary navigation">
+        <ul class="nav-links">
+          <li><a href="#services">Services</a></li>
+          <li><a href="#how-it-works">How It Works</a></li>
+          <li><a href="#why-us">Why Us</a></li>
+          <li><a href="#testimonials">Reviews</a></li>
+          <li><a href="#cta-band" class="nav-cta">Get a Free Quote</a></li>
+        </ul>
+      </nav>
+
+      <!-- Hamburger -->
+      <button id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+
+    <!-- Mobile menu -->
+    <nav id="mobile-menu" aria-label="Mobile navigation" role="navigation">
+      <ul>
+        <li><a href="#services" class="mobile-nav-link">Services</a></li>
+        <li><a href="#how-it-works" class="mobile-nav-link">How It Works</a></li>
+        <li><a href="#why-us" class="mobile-nav-link">Why Us</a></li>
+        <li><a href="#testimonials" class="mobile-nav-link">Reviews</a></li>
+      </ul>
+      <a href="#cta-band" class="mobile-cta mobile-nav-link">Get a Free Quote &#8594;</a>
+    </nav>
+  </header>
+
+  <!-- ============================
+       HERO
+  ============================= -->
+  <section id="hero" aria-labelledby="hero-heading">
+    <div class="hero-inner">
+      <!-- Left: copy -->
+      <div>
+        <p class="section-label fade-up">Serving Your Neighborhood Since 2003</p>
+        <h1 class="hero-headline fade-up fade-up-delay-1" id="hero-heading">
+          Your Neighborhood<br />
+          Window &amp; <span class="accent">Deck</span><br />
+          Expert
+        </h1>
+        <p class="hero-body fade-up fade-up-delay-2">
+          We're not a big-box franchise — we're your neighbors. For over 20 years, The Window Professor has helped homeowners across the area upgrade their windows and outdoor living spaces with craftsmanship that lasts and service you can trust.
+        </p>
+        <div class="hero-buttons fade-up fade-up-delay-3">
+          <a href="#cta-band" class="btn-primary">
+            Get a Free Estimate
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+          <a href="#how-it-works" class="btn-ghost">
+            See How It Works
+          </a>
+        </div>
+        <!-- Trust signals -->
+        <div class="hero-trust fade-up fade-up-delay-4">
+          <span class="trust-item">
+            <span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+            <strong>5.0</strong> on Google (180+ reviews)
+          </span>
+          <span class="trust-sep" aria-hidden="true">·</span>
+          <span class="trust-item">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C4734A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Licensed &amp; Insured
+          </span>
+          <span class="trust-sep" aria-hidden="true">·</span>
+          <span class="trust-item">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C4734A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Free Quotes
+          </span>
+        </div>
+      </div>
+
+      <!-- Right: stat circles -->
+      <div>
+        <div class="stats-grid">
+          <div class="stat-circle fade-up fade-up-delay-1" role="img" aria-label="20 plus years experience">
+            <div class="stat-number">20<span class="stat-sup">+</span></div>
+            <div class="stat-label">Years in<br />Business</div>
+          </div>
+          <div class="stat-circle alt fade-up fade-up-delay-2" role="img" aria-label="1400 plus projects completed">
+            <div class="stat-number">1.4<span class="stat-sup">k</span></div>
+            <div class="stat-label">Projects<br />Completed</div>
+          </div>
+          <div class="stat-circle alt fade-up fade-up-delay-3" role="img" aria-label="5 star rating">
+            <div class="stat-number">5&#9733;</div>
+            <div class="stat-label">Average<br />Rating</div>
+          </div>
+          <div class="stat-circle fade-up fade-up-delay-4" role="img" aria-label="100 percent satisfaction guaranteed">
+            <div class="stat-number">100<span class="stat-sup">%</span></div>
+            <div class="stat-label">Satisfaction<br />Guaranteed</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================
+       SERVICES
+  ============================= -->
+  <section id="services" aria-labelledby="services-heading">
+    <div class="max-content">
+      <div class="text-center-section">
+        <p class="section-label fade-up">What We Do Best</p>
+        <h2 class="section-heading fade-up fade-up-delay-1" id="services-heading">
+          Expert Windows &amp; Outdoor Living
+        </h2>
+        <p class="section-sub fade-up fade-up-delay-2">
+          From energy-saving window replacements to custom deck builds, we handle every project with the care of a craftsman and the professionalism of a licensed contractor.
+        </p>
+      </div>
+
+      <div class="services-grid">
+        <!-- Card 1: Windows -->
+        <article class="service-card fade-up fade-up-delay-1">
+          <div class="service-card-img">
+            <img
+              src="https://placehold.co/880x550/D5C8B8/C0B0A0?text=+"
+              alt="Window replacement — natural light filling a warm living room"
+              width="880"
+              height="550"
+              loading="lazy"
+            />
+          </div>
+          <div class="service-card-body">
+            <span class="service-tag">Windows</span>
+            <h3 class="service-heading">Window Replacement &amp; Installation</h3>
+            <p class="service-desc">
+              Cut energy bills, reduce noise, and transform your home's look with custom window replacements. We carry top brands with energy-efficient ratings, and our installers have a combined 40+ years of experience.
+            </p>
+            <ul style="list-style:none;display:flex;flex-direction:column;gap:0.3rem;margin-bottom:0.5rem;">
+              <li style="font-size:0.82rem;color:#4A5C47;display:flex;align-items:center;gap:0.35rem;">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#C4734A" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                Single, double &amp; triple pane options
+              </li>
+              <li style="font-size:0.82rem;color:#4A5C47;display:flex;align-items:center;gap:0.35rem;">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#C4734A" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                ENERGY STAR® certified products
+              </li>
+              <li style="font-size:0.82rem;color:#4A5C47;display:flex;align-items:center;gap:0.35rem;">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#C4734A" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                All styles: casement, double-hung, bay
+              </li>
+            </ul>
+            <a href="#cta-band" class="service-link">
+              Get a Window Quote
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+          </div>
+        </article>
+
+        <!-- Card 2: Decks -->
+        <article class="service-card fade-up fade-up-delay-2">
+          <div class="service-card-img">
+            <img
+              src="https://placehold.co/880x550/C8BFB0/B0A898?text=+"
+              alt="Custom deck build — beautiful outdoor living space"
+              width="880"
+              height="550"
+              loading="lazy"
+            />
+          </div>
+          <div class="service-card-body">
+            <span class="service-tag">Decks</span>
+            <h3 class="service-heading">Custom Deck Design &amp; Build</h3>
+            <p class="service-desc">
+              Turn your backyard into the outdoor living space you've always imagined. We design and build custom decks — from simple platforms to multi-level entertaining spaces — using premium materials built to last decades.
+            </p>
+            <ul style="list-style:none;display:flex;flex-direction:column;gap:0.3rem;margin-bottom:0.5rem;">
+              <li style="font-size:0.82rem;color:#4A5C47;display:flex;align-items:center;gap:0.35rem;">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#C4734A" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                Composite &amp; hardwood options
+              </li>
+              <li style="font-size:0.82rem;color:#4A5C47;display:flex;align-items:center;gap:0.35rem;">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#C4734A" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                Railings, stairs &amp; built-in seating
+              </li>
+              <li style="font-size:0.82rem;color:#4A5C47;display:flex;align-items:center;gap:0.35rem;">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#C4734A" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                Permits pulled, inspections passed
+              </li>
+            </ul>
+            <a href="#cta-band" class="service-link">
+              Get a Deck Quote
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================
+       HOW IT WORKS
+  ============================= -->
+  <section id="how-it-works" aria-labelledby="how-heading">
+    <div class="max-content">
+      <div class="text-center-section">
+        <p class="section-label fade-up">Our Simple Process</p>
+        <h2 class="section-heading fade-up fade-up-delay-1" id="how-heading">
+          From First Call to Final Result
+        </h2>
+        <p class="section-sub fade-up fade-up-delay-2">
+          No complicated sales pitches, no endless back-and-forth. Just four straightforward steps from hello to done.
+        </p>
+      </div>
+
+      <div class="steps-grid">
+        <!-- Step 1 -->
+        <div class="step-card fade-up fade-up-delay-1">
+          <div class="step-number" aria-hidden="true">1</div>
+          <h3 class="step-heading">Free Consultation</h3>
+          <p class="step-desc">Call or submit online. We visit your home at a time that works for you — no pressure, no obligation.</p>
+        </div>
+        <!-- Step 2 -->
+        <div class="step-card fade-up fade-up-delay-2">
+          <div class="step-number" aria-hidden="true">2</div>
+          <h3 class="step-heading">Custom Quote</h3>
+          <p class="step-desc">You get a clear, itemized quote within 24 hours. We explain every line — no hidden fees, no surprises.</p>
+        </div>
+        <!-- Step 3 -->
+        <div class="step-card fade-up fade-up-delay-3">
+          <div class="step-number" aria-hidden="true">3</div>
+          <h3 class="step-heading">Scheduled Install</h3>
+          <p class="step-desc">We work around your schedule. Our crew arrives on time, keeps your home clean, and finishes what we start.</p>
+        </div>
+        <!-- Step 4 -->
+        <div class="step-card fade-up fade-up-delay-4">
+          <div class="step-number" aria-hidden="true">4</div>
+          <h3 class="step-heading">Enjoy the Results</h3>
+          <p class="step-desc">Final walkthrough, full cleanup, warranty paperwork. Then sit back and enjoy your upgraded home.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================
+       WHY US
+  ============================= -->
+  <section id="why-us" aria-labelledby="why-heading">
+    <div class="max-content">
+      <div class="text-center-section">
+        <p class="section-label fade-up">Why Local Matters</p>
+        <h2 class="section-heading fade-up fade-up-delay-1" id="why-heading">
+          Why Homeowners Choose Us
+        </h2>
+        <p class="section-sub fade-up fade-up-delay-2" style="color:#8A9E87;">
+          We're not a national franchise. We live here, we work here, and our reputation lives and dies in this neighborhood. That changes everything.
+        </p>
+      </div>
+
+      <div class="why-grid">
+        <!-- Card 1 -->
+        <div class="why-card fade-up fade-up-delay-1">
+          <div class="why-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C4734A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+          </div>
+          <h3 class="why-heading">Real Local Knowledge</h3>
+          <p class="why-desc">We know local building codes, permit requirements, and the regional climate — so your windows and decks are built right for where you actually live.</p>
+        </div>
+        <!-- Card 2 -->
+        <div class="why-card fade-up fade-up-delay-2">
+          <div class="why-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C4734A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+          </div>
+          <h3 class="why-heading">Owner on Every Job</h3>
+          <p class="why-desc">You won't deal with a call center. The owner personally oversees every project from start to finish — your direct contact throughout the whole process.</p>
+        </div>
+        <!-- Card 3 -->
+        <div class="why-card fade-up fade-up-delay-3">
+          <div class="why-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C4734A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/>
+              <line x1="9" y1="21" x2="9" y2="9"/>
+            </svg>
+          </div>
+          <h3 class="why-heading">Transparent, Fixed Pricing</h3>
+          <p class="why-desc">Your quote is your price. We don't do surprise change orders or bait-and-switch. What we quote is what you pay — period.</p>
+        </div>
+        <!-- Card 4 -->
+        <div class="why-card fade-up fade-up-delay-4">
+          <div class="why-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C4734A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+          <h3 class="why-heading">Backed by a Real Warranty</h3>
+          <p class="why-desc">All installations come with a 5-year workmanship warranty and manufacturer product warranties. We stand behind every nail, every pane, every board.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================
+       TESTIMONIALS
+  ============================= -->
+  <section id="testimonials" aria-labelledby="reviews-heading">
+    <div class="max-content">
+      <div class="text-center-section">
+        <p class="section-label fade-up">What Neighbors Are Saying</p>
+        <h2 class="section-heading fade-up fade-up-delay-1" id="reviews-heading">
+          Real Reviews from Real Homeowners
+        </h2>
+        <p class="section-sub fade-up fade-up-delay-2">
+          Don't just take our word for it — here's what your neighbors have to say about working with us.
+        </p>
+      </div>
+
+      <div class="reviews-grid">
+        <!-- Review 1 -->
+        <article class="review-card fade-up fade-up-delay-1">
+          <div class="review-stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <blockquote class="review-quote">
+            "We replaced 14 windows and the difference is unbelievable — so much quieter, noticeably warmer in winter. The crew was respectful, cleaned up every day, and finished ahead of schedule. Couldn't be happier."
+          </blockquote>
+          <footer class="review-author">
+            <div class="review-name">Jennifer M.</div>
+            <div class="review-project">Window Replacement · Oak Park</div>
+          </footer>
+        </article>
+
+        <!-- Review 2 -->
+        <article class="review-card fade-up fade-up-delay-2">
+          <div class="review-stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <blockquote class="review-quote">
+            "They built us a two-level deck with built-in benches and a pergola. The quality is stunning. We've had three neighbors ask for their number. Honest pricing, zero surprises, and they cleaned up perfectly."
+          </blockquote>
+          <footer class="review-author">
+            <div class="review-name">David &amp; Sarah K.</div>
+            <div class="review-project">Custom Deck Build · Riverside</div>
+          </footer>
+        </article>
+
+        <!-- Review 3 -->
+        <article class="review-card fade-up fade-up-delay-3">
+          <div class="review-stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <blockquote class="review-quote">
+            "The owner came out himself, took his time explaining all our options, and never felt pushy. That alone won me over. The installation took one day and everything looks incredible. True professionals."
+          </blockquote>
+          <footer class="review-author">
+            <div class="review-name">Marcus T.</div>
+            <div class="review-project">Bay Window Install · Forest Hills</div>
+          </footer>
+        </article>
+      </div>
+
+      <!-- Google rating summary -->
+      <div class="fade-up" style="margin-top:2.5rem;text-align:center;">
+        <div style="display:inline-flex;align-items:center;gap:0.75rem;background:#fff;border:1px solid #DDD5C8;border-radius:10px;padding:0.75rem 1.5rem;box-shadow:0 2px 8px rgba(29,36,25,0.06);">
+          <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+          </svg>
+          <div style="text-align:left;">
+            <div style="font-weight:700;font-size:0.88rem;color:#1C2419;">4.9 / 5.0 on Google Reviews</div>
+            <div style="font-size:0.76rem;color:#8A9E87;">Based on 180+ verified reviews</div>
+          </div>
+          <div style="color:#D4A017;font-size:1.1rem;letter-spacing:1px;" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================
+       CTA BAND
+  ============================= -->
+  <section id="cta-band" aria-labelledby="cta-heading">
+    <h2 class="cta-heading fade-up" id="cta-heading">
+      Ready for a Free Estimate?
+    </h2>
+    <p class="cta-sub fade-up fade-up-delay-1">
+      No pressure. No obligation. Just an honest conversation about your home.
+    </p>
+    <a href="tel:+15555551234" class="cta-phone fade-up fade-up-delay-2" aria-label="Call us at 555-555-1234">
+      (555) 555-1234
+    </a>
+    <div class="cta-buttons fade-up fade-up-delay-3">
+      <a href="#" class="btn-white">
+        Request a Quote Online
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+      <a href="tel:+15555551234" class="btn-outline-white">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.06 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3 1.17h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 8.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 21 16.92z"/></svg>
+        Call Now
+      </a>
+    </div>
+  </section>
+
+  <!-- ============================
+       FOOTER
+  ============================= -->
+  <footer id="footer" role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <!-- Col 1: Brand -->
+        <div>
+          <a href="#" class="footer-logo" aria-label="The Window Professor — Home">
+            <div class="footer-logo-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+                <path d="M6 16L18 5l12 11v14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V16z" fill="#EBF0E8" opacity="0.7"/>
+                <path d="M22 8c0 0 6-2 6 6s-6 2-6 2" stroke="#C4734A" stroke-width="2" stroke-linecap="round" fill="none"/>
+              </svg>
+            </div>
+            <span class="footer-logo-text">The Window Professor</span>
+          </a>
+          <p class="footer-desc">
+            Family-owned window and deck contractor serving the area for over 20 years. Quality craftsmanship, honest pricing, and a reputation built one neighbor at a time.
+          </p>
+          <span class="footer-badge">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#8A9E87" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Licensed &amp; Insured
+          </span>
+        </div>
+
+        <!-- Col 2: Services -->
+        <div>
+          <h3 class="footer-col-heading">Services</h3>
+          <ul class="footer-links">
+            <li><a href="#services">Window Replacement</a></li>
+            <li><a href="#services">Window Installation</a></li>
+            <li><a href="#services">Custom Deck Builds</a></li>
+            <li><a href="#services">Deck Repair &amp; Refinishing</a></li>
+            <li><a href="#services">Pergolas &amp; Railings</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Contact -->
+        <div>
+          <h3 class="footer-col-heading">Contact Us</h3>
+          <address class="footer-address">
+            <strong>The Window Professor</strong>
+            123 Main Street<br />
+            Your City, ST 00000<br /><br />
+            <a href="tel:+15555551234" style="color:#C4734A;text-decoration:none;">(555) 555-1234</a><br />
+            <a href="mailto:hello@windowprofessor.com" style="color:#8A9E87;text-decoration:none;font-size:0.82rem;">hello@windowprofessor.com</a><br /><br />
+            <span style="font-size:0.82rem;">Mon–Sat: 7am – 6pm<br />Sunday: Closed</span>
+          </address>
+        </div>
+      </div>
+
+      <!-- Footer bottom -->
+      <div class="footer-bottom">
+        <p class="footer-copy">&copy; 2026 The Window Professor. All rights reserved.</p>
+        <p class="footer-copy">
+          <a href="#" style="color:rgba(138,158,135,0.5);text-decoration:none;margin-right:1rem;">Privacy Policy</a>
+          <a href="#" style="color:rgba(138,158,135,0.5);text-decoration:none;">Terms of Service</a>
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================
+       JAVASCRIPT
+  ============================= -->
+  <script>
+    // --- Sticky nav shadow on scroll ---
+    const nav = document.getElementById('main-nav');
+    const onScroll = () => {
+      if (window.scrollY > 10) {
+        nav.classList.add('scrolled');
+      } else {
+        nav.classList.remove('scrolled');
+      }
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    // --- Mobile hamburger menu ---
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    hamburger.addEventListener('click', () => {
+      const isOpen = mobileMenu.classList.toggle('open');
+      hamburger.classList.toggle('open', isOpen);
+      hamburger.setAttribute('aria-expanded', isOpen.toString());
+    });
+
+    // Close mobile menu when any nav link is clicked
+    document.querySelectorAll('.mobile-nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.remove('open');
+        hamburger.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    // --- IntersectionObserver for fade-up animations ---
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.12,
+        rootMargin: '0px 0px -40px 0px',
+      }
+    );
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // --- Smooth scroll for anchor links ---
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        const target = document.querySelector(targetId);
+        if (target) {
+          e.preventDefault();
+          const navHeight = nav.offsetHeight;
+          const targetTop = target.getBoundingClientRect().top + window.scrollY - navHeight - 12;
+          window.scrollTo({ top: targetTop, behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+</body>
+</html>

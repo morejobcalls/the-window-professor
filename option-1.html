@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Window Professor — Precision Crafted. Built to Endure.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* ─── TOKENS ────────────────────────────────────────────────── */
+    :root {
+      --bg:        #0C1824;
+      --mid:       #112233;
+      --light:     #1A3347;
+      --gold:      #C4945A;
+      --gold-lt:   #D4A96A;
+      --text:      #F5F3EF;
+      --muted:     rgba(245,243,239,0.55);
+      --border:    rgba(196,148,90,0.18);
+    }
+
+    /* ─── RESET / BASE ──────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ─── GRID TEXTURE ──────────────────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(196,148,90,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(196,148,90,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    /* ─── TYPOGRAPHY ────────────────────────────────────────────── */
+    h1, h2, h3, h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      line-height: 1.15;
+      color: var(--text);
+    }
+    .display {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 400;
+    }
+    .gold { color: var(--gold); }
+    .gold-lt { color: var(--gold-lt); }
+    .muted { color: var(--muted); }
+
+    /* ─── NAV ───────────────────────────────────────────────────── */
+    #nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 1.5rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      background: rgba(12,24,36,0.45);
+      border-bottom: 1px solid var(--border);
+      transition: background 0.4s ease, padding 0.4s ease;
+    }
+    #nav.scrolled {
+      background: rgba(12,24,36,0.92);
+      padding: 1rem 2.5rem;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      text-decoration: none;
+    }
+    .nav-logo-icon {
+      width: 36px;
+      height: 36px;
+      flex-shrink: 0;
+    }
+    .nav-logo-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 600;
+      font-size: 1.1rem;
+      line-height: 1.25;
+      color: var(--text);
+      letter-spacing: 0.03em;
+    }
+    .nav-logo-text span {
+      display: block;
+      font-weight: 300;
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2.5rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: 'Jost', sans-serif;
+      font-weight: 400;
+      font-size: 0.8rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.25s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--bg);
+      background: var(--gold);
+      border: none;
+      padding: 0.65rem 1.5rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.25s;
+    }
+    .nav-cta:hover { background: var(--gold-lt); }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 1.5px;
+      background: var(--text);
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    /* Mobile nav drawer */
+    #mobile-menu {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 99;
+      background: rgba(12,24,36,0.98);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2.5rem;
+    }
+    #mobile-menu.open { display: flex; }
+    #mobile-menu a {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      color: var(--text);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    #mobile-menu a:hover { color: var(--gold); }
+    #mobile-menu .mob-cta {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--bg);
+      background: var(--gold);
+      padding: 0.75rem 2rem;
+      text-decoration: none;
+    }
+
+    /* ─── SECTION WRAPPER ───────────────────────────────────────── */
+    section { position: relative; z-index: 1; }
+    .section-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 7rem 2.5rem;
+    }
+    .section-rule {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0.35;
+    }
+
+    /* ─── HERO ──────────────────────────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0 2rem;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(180deg, rgba(12,24,36,0) 0%, var(--bg) 100%);
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('https://placehold.co/1600x900/0C1824/112233?text=+');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.35;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+    }
+    .hero-eyebrow {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 400;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+    }
+    .hero-headline {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(3.2rem, 8vw, 7rem);
+      line-height: 1.08;
+      margin-bottom: 1.75rem;
+    }
+    .hero-sub {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: 1.05rem;
+      color: var(--muted);
+      max-width: 520px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.8;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 1.25rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--bg);
+      background: var(--gold);
+      padding: 0.9rem 2.25rem;
+      text-decoration: none;
+      transition: background 0.25s;
+      display: inline-block;
+    }
+    .btn-primary:hover { background: var(--gold-lt); }
+    .btn-ghost {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 400;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text);
+      background: transparent;
+      padding: 0.9rem 2.25rem;
+      text-decoration: none;
+      border: 1px solid rgba(245,243,239,0.25);
+      transition: border-color 0.25s, color 0.25s;
+      display: inline-block;
+    }
+    .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* Scroll indicator */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--muted);
+      font-family: 'Jost', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+    .scroll-arrow {
+      width: 1px;
+      height: 48px;
+      background: linear-gradient(180deg, var(--gold), transparent);
+      animation: scrollPulse 2s infinite;
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.3; transform: scaleY(1); }
+      50% { opacity: 1; transform: scaleY(1.15); }
+    }
+
+    /* ─── STATS BAR ─────────────────────────────────────────────── */
+    #stats {
+      background: var(--mid);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .stats-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 3.5rem 2.5rem;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+    }
+    .stat-item {
+      text-align: center;
+      padding: 1rem;
+      border-right: 1px solid var(--border);
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 600;
+      font-size: 3rem;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 0.35rem;
+    }
+    .stat-label {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 400;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ─── SERVICES ──────────────────────────────────────────────── */
+    #services { background: var(--bg); }
+    .section-label {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 400;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+    .section-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 400;
+      margin-bottom: 1.25rem;
+    }
+    .section-sub {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: 1rem;
+      color: var(--muted);
+      max-width: 540px;
+      line-height: 1.85;
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-top: 3.5rem;
+    }
+    .service-card {
+      background: var(--mid);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      transition: border-color 0.3s;
+    }
+    .service-card:hover { border-color: rgba(196,148,90,0.45); }
+    .service-card-img {
+      width: 100%;
+      aspect-ratio: 16/10;
+      object-fit: cover;
+      display: block;
+    }
+    .service-card-body {
+      padding: 2.25rem 2rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .service-card-line {
+      width: 40px;
+      height: 2px;
+      background: var(--gold);
+      margin-bottom: 1.25rem;
+    }
+    .service-card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.9rem;
+      font-weight: 400;
+      margin-bottom: 0.85rem;
+    }
+    .service-card-text {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.85;
+      margin-bottom: 1.75rem;
+      flex: 1;
+    }
+    .btn-outline-gold {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid rgba(196,148,90,0.5);
+      padding: 0.65rem 1.5rem;
+      text-decoration: none;
+      transition: background 0.25s, color 0.25s;
+      display: inline-block;
+    }
+    .btn-outline-gold:hover {
+      background: var(--gold);
+      color: var(--bg);
+    }
+
+    /* ─── WHY US ────────────────────────────────────────────────── */
+    #whyus { background: var(--mid); }
+    .whyus-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+    .feature-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      margin-top: 0.5rem;
+    }
+    .feature-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.25rem;
+    }
+    .feature-icon-box {
+      width: 44px;
+      height: 44px;
+      flex-shrink: 0;
+      background: rgba(196,148,90,0.12);
+      border: 1px solid rgba(196,148,90,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .feature-icon-box svg {
+      width: 20px;
+      height: 20px;
+      stroke: var(--gold);
+      fill: none;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .feature-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+      color: var(--text);
+    }
+    .feature-desc {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    /* ─── TESTIMONIALS ──────────────────────────────────────────── */
+    #testimonials { background: var(--bg); }
+    .testi-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.75rem;
+      margin-top: 3.5rem;
+    }
+    .testi-card {
+      background: var(--mid);
+      border: 1px solid var(--border);
+      padding: 2.25rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      transition: border-color 0.3s;
+    }
+    .testi-card:hover { border-color: rgba(196,148,90,0.4); }
+    .testi-stars {
+      display: flex;
+      gap: 3px;
+    }
+    .testi-stars svg {
+      width: 14px;
+      height: 14px;
+      fill: var(--gold);
+    }
+    .testi-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.15rem;
+      font-weight: 400;
+      color: var(--text);
+      line-height: 1.65;
+      flex: 1;
+    }
+    .testi-divider {
+      width: 30px;
+      height: 1px;
+      background: var(--gold);
+      opacity: 0.5;
+    }
+    .testi-client {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text);
+    }
+    .testi-location {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 300;
+      color: var(--muted);
+      margin-top: 0.1rem;
+    }
+
+    /* ─── CONTACT ───────────────────────────────────────────────── */
+    #contact { background: var(--light); }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+    .contact-info-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .contact-info-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    .contact-icon {
+      width: 38px;
+      height: 38px;
+      flex-shrink: 0;
+      background: rgba(196,148,90,0.1);
+      border: 1px solid rgba(196,148,90,0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .contact-icon svg {
+      width: 16px;
+      height: 16px;
+      stroke: var(--gold);
+      fill: none;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .contact-info-label {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.2rem;
+    }
+    .contact-info-value {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 300;
+      color: var(--text);
+    }
+
+    /* Form */
+    .contact-form { display: flex; flex-direction: column; gap: 1.25rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.45rem; }
+    .form-label {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .form-input, .form-select, .form-textarea {
+      background: rgba(12,24,36,0.6);
+      border: 1px solid rgba(196,148,90,0.2);
+      color: var(--text);
+      font-family: 'Jost', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 300;
+      padding: 0.85rem 1rem;
+      width: 100%;
+      outline: none;
+      transition: border-color 0.25s;
+      -webkit-appearance: none;
+    }
+    .form-input::placeholder,
+    .form-textarea::placeholder { color: rgba(245,243,239,0.3); }
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus { border-color: var(--gold); }
+    .form-select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23C4945A' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' viewBox='0 0 24 24'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      cursor: pointer;
+    }
+    .form-select option { background: var(--mid); color: var(--text); }
+    .form-textarea { resize: vertical; min-height: 120px; }
+    .form-submit {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--bg);
+      background: var(--gold);
+      border: none;
+      padding: 1rem 2.5rem;
+      cursor: pointer;
+      transition: background 0.25s;
+      align-self: flex-start;
+    }
+    .form-submit:hover { background: var(--gold-lt); }
+
+    /* ─── FOOTER ────────────────────────────────────────────────── */
+    #footer {
+      background: #080f18;
+      border-top: 1px solid var(--border);
+    }
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 3.5rem 2.5rem;
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+    .footer-tagline {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 300;
+      color: var(--muted);
+      margin-top: 0.85rem;
+      line-height: 1.75;
+      max-width: 200px;
+    }
+    .footer-col-title {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.25rem;
+    }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 0.65rem; }
+    .footer-links a {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 300;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--text); }
+    .footer-bottom {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.5rem 2.5rem;
+      border-top: 1px solid rgba(196,148,90,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .footer-copy {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 300;
+      color: rgba(245,243,239,0.3);
+    }
+    .footer-copy a { color: rgba(196,148,90,0.5); text-decoration: none; }
+    .footer-copy a:hover { color: var(--gold); }
+
+    /* ─── FADE-UP ANIMATION ─────────────────────────────────────── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-up.in {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .fade-up[data-delay="1"] { transition-delay: 0.1s; }
+    .fade-up[data-delay="2"] { transition-delay: 0.2s; }
+    .fade-up[data-delay="3"] { transition-delay: 0.3s; }
+    .fade-up[data-delay="4"] { transition-delay: 0.4s; }
+    .fade-up[data-delay="5"] { transition-delay: 0.5s; }
+
+    /* ─── MOBILE RESPONSIVE ─────────────────────────────────────── */
+    @media (max-width: 639px) {
+      /* Nav */
+      #nav { padding: 1.1rem 1.25rem; }
+      #nav.scrolled { padding: 0.85rem 1.25rem; }
+      .nav-links, .nav-cta { display: none; }
+      .hamburger { display: flex; }
+
+      /* Hero */
+      .hero-headline { font-size: clamp(2.8rem, 10vw, 3.5rem); }
+      .hero-sub { font-size: 0.9rem; }
+
+      /* Section inner */
+      .section-inner { padding: 3.5rem 1.25rem; }
+
+      /* Stats */
+      .stats-grid {
+        grid-template-columns: 1fr 1fr;
+        padding: 2rem 1.25rem;
+        gap: 1rem;
+      }
+      .stat-item { border-right: none; border-bottom: 1px solid var(--border); padding: 1.25rem 0.5rem; }
+      .stat-item:nth-child(2n) { border-right: none; }
+      .stat-item:nth-child(3), .stat-item:nth-child(4) { border-bottom: none; }
+      .stat-number { font-size: 2.25rem; }
+
+      /* Services */
+      .services-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        margin-top: 2rem;
+      }
+      .service-card { display: flex; flex-direction: column; }
+      .service-card-img { aspect-ratio: 16/9; }
+      .service-card-body { padding: 1.5rem 1.25rem; }
+
+      /* Why Us */
+      .whyus-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+
+      /* Testimonials */
+      .testi-grid { grid-template-columns: 1fr; margin-top: 2rem; }
+
+      /* Contact */
+      .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .form-row { grid-template-columns: 1fr; }
+      .form-submit { width: 100%; text-align: center; }
+
+      /* Section headings */
+      .section-heading { font-size: clamp(2rem, 7vw, 2.8rem); }
+
+      /* Footer */
+      .footer-inner { grid-template-columns: 1fr 1fr; gap: 2rem; padding: 2.5rem 1.25rem; }
+      .footer-bottom { flex-direction: column; gap: 0.75rem; text-align: center; padding: 1.25rem; }
+    }
+
+    @media (min-width: 640px) and (max-width: 1023px) {
+      .services-grid { grid-template-columns: 1fr; }
+      .testi-grid { grid-template-columns: 1fr 1fr; }
+      .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .footer-inner { grid-template-columns: 1fr 1fr; }
+      .form-submit { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════ NAV -->
+  <nav id="nav" role="navigation" aria-label="Main navigation">
+    <a href="#" class="nav-logo" aria-label="The Window Professor home">
+      <!-- Window grid SVG icon -->
+      <svg class="nav-logo-icon" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="2" width="32" height="32" rx="1" stroke="#C4945A" stroke-width="1.5"/>
+        <line x1="18" y1="2" x2="18" y2="34" stroke="#C4945A" stroke-width="1"/>
+        <line x1="2" y1="18" x2="34" y2="18" stroke="#C4945A" stroke-width="1"/>
+        <rect x="5" y="5" width="10" height="10" rx="0.5" fill="rgba(196,148,90,0.12)" stroke="#C4945A" stroke-width="0.75"/>
+        <rect x="21" y="5" width="10" height="10" rx="0.5" fill="rgba(196,148,90,0.12)" stroke="#C4945A" stroke-width="0.75"/>
+        <rect x="5" y="21" width="10" height="10" rx="0.5" fill="rgba(196,148,90,0.12)" stroke="#C4945A" stroke-width="0.75"/>
+        <rect x="21" y="21" width="10" height="10" rx="0.5" fill="rgba(196,148,90,0.12)" stroke="#C4945A" stroke-width="0.75"/>
+      </svg>
+      <div class="nav-logo-text">
+        The Window
+        <span>Professor</span>
+      </div>
+    </a>
+
+    <ul class="nav-links" role="list">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#whyus">Why Us</a></li>
+      <li><a href="#testimonials">Reviews</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+
+    <a href="#contact" class="nav-cta">Get a Quote</a>
+
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </nav>
+
+  <!-- Mobile menu -->
+  <div id="mobile-menu" role="dialog" aria-modal="true" aria-label="Mobile navigation">
+    <a href="#services" class="mob-link">Services</a>
+    <a href="#whyus" class="mob-link">Why Us</a>
+    <a href="#testimonials" class="mob-link">Reviews</a>
+    <a href="#contact" class="mob-link">Contact</a>
+    <a href="#contact" class="mob-cta mob-link">Get a Quote</a>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════ HERO -->
+  <section id="hero" aria-label="Hero">
+    <div class="hero-bg" aria-hidden="true"></div>
+
+    <div class="hero-content">
+      <p class="hero-eyebrow fade-up" data-delay="1">Windows &amp; Decks — Pacific Northwest</p>
+      <h1 class="hero-headline fade-up" data-delay="2">
+        Precision Crafted.<br>Built to <span class="gold">Endure.</span>
+      </h1>
+      <p class="hero-sub fade-up" data-delay="3">
+        Expert window installation and custom deck construction for discerning homeowners who refuse to compromise on quality or craftsmanship.
+      </p>
+      <div class="hero-actions fade-up" data-delay="4">
+        <a href="#contact" class="btn-primary">Start Your Project</a>
+        <a href="#services" class="btn-ghost">View Our Work</a>
+      </div>
+    </div>
+
+    <div class="scroll-indicator" aria-hidden="true">
+      <div class="scroll-arrow"></div>
+      <span>Scroll</span>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════ STATS -->
+  <section id="stats" aria-label="Key statistics">
+    <div class="stats-grid">
+      <div class="stat-item fade-up" data-delay="1">
+        <div class="stat-number">15+</div>
+        <div class="stat-label">Years of Excellence</div>
+      </div>
+      <div class="stat-item fade-up" data-delay="2">
+        <div class="stat-number">600+</div>
+        <div class="stat-label">Projects Completed</div>
+      </div>
+      <div class="stat-item fade-up" data-delay="3">
+        <div class="stat-number">5★</div>
+        <div class="stat-label">Average Rating</div>
+      </div>
+      <div class="stat-item fade-up" data-delay="4">
+        <div class="stat-number">100%</div>
+        <div class="stat-label">Satisfaction Guaranteed</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-rule" aria-hidden="true"></div>
+
+
+  <!-- ═══════════════════════════════════════════ SERVICES -->
+  <section id="services" aria-label="Our services">
+    <div class="section-inner">
+      <p class="section-label fade-up">What We Do</p>
+      <h2 class="section-heading fade-up" data-delay="1">
+        Two Specialties.<br><em>One Standard of Excellence.</em>
+      </h2>
+      <p class="section-sub fade-up" data-delay="2">
+        From energy-efficient windows that transform your home's comfort and curb appeal, to custom decks built for Pacific Northwest living — we deliver both with the same uncompromising attention to detail.
+      </p>
+
+      <div class="services-grid">
+
+        <!-- Windows Card -->
+        <article class="service-card fade-up" data-delay="1">
+          <img
+            src="https://placehold.co/720x450/0A1520/1A2A3A?text=+"
+            alt="Professional window installation"
+            class="service-card-img"
+            loading="lazy"
+          />
+          <div class="service-card-body">
+            <div class="service-card-line" aria-hidden="true"></div>
+            <h3 class="service-card-title">Window Installation</h3>
+            <p class="service-card-text">
+              Premium window replacement and new construction installation. We work with industry-leading brands to deliver superior energy performance, sound dampening, and lasting curb appeal. Every window is fitted to perfection — no shortcuts, no compromises.
+            </p>
+            <a href="#contact" class="btn-outline-gold">Learn More</a>
+          </div>
+        </article>
+
+        <!-- Decks Card -->
+        <article class="service-card fade-up" data-delay="2">
+          <img
+            src="https://placehold.co/720x450/0A1520/1A2A3A?text=+"
+            alt="Custom deck construction"
+            class="service-card-img"
+            loading="lazy"
+          />
+          <div class="service-card-body">
+            <div class="service-card-line" aria-hidden="true"></div>
+            <h3 class="service-card-title">Custom Deck Building</h3>
+            <p class="service-card-text">
+              Bespoke outdoor living spaces designed to withstand Pacific Northwest conditions while elevating the beauty of your home. From simple decks to multi-level structures with built-in seating and lighting — engineered to last decades.
+            </p>
+            <a href="#contact" class="btn-outline-gold">Learn More</a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="section-rule" aria-hidden="true"></div>
+
+
+  <!-- ═══════════════════════════════════════════ WHY US -->
+  <section id="whyus" aria-label="Why choose us">
+    <div class="section-inner">
+      <div class="whyus-grid">
+
+        <!-- Left column -->
+        <div>
+          <p class="section-label fade-up">The Difference</p>
+          <h2 class="section-heading fade-up" data-delay="1">
+            Why Homeowners<br>Trust <span class="gold">The Professor</span>
+          </h2>
+          <p class="section-sub fade-up" data-delay="2" style="margin-top:1rem;">
+            We're not a volume contractor. Every project receives our full attention, from the initial consultation through the final walkthrough. Our reputation is built one exceptional installation at a time.
+          </p>
+          <div style="margin-top:2rem;" class="fade-up" data-delay="3">
+            <a href="#contact" class="btn-primary">Get Your Free Quote</a>
+          </div>
+        </div>
+
+        <!-- Right column: features -->
+        <div class="feature-list">
+
+          <div class="feature-row fade-up" data-delay="1">
+            <div class="feature-icon-box" aria-hidden="true">
+              <!-- Shield / warranty icon -->
+              <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div>
+              <div class="feature-title">Lifetime Warranty</div>
+              <div class="feature-desc">Our workmanship is backed by a lifetime guarantee. We stand behind every joint, seal, and fastener we touch.</div>
+            </div>
+          </div>
+
+          <div class="feature-row fade-up" data-delay="2">
+            <div class="feature-icon-box" aria-hidden="true">
+              <!-- Calendar / time icon -->
+              <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
+            <div>
+              <div class="feature-title">On-Time, On-Budget</div>
+              <div class="feature-desc">We respect your time and your budget. Our projects are completed on schedule with transparent, fixed pricing — no surprises.</div>
+            </div>
+          </div>
+
+          <div class="feature-row fade-up" data-delay="3">
+            <div class="feature-icon-box" aria-hidden="true">
+              <!-- Layers / materials icon -->
+              <svg viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+            </div>
+            <div>
+              <div class="feature-title">Premium Materials Only</div>
+              <div class="feature-desc">We source from trusted manufacturers with proven track records. Nothing enters your home that we wouldn't put in our own.</div>
+            </div>
+          </div>
+
+          <div class="feature-row fade-up" data-delay="4">
+            <div class="feature-icon-box" aria-hidden="true">
+              <!-- Star / white-glove icon -->
+              <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            </div>
+            <div>
+              <div class="feature-title">White-Glove Service</div>
+              <div class="feature-desc">From your first call to final cleanup, the experience is meticulous. We treat your home with the care it deserves.</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-rule" aria-hidden="true"></div>
+
+
+  <!-- ═══════════════════════════════════════════ TESTIMONIALS -->
+  <section id="testimonials" aria-label="Client testimonials">
+    <div class="section-inner">
+      <p class="section-label fade-up">What Clients Say</p>
+      <h2 class="section-heading fade-up" data-delay="1">
+        Trusted by Homeowners<br>Across the Region
+      </h2>
+
+      <div class="testi-grid">
+
+        <article class="testi-card fade-up" data-delay="1">
+          <div class="testi-stars" aria-label="5 stars">
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <blockquote class="testi-quote">
+            "The team replaced all 18 windows in our home and the craftsmanship was flawless. The difference in warmth and noise reduction is remarkable. Worth every penny."
+          </blockquote>
+          <div class="testi-divider" aria-hidden="true"></div>
+          <div>
+            <div class="testi-client">Robert & Karen M.</div>
+            <div class="testi-location">Bellevue, WA</div>
+          </div>
+        </article>
+
+        <article class="testi-card fade-up" data-delay="2">
+          <div class="testi-stars" aria-label="5 stars">
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <blockquote class="testi-quote">
+            "Our new deck is absolutely stunning. They designed a two-level structure that works perfectly with our sloped yard. Came in under budget and finished two days early."
+          </blockquote>
+          <div class="testi-divider" aria-hidden="true"></div>
+          <div>
+            <div class="testi-client">James T.</div>
+            <div class="testi-location">Redmond, WA</div>
+          </div>
+        </article>
+
+        <article class="testi-card fade-up" data-delay="3">
+          <div class="testi-stars" aria-label="5 stars">
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <blockquote class="testi-quote">
+            "I've worked with a lot of contractors. The Window Professor is in a different league. The attention to detail and professionalism from day one was exceptional."
+          </blockquote>
+          <div class="testi-divider" aria-hidden="true"></div>
+          <div>
+            <div class="testi-client">Michelle L.</div>
+            <div class="testi-location">Kirkland, WA</div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="section-rule" aria-hidden="true"></div>
+
+
+  <!-- ═══════════════════════════════════════════ CONTACT -->
+  <section id="contact" aria-label="Contact us">
+    <div class="section-inner">
+      <div class="contact-grid">
+
+        <!-- Left: Info -->
+        <div>
+          <p class="section-label fade-up">Let's Talk</p>
+          <h2 class="section-heading fade-up" data-delay="1">
+            Ready to Begin<br>Your <span class="gold">Project?</span>
+          </h2>
+          <p class="section-sub fade-up" data-delay="2" style="margin-top:1rem;">
+            Every project starts with a conversation. Tell us what you're envisioning and we'll provide a detailed, no-obligation quote within 48 hours.
+          </p>
+
+          <div class="contact-info-list fade-up" data-delay="3">
+            <div class="contact-info-item">
+              <div class="contact-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.26h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.84a16 16 0 0 0 6 6l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2.03z"/></svg>
+              </div>
+              <div>
+                <div class="contact-info-label">Phone</div>
+                <div class="contact-info-value">(206) 555-0192</div>
+              </div>
+            </div>
+            <div class="contact-info-item">
+              <div class="contact-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              </div>
+              <div>
+                <div class="contact-info-label">Email</div>
+                <div class="contact-info-value">info@thewindowprofessor.com</div>
+              </div>
+            </div>
+            <div class="contact-info-item">
+              <div class="contact-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              </div>
+              <div>
+                <div class="contact-info-label">Service Area</div>
+                <div class="contact-info-value">Greater Seattle & Eastside, WA</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Form -->
+        <div class="fade-up" data-delay="2">
+          <form class="contact-form" name="quote-request" action="#" method="POST" novalidate>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="first-name">First Name</label>
+                <input class="form-input" type="text" id="first-name" name="first_name" placeholder="John" autocomplete="given-name" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="last-name">Last Name</label>
+                <input class="form-input" type="text" id="last-name" name="last_name" placeholder="Smith" autocomplete="family-name" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="email">Email Address</label>
+              <input class="form-input" type="email" id="email" name="email" placeholder="john@email.com" autocomplete="email" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="phone">Phone Number</label>
+              <input class="form-input" type="tel" id="phone" name="phone" placeholder="(206) 555-0000" autocomplete="tel" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="service">Service Interested In</label>
+              <select class="form-select" id="service" name="service">
+                <option value="" disabled selected>Select a service…</option>
+                <option value="windows">Window Installation</option>
+                <option value="decks">Custom Deck Building</option>
+                <option value="both">Both — Windows &amp; Deck</option>
+                <option value="other">Other / Not Sure Yet</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="message">Tell Us About Your Project</label>
+              <textarea class="form-textarea" id="message" name="message" placeholder="Brief description of your project, home size, timeline, etc."></textarea>
+            </div>
+            <button type="submit" class="form-submit">Request a Free Quote</button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════ FOOTER -->
+  <footer id="footer" aria-label="Site footer">
+    <div class="footer-inner">
+      <!-- Brand -->
+      <div>
+        <a href="#" class="nav-logo" style="text-decoration:none;">
+          <svg width="30" height="30" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="2" width="32" height="32" rx="1" stroke="#C4945A" stroke-width="1.5"/>
+            <line x1="18" y1="2" x2="18" y2="34" stroke="#C4945A" stroke-width="1"/>
+            <line x1="2" y1="18" x2="34" y2="18" stroke="#C4945A" stroke-width="1"/>
+            <rect x="5" y="5" width="10" height="10" rx="0.5" fill="rgba(196,148,90,0.12)" stroke="#C4945A" stroke-width="0.75"/>
+            <rect x="21" y="5" width="10" height="10" rx="0.5" fill="rgba(196,148,90,0.12)" stroke="#C4945A" stroke-width="0.75"/>
+            <rect x="5" y="21" width="10" height="10" rx="0.5" fill="rgba(196,148,90,0.12)" stroke="#C4945A" stroke-width="0.75"/>
+            <rect x="21" y="21" width="10" height="10" rx="0.5" fill="rgba(196,148,90,0.12)" stroke="#C4945A" stroke-width="0.75"/>
+          </svg>
+          <div class="nav-logo-text" style="font-size:1rem;">
+            The Window
+            <span>Professor</span>
+          </div>
+        </a>
+        <p class="footer-tagline">Precision crafted windows and decks for the Pacific Northwest's most discerning homeowners.</p>
+      </div>
+
+      <!-- Services -->
+      <div>
+        <div class="footer-col-title">Services</div>
+        <ul class="footer-links">
+          <li><a href="#services">Window Installation</a></li>
+          <li><a href="#services">Custom Deck Building</a></li>
+          <li><a href="#contact">Free Consultation</a></li>
+          <li><a href="#contact">Request a Quote</a></li>
+        </ul>
+      </div>
+
+      <!-- Company -->
+      <div>
+        <div class="footer-col-title">Company</div>
+        <ul class="footer-links">
+          <li><a href="#whyus">About Us</a></li>
+          <li><a href="#testimonials">Reviews</a></li>
+          <li><a href="#whyus">Our Process</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact info -->
+      <div>
+        <div class="footer-col-title">Get In Touch</div>
+        <ul class="footer-links">
+          <li><a href="tel:+12065550192">(206) 555-0192</a></li>
+          <li><a href="mailto:info@thewindowprofessor.com">info@thewindowprofessor.com</a></li>
+          <li style="color:var(--muted); font-size:0.85rem; font-weight:300;">Greater Seattle &amp; Eastside, WA</li>
+          <li style="color:var(--muted); font-size:0.85rem; font-weight:300;">Licensed &amp; Insured</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p class="footer-copy">&copy; 2026 The Window Professor. All rights reserved.</p>
+      <p class="footer-copy">
+        <a href="#">Privacy Policy</a> &nbsp;·&nbsp; <a href="#">Terms of Service</a>
+      </p>
+    </div>
+  </footer>
+
+
+  <!-- ═══════════════════════════════════════════ JAVASCRIPT -->
+  <script>
+    // ── Nav scroll state
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+
+    // ── Hamburger / mobile menu
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobLinks   = mobileMenu.querySelectorAll('.mob-link');
+
+    function toggleMenu(open) {
+      hamburger.classList.toggle('open', open);
+      mobileMenu.classList.toggle('open', open);
+      hamburger.setAttribute('aria-expanded', open);
+      document.body.style.overflow = open ? 'hidden' : '';
+    }
+
+    hamburger.addEventListener('click', () => {
+      const isOpen = mobileMenu.classList.contains('open');
+      toggleMenu(!isOpen);
+    });
+
+    mobLinks.forEach(link => {
+      link.addEventListener('click', () => toggleMenu(false));
+    });
+
+    // ── Fade-up IntersectionObserver
+    const fadeEls = document.querySelectorAll('.fade-up');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    fadeEls.forEach(el => observer.observe(el));
+
+    // ── Form submission (prevent default, show confirmation)
+    const form = document.querySelector('.contact-form');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const btn = form.querySelector('.form-submit');
+      btn.textContent = 'Request Sent!';
+      btn.style.background = '#2a5a3a';
+      btn.style.color = '#a8d8b8';
+      btn.disabled = true;
+      setTimeout(() => {
+        btn.textContent = 'Request a Free Quote';
+        btn.style.background = '';
+        btn.style.color = '';
+        btn.disabled = false;
+        form.reset();
+      }, 4000);
+    });
+  </script>
+
+</body>
+</html>

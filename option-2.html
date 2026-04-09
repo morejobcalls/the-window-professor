@@ -1,0 +1,1308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Window Professor — Premium Windows & Decks</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    /* ─── TOKENS ──────────────────────────────────────────────── */
+    :root {
+      --bg:        #FFFFFF;
+      --cream:     #F8F5F0;
+      --pale:      #F3EFE9;
+      --ink:       #0E1A26;
+      --ink-mid:   #3A4D5C;
+      --ink-light: #7A8E9A;
+      --rule:      #E0D8CF;
+      --gold:      #C4945A;
+      --gold-dk:   #A87040;
+    }
+
+    /* ─── RESET / BASE ────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--ink-mid);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+    }
+    img { display: block; max-width: 100%; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ─── TYPOGRAPHY ──────────────────────────────────────────── */
+    .font-display   { font-family: 'Playfair Display', Georgia, serif; }
+    .font-body      { font-family: 'DM Sans', sans-serif; }
+
+    /* ─── UTILITY CLASSES ─────────────────────────────────────── */
+    .rule-h { border: none; border-top: 1px solid var(--rule); }
+    .rule-v { width: 1px; background: var(--rule); align-self: stretch; }
+    .gold-rule { height: 2px; background: var(--gold); border: none; }
+    .gold-rule-short { height: 2px; width: 48px; background: var(--gold); }
+
+    /* ─── FADE-UP ANIMATION ───────────────────────────────────── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .fade-up.delay-1 { transition-delay: 0.1s; }
+    .fade-up.delay-2 { transition-delay: 0.2s; }
+    .fade-up.delay-3 { transition-delay: 0.3s; }
+    .fade-up.delay-4 { transition-delay: 0.4s; }
+
+    /* ─── NAV ─────────────────────────────────────────────────── */
+    #main-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: var(--bg);
+      border-bottom: 1px solid var(--rule);
+      transition: box-shadow 0.3s ease;
+    }
+    #main-nav.scrolled {
+      box-shadow: 0 2px 16px rgba(14, 26, 38, 0.08);
+    }
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 32px;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .nav-logo-mark {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+    }
+    .nav-logo-sub {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      display: block;
+      margin-top: 1px;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      color: var(--ink-mid);
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--ink); }
+
+    .btn-ink {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--ink);
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      padding: 11px 24px;
+      border: 1px solid var(--ink);
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      white-space: nowrap;
+    }
+    .btn-ink:hover {
+      background: var(--ink-mid);
+      border-color: var(--ink-mid);
+    }
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      padding: 10px 24px;
+      border: 1px solid var(--ink);
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      white-space: nowrap;
+    }
+    .btn-outline:hover {
+      background: var(--ink);
+      color: #fff;
+    }
+
+    /* Hamburger */
+    #hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+      background: none;
+      border: none;
+    }
+    #hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--ink);
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    #hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    #hamburger.open span:nth-child(2) { opacity: 0; }
+    #hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    #mobile-menu {
+      display: none;
+      background: var(--bg);
+      border-top: 1px solid var(--rule);
+      padding: 24px 32px 28px;
+    }
+    #mobile-menu.open { display: block; }
+    #mobile-menu ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    #mobile-menu ul li a {
+      display: block;
+      padding: 13px 0;
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--ink);
+      border-bottom: 1px solid var(--rule);
+    }
+    #mobile-menu .mob-cta {
+      margin-top: 20px;
+    }
+
+    /* ─── HERO ────────────────────────────────────────────────── */
+    #hero {
+      padding-top: 72px; /* nav offset */
+      background: var(--bg);
+    }
+    .hero-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 96px 32px 80px;
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 80px;
+      align-items: start;
+    }
+    .hero-eyebrow {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 24px;
+    }
+    .hero-headline {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(38px, 5vw, 64px);
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+      margin-bottom: 28px;
+    }
+    .hero-headline em {
+      font-style: italic;
+      color: var(--gold);
+    }
+    .hero-gold-rule {
+      height: 2px;
+      width: 56px;
+      background: var(--gold);
+      margin-bottom: 28px;
+    }
+    .hero-body {
+      font-size: 17px;
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--ink-mid);
+      max-width: 520px;
+      margin-bottom: 40px;
+    }
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .hero-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      padding-top: 16px;
+    }
+    .hero-stat-item {
+      padding: 28px 0;
+      border-bottom: 1px solid var(--rule);
+    }
+    .hero-stat-item:first-child { border-top: 1px solid var(--rule); }
+    .hero-stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 40px;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1;
+      letter-spacing: -0.02em;
+      margin-bottom: 4px;
+    }
+    .hero-stat-label {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+    }
+
+    /* ─── STATS STRIP ─────────────────────────────────────────── */
+    #stats-strip {
+      background: var(--cream);
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+    }
+    .stats-strip-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 32px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+    }
+    .stat-cell {
+      padding: 48px 32px;
+      text-align: center;
+      position: relative;
+    }
+    .stat-cell + .stat-cell::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 32px; bottom: 32px;
+      width: 1px;
+      background: var(--rule);
+    }
+    .stat-big {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(32px, 3.5vw, 48px);
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+    .stat-gold-accent {
+      color: var(--gold);
+    }
+    .stat-label {
+      margin-top: 8px;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+    }
+
+    /* ─── SECTION WRAPPER ─────────────────────────────────────── */
+    .section-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 96px 32px;
+    }
+    .section-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+    .section-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 3.5vw, 44px);
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+    .section-heading-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 32px;
+      margin-bottom: 56px;
+    }
+
+    /* ─── SERVICES ────────────────────────────────────────────── */
+    #services { background: var(--bg); }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 32px;
+    }
+    .service-card {
+      display: grid;
+      grid-template-rows: auto 1fr;
+      border: 1px solid var(--rule);
+      overflow: hidden;
+      transition: box-shadow 0.3s;
+    }
+    .service-card:hover {
+      box-shadow: 0 8px 40px rgba(14,26,38,0.08);
+    }
+    .service-card-img {
+      width: 100%;
+      height: 320px;
+      object-fit: cover;
+      display: block;
+    }
+    .service-card-body {
+      padding: 36px 36px 32px;
+      border-top: 3px solid var(--gold);
+      background: var(--bg);
+    }
+    .service-category {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 14px;
+    }
+    .service-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.25;
+      margin-bottom: 16px;
+      letter-spacing: -0.01em;
+    }
+    .service-desc {
+      font-size: 15px;
+      font-weight: 300;
+      line-height: 1.72;
+      color: var(--ink-mid);
+      margin-bottom: 28px;
+    }
+    .service-link {
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      color: var(--ink);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 2px;
+      transition: gap 0.2s, border-color 0.2s;
+    }
+    .service-link:hover {
+      gap: 12px;
+      border-color: var(--gold);
+      color: var(--gold-dk);
+    }
+    .arrow-icon { font-size: 14px; }
+
+    /* ─── ABOUT / WHY US ──────────────────────────────────────── */
+    #about { background: var(--pale); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .about-left {}
+    .about-pull-quote {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(20px, 2.2vw, 27px);
+      font-style: italic;
+      font-weight: 400;
+      color: var(--ink);
+      line-height: 1.5;
+      border-left: 3px solid var(--gold);
+      padding-left: 24px;
+      margin: 32px 0;
+    }
+    .about-body {
+      font-size: 15px;
+      font-weight: 300;
+      line-height: 1.78;
+      color: var(--ink-mid);
+    }
+    .about-body + .about-body { margin-top: 16px; }
+    .about-right {}
+    .why-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .why-item {
+      padding: 28px 0;
+      border-bottom: 1px solid var(--rule);
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+    .why-item:first-child { border-top: 1px solid var(--rule); }
+    .why-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.06em;
+      padding-top: 3px;
+    }
+    .why-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 6px;
+      letter-spacing: -0.01em;
+    }
+    .why-desc {
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 1.7;
+      color: var(--ink-mid);
+    }
+
+    /* ─── TESTIMONIALS ────────────────────────────────────────── */
+    #testimonials { background: var(--cream); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+    .testi-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+    .testi-card {
+      background: var(--bg);
+      border: 1px solid var(--rule);
+      padding: 40px 36px 36px;
+      display: flex;
+      flex-direction: column;
+    }
+    .testi-open-quote {
+      font-family: 'Playfair Display', serif;
+      font-size: 72px;
+      line-height: 0.7;
+      color: var(--gold);
+      margin-bottom: 20px;
+      font-weight: 700;
+      opacity: 0.6;
+      select: none;
+    }
+    .testi-quote {
+      font-family: 'Playfair Display', serif;
+      font-size: 17px;
+      font-style: italic;
+      font-weight: 400;
+      color: var(--ink);
+      line-height: 1.65;
+      flex: 1;
+      margin-bottom: 28px;
+    }
+    .testi-rule { height: 1px; background: var(--rule); margin-bottom: 20px; }
+    .testi-stars {
+      font-size: 13px;
+      color: var(--gold);
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+    }
+    .testi-name {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ink);
+      letter-spacing: 0.04em;
+    }
+    .testi-location {
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--ink-light);
+      margin-top: 2px;
+    }
+
+    /* ─── CONTACT / CTA ───────────────────────────────────────── */
+    #contact { background: var(--ink); }
+    .contact-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 96px 32px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .contact-left {}
+    .contact-eyebrow {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+    .contact-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 3.2vw, 42px);
+      font-weight: 700;
+      color: var(--cream);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 28px;
+    }
+    .contact-body {
+      font-size: 15px;
+      font-weight: 300;
+      line-height: 1.75;
+      color: rgba(248,245,240,0.65);
+      margin-bottom: 40px;
+    }
+    .contact-details {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .contact-detail-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+    .contact-detail-icon {
+      font-size: 16px;
+      color: var(--gold);
+      margin-top: 1px;
+      flex-shrink: 0;
+    }
+    .contact-detail-label {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(248,245,240,0.45);
+      margin-bottom: 2px;
+    }
+    .contact-detail-value {
+      font-size: 15px;
+      font-weight: 400;
+      color: rgba(248,245,240,0.85);
+    }
+
+    /* Form */
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .form-field label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      color: rgba(248,245,240,0.5);
+    }
+    .form-field input,
+    .form-field select,
+    .form-field textarea {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(224,216,207,0.25);
+      color: var(--cream);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      padding: 13px 16px;
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+      width: 100%;
+      -webkit-appearance: none;
+    }
+    .form-field select option { background: var(--ink); color: var(--cream); }
+    .form-field input::placeholder,
+    .form-field textarea::placeholder { color: rgba(248,245,240,0.3); }
+    .form-field input:focus,
+    .form-field select:focus,
+    .form-field textarea:focus {
+      border-color: var(--gold);
+      background: rgba(255,255,255,0.09);
+    }
+    .form-field textarea { resize: vertical; min-height: 120px; }
+    .btn-gold {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: var(--gold);
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      padding: 14px 32px;
+      border: 1px solid var(--gold);
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      width: 100%;
+    }
+    .btn-gold:hover {
+      background: var(--gold-dk);
+      border-color: var(--gold-dk);
+    }
+    .form-note {
+      font-size: 12px;
+      color: rgba(248,245,240,0.35);
+      text-align: center;
+      margin-top: 4px;
+    }
+
+    /* ─── FOOTER ──────────────────────────────────────────────── */
+    #footer {
+      background: var(--bg);
+      border-top: 1px solid var(--rule);
+    }
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+    }
+    .footer-logo-mark {
+      font-family: 'Playfair Display', serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+    }
+    .footer-logo-sub {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-top: 2px;
+    }
+    .footer-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      list-style: none;
+    }
+    .footer-links a {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      color: var(--ink-light);
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--ink); }
+    .footer-copy {
+      font-size: 12px;
+      color: var(--ink-light);
+    }
+
+    /* ─── MOBILE ──────────────────────────────────────────────── */
+    @media (max-width: 639px) {
+      /* Nav */
+      .nav-inner { padding: 0 20px; }
+      .nav-links-wrap { display: none; }
+      #hamburger { display: flex; }
+      #mobile-menu { padding: 20px 20px 24px; }
+
+      /* Hero */
+      .hero-inner {
+        grid-template-columns: 1fr;
+        padding: 56px 20px 48px;
+        gap: 40px;
+      }
+      .hero-stats {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0;
+        padding-top: 0;
+      }
+      .hero-stat-item {
+        flex: 0 0 50%;
+        padding: 20px 16px;
+        border-bottom: 1px solid var(--rule);
+        border-right: 1px solid var(--rule);
+      }
+      .hero-stat-item:first-child { border-top: none; }
+      .hero-stat-item:nth-child(even) { border-right: none; }
+      .hero-stat-item:last-child, .hero-stat-item:nth-last-child(2) { border-bottom: none; }
+      .hero-stat-num { font-size: 32px; }
+      .hero-buttons { gap: 12px; }
+      .hero-buttons .btn-ink,
+      .hero-buttons .btn-outline { padding: 12px 20px; font-size: 13px; }
+
+      /* Stats strip */
+      .stats-strip-inner {
+        grid-template-columns: 1fr 1fr;
+        padding: 0 20px;
+      }
+      .stat-cell {
+        padding: 32px 16px;
+      }
+      .stat-cell:nth-child(3)::before {
+        display: none;
+      }
+      .stat-cell:nth-child(3) {
+        border-top: 1px solid var(--rule);
+      }
+      .stat-cell:nth-child(4)::before {
+        top: 32px; bottom: 32px;
+      }
+      .stat-cell:nth-child(4) {
+        border-top: 1px solid var(--rule);
+      }
+
+      /* Section wrap */
+      .section-wrap { padding: 56px 20px; }
+      .section-heading-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+        margin-bottom: 36px;
+      }
+
+      /* Services */
+      .services-grid { grid-template-columns: 1fr; gap: 24px; }
+      .service-card-img { height: 220px; }
+      .service-card-body { padding: 24px 24px 20px; }
+
+      /* About */
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+      .about-pull-quote { font-size: 18px; }
+
+      /* Testimonials */
+      .testi-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      .testi-card { padding: 28px 24px 24px; }
+
+      /* Contact */
+      .contact-inner {
+        grid-template-columns: 1fr;
+        padding: 56px 20px;
+        gap: 48px;
+      }
+      .form-row { grid-template-columns: 1fr; }
+
+      /* Footer */
+      .footer-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+        padding: 32px 20px;
+      }
+      .footer-links { flex-wrap: wrap; gap: 16px; }
+    }
+
+    @media (min-width: 640px) and (max-width: 900px) {
+      .testi-grid { grid-template-columns: 1fr 1fr; }
+      .testi-card:last-child { grid-column: span 2; }
+      .hero-inner { gap: 40px; }
+      .section-wrap { padding: 72px 28px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════
+       NAV
+  ═══════════════════════════════════════════════ -->
+  <nav id="main-nav" role="navigation" aria-label="Main navigation">
+    <div class="nav-inner">
+      <!-- Logo -->
+      <a href="#hero" class="nav-logo-mark" aria-label="The Window Professor home">
+        The Window<br>Professor
+        <span class="nav-logo-sub">Premium Windows &amp; Decks</span>
+      </a>
+
+      <!-- Desktop links -->
+      <div class="nav-links-wrap" style="flex:1; display:flex; align-items:center; justify-content:center;">
+        <ul class="nav-links">
+          <li><a href="#services">Services</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#testimonials">Reviews</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- CTA + Hamburger -->
+      <a href="#contact" class="btn-ink nav-links-wrap">Get a Quote</a>
+      <button id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+
+    <!-- Mobile menu -->
+    <div id="mobile-menu" role="menu">
+      <ul>
+        <li><a href="#services" role="menuitem">Services</a></li>
+        <li><a href="#about" role="menuitem">About</a></li>
+        <li><a href="#testimonials" role="menuitem">Reviews</a></li>
+        <li><a href="#contact" role="menuitem">Contact</a></li>
+      </ul>
+      <div class="mob-cta">
+        <a href="#contact" class="btn-ink" style="width:100%; justify-content:center;">Get a Quote</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <!-- ═══════════════════════════════════════════════
+       HERO
+  ═══════════════════════════════════════════════ -->
+  <section id="hero">
+    <div class="hero-inner">
+      <!-- Left: copy -->
+      <div>
+        <p class="hero-eyebrow fade-up">Serving the Pacific Northwest Since 2009</p>
+        <h1 class="hero-headline fade-up delay-1">
+          The Art of<br><em>Exceptional</em><br>Windows &amp; Decks
+        </h1>
+        <div class="hero-gold-rule fade-up delay-2"></div>
+        <p class="hero-body fade-up delay-2">
+          We design, supply, and install premium windows and custom decks for discerning homeowners who refuse to compromise. Every project is approached as a craft — with rigorous attention to detail, quality materials, and a process built around you.
+        </p>
+        <div class="hero-buttons fade-up delay-3">
+          <a href="#contact" class="btn-ink">Request a Free Quote</a>
+          <a href="#services" class="btn-outline">See Our Work</a>
+        </div>
+      </div>
+
+      <!-- Right: stats column -->
+      <div class="hero-stats fade-up delay-2">
+        <div class="hero-stat-item">
+          <div class="hero-stat-num">15<span style="font-size:0.55em; color:var(--gold);">+</span></div>
+          <div class="hero-stat-label">Years in Business</div>
+        </div>
+        <div class="hero-stat-item">
+          <div class="hero-stat-num">600<span style="font-size:0.55em; color:var(--gold);">+</span></div>
+          <div class="hero-stat-label">Projects Completed</div>
+        </div>
+        <div class="hero-stat-item">
+          <div class="hero-stat-num">5<span style="font-size:0.55em; color:var(--gold);">★</span></div>
+          <div class="hero-stat-label">Average Rating</div>
+        </div>
+        <div class="hero-stat-item">
+          <div class="hero-stat-num">100<span style="font-size:0.55em; color:var(--gold);">%</span></div>
+          <div class="hero-stat-label">Satisfaction Guarantee</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════
+       STATS STRIP
+  ═══════════════════════════════════════════════ -->
+  <section id="stats-strip">
+    <div class="stats-strip-inner">
+      <div class="stat-cell fade-up">
+        <div class="stat-big">15<span class="stat-gold-accent">+</span></div>
+        <div class="stat-label">Years Experience</div>
+      </div>
+      <div class="stat-cell fade-up delay-1">
+        <div class="stat-big">600<span class="stat-gold-accent">+</span></div>
+        <div class="stat-label">Projects Delivered</div>
+      </div>
+      <div class="stat-cell fade-up delay-2">
+        <div class="stat-big">5<span class="stat-gold-accent">★</span></div>
+        <div class="stat-label">Average Review</div>
+      </div>
+      <div class="stat-cell fade-up delay-3">
+        <div class="stat-big">100<span class="stat-gold-accent">%</span></div>
+        <div class="stat-label">Satisfaction Guaranteed</div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════
+       SERVICES
+  ═══════════════════════════════════════════════ -->
+  <section id="services">
+    <div class="section-wrap">
+      <div class="section-heading-row">
+        <div>
+          <p class="section-label">What We Do</p>
+          <h2 class="section-heading fade-up">Expert Craftsmanship,<br>Two Core Disciplines</h2>
+        </div>
+        <a href="#contact" class="btn-outline fade-up" style="flex-shrink:0;">Get a Quote &rarr;</a>
+      </div>
+
+      <div class="services-grid">
+        <!-- Windows Card -->
+        <div class="service-card fade-up">
+          <img
+            class="service-card-img"
+            src="https://placehold.co/880x550/EDE8E0/D5CEC5?text=+"
+            alt="Premium window installation project"
+            loading="lazy"
+          />
+          <div class="service-card-body">
+            <p class="service-category">Windows</p>
+            <h3 class="service-title">Premium Window<br>Installation &amp; Replacement</h3>
+            <p class="service-desc">
+              From energy-efficient double-pane upgrades to bespoke architectural windows, we handle every step — measurement, ordering, and a flawless installation. Brands we trust: Andersen, Marvin, Milgard, and Pella.
+            </p>
+            <a href="#contact" class="service-link">
+              Explore Windows <span class="arrow-icon">&rarr;</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Decks Card -->
+        <div class="service-card fade-up delay-1">
+          <img
+            class="service-card-img"
+            src="https://placehold.co/880x550/EDE8E0/D5CEC5?text=+"
+            alt="Custom deck design and build project"
+            loading="lazy"
+          />
+          <div class="service-card-body">
+            <p class="service-category">Decks</p>
+            <h3 class="service-title">Custom Deck Design<br>&amp; Construction</h3>
+            <p class="service-desc">
+              We design and build decks that become extensions of your living space. Composite, hardwood, or treated lumber — each deck is engineered for longevity and styled to complement your home's architecture.
+            </p>
+            <a href="#contact" class="service-link">
+              Explore Decks <span class="arrow-icon">&rarr;</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════
+       ABOUT / WHY US
+  ═══════════════════════════════════════════════ -->
+  <section id="about">
+    <div class="section-wrap">
+      <div class="about-grid">
+        <!-- Left: editorial copy -->
+        <div class="about-left">
+          <p class="section-label fade-up">About The Professor</p>
+          <h2 class="section-heading fade-up delay-1" style="margin-bottom:0;">A Different Kind<br>of Contractor</h2>
+          <blockquote class="about-pull-quote fade-up delay-2">
+            "We don't just install windows and build decks — we obsess over the details most contractors skip."
+          </blockquote>
+          <p class="about-body fade-up delay-2">
+            The Window Professor was founded on a simple conviction: homeowners deserve a contractor who shows up on time, communicates clearly, and delivers work that looks as good in ten years as the day it was finished.
+          </p>
+          <p class="about-body fade-up delay-3" style="margin-top:16px;">
+            Our team combines decades of hands-on installation experience with a genuine passion for craft. We're fully licensed, bonded, and insured — and every project comes with our written satisfaction guarantee.
+          </p>
+        </div>
+
+        <!-- Right: numbered reasons -->
+        <div class="about-right">
+          <p class="section-label fade-up" style="margin-bottom:20px;">Why Homeowners Choose Us</p>
+          <div class="why-list">
+            <div class="why-item fade-up">
+              <span class="why-num">01</span>
+              <div>
+                <h4 class="why-title">Transparent Pricing</h4>
+                <p class="why-desc">Detailed written quotes with zero hidden fees. What you're quoted is what you pay — always.</p>
+              </div>
+            </div>
+            <div class="why-item fade-up delay-1">
+              <span class="why-num">02</span>
+              <div>
+                <h4 class="why-title">Premium Materials Only</h4>
+                <p class="why-desc">We source from top-tier manufacturers and will never substitute materials without your explicit approval.</p>
+              </div>
+            </div>
+            <div class="why-item fade-up delay-2">
+              <span class="why-num">03</span>
+              <div>
+                <h4 class="why-title">On-Time, Every Time</h4>
+                <p class="why-desc">We respect your schedule. Projects are planned carefully and we communicate any changes proactively.</p>
+              </div>
+            </div>
+            <div class="why-item fade-up delay-3">
+              <span class="why-num">04</span>
+              <div>
+                <h4 class="why-title">Workmanship Warranty</h4>
+                <p class="why-desc">All installations are backed by our written workmanship warranty, in addition to manufacturer guarantees.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════
+       TESTIMONIALS
+  ═══════════════════════════════════════════════ -->
+  <section id="testimonials">
+    <div class="section-wrap">
+      <div style="text-align:center; margin-bottom:56px;">
+        <p class="section-label fade-up">Client Reviews</p>
+        <h2 class="section-heading fade-up delay-1">What Homeowners Are Saying</h2>
+      </div>
+
+      <div class="testi-grid">
+        <!-- Card 1 -->
+        <div class="testi-card fade-up">
+          <div class="testi-open-quote">&ldquo;</div>
+          <p class="testi-quote">
+            From the initial consultation to the final walkthrough, every step was handled with professionalism I didn't know was possible in a contractor. Our new windows have transformed how the house feels — lighter, quieter, warmer.
+          </p>
+          <div class="testi-rule"></div>
+          <div class="testi-stars">★★★★★</div>
+          <div class="testi-name">Margaret &amp; Tom H.</div>
+          <div class="testi-location">Bellevue, WA</div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="testi-card fade-up delay-1">
+          <div class="testi-open-quote">&ldquo;</div>
+          <p class="testi-quote">
+            The deck they built for us is genuinely one of the best investments we've made in this home. The craftsmanship is exceptional, the timeline was honored, and the crew left the site cleaner than they found it.
+          </p>
+          <div class="testi-rule"></div>
+          <div class="testi-stars">★★★★★</div>
+          <div class="testi-name">Kevin R.</div>
+          <div class="testi-location">Kirkland, WA</div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="testi-card fade-up delay-2">
+          <div class="testi-open-quote">&ldquo;</div>
+          <p class="testi-quote">
+            I've worked with three other contractors before calling The Window Professor. The difference is night and day. Honest communication, no surprises on the bill, and work that looks exactly like the rendering we approved.
+          </p>
+          <div class="testi-rule"></div>
+          <div class="testi-stars">★★★★★</div>
+          <div class="testi-name">Sandra L.</div>
+          <div class="testi-location">Redmond, WA</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════
+       CONTACT / CTA
+  ═══════════════════════════════════════════════ -->
+  <section id="contact">
+    <div class="contact-inner">
+      <!-- Left: heading + details -->
+      <div class="contact-left fade-up">
+        <p class="contact-eyebrow">Get in Touch</p>
+        <h2 class="contact-heading">Let's Discuss<br>Your Project</h2>
+        <p class="contact-body">
+          Ready to explore what's possible? Fill out the form or reach us directly. We respond to every inquiry within one business day and offer free on-site consultations throughout the greater Seattle metro area.
+        </p>
+
+        <div class="contact-details">
+          <div class="contact-detail-item">
+            <div class="contact-detail-icon">&#9742;</div>
+            <div>
+              <div class="contact-detail-label">Phone</div>
+              <div class="contact-detail-value">(206) 555-0184</div>
+            </div>
+          </div>
+          <div class="contact-detail-item">
+            <div class="contact-detail-icon">&#9993;</div>
+            <div>
+              <div class="contact-detail-label">Email</div>
+              <div class="contact-detail-value">hello@thewindowprofessor.com</div>
+            </div>
+          </div>
+          <div class="contact-detail-item">
+            <div class="contact-detail-icon">&#9679;</div>
+            <div>
+              <div class="contact-detail-label">Service Area</div>
+              <div class="contact-detail-value">Greater Seattle — Bellevue, Kirkland,<br>Redmond, Sammamish &amp; surrounding cities</div>
+            </div>
+          </div>
+          <div class="contact-detail-item">
+            <div class="contact-detail-icon">&#9673;</div>
+            <div>
+              <div class="contact-detail-label">Hours</div>
+              <div class="contact-detail-value">Mon–Fri 8am–6pm · Sat by appointment</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: form -->
+      <div class="contact-right fade-up delay-2">
+        <form class="contact-form" novalidate>
+          <div class="form-row">
+            <div class="form-field">
+              <label for="f-first">First Name</label>
+              <input id="f-first" type="text" placeholder="Jane" autocomplete="given-name" />
+            </div>
+            <div class="form-field">
+              <label for="f-last">Last Name</label>
+              <input id="f-last" type="text" placeholder="Smith" autocomplete="family-name" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-field">
+              <label for="f-email">Email Address</label>
+              <input id="f-email" type="email" placeholder="jane@example.com" autocomplete="email" />
+            </div>
+            <div class="form-field">
+              <label for="f-phone">Phone Number</label>
+              <input id="f-phone" type="tel" placeholder="(206) 555-0100" autocomplete="tel" />
+            </div>
+          </div>
+          <div class="form-field">
+            <label for="f-service">Service Interested In</label>
+            <select id="f-service">
+              <option value="" disabled selected>Select a service…</option>
+              <option value="windows">Window Installation / Replacement</option>
+              <option value="decks">Custom Deck Design &amp; Build</option>
+              <option value="both">Both Windows &amp; Decks</option>
+              <option value="other">Other / Not Sure Yet</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label for="f-message">Tell Us About Your Project</label>
+            <textarea id="f-message" placeholder="Describe your project — scope, timeline, any specific requirements…"></textarea>
+          </div>
+          <button type="submit" class="btn-gold">
+            Send My Request &rarr;
+          </button>
+          <p class="form-note">No spam. We respond within one business day.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════════ -->
+  <footer id="footer" role="contentinfo">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-logo-mark">The Window Professor</div>
+        <div class="footer-logo-sub">Premium Windows &amp; Decks</div>
+      </div>
+      <ul class="footer-links">
+        <li><a href="#services">Services</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#testimonials">Reviews</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <div class="footer-copy">&copy; 2026 The Window Professor. All rights reserved.</div>
+    </div>
+  </footer>
+
+
+  <!-- ═══════════════════════════════════════════════
+       JAVASCRIPT
+  ═══════════════════════════════════════════════ -->
+  <script>
+    // ── Nav scroll state ─────────────────────────────
+    const nav = document.getElementById('main-nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 16);
+    }, { passive: true });
+
+    // ── Hamburger toggle ─────────────────────────────
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    hamburger.addEventListener('click', () => {
+      const isOpen = mobileMenu.classList.toggle('open');
+      hamburger.classList.toggle('open', isOpen);
+      hamburger.setAttribute('aria-expanded', isOpen.toString());
+    });
+
+    // Close mobile menu on link click
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.remove('open');
+        hamburger.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    // ── IntersectionObserver fade-up ─────────────────
+    const fadeEls = document.querySelectorAll('.fade-up');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.12,
+      rootMargin: '0px 0px -40px 0px'
+    });
+
+    fadeEls.forEach(el => observer.observe(el));
+
+    // ── Form submit placeholder ───────────────────────
+    document.querySelector('.contact-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const btn = e.target.querySelector('.btn-gold');
+      btn.textContent = 'Message Sent — We\'ll be in touch!';
+      btn.style.background = 'var(--gold-dk)';
+      btn.disabled = true;
+    });
+  </script>
+</body>
+</html>

@@ -18,9 +18,10 @@ const browser = await puppeteer.launch({
 const page = await browser.newPage();
 await page.setViewport({ width: 1440, height: 900 });
 await page.goto(url, { waitUntil: 'networkidle0', timeout: 30000 });
-// Force all fade-up animations visible for full-page screenshots
+// Force all fade/reveal animations visible for full-page screenshots
 await page.evaluate(() => {
-  document.querySelectorAll('.fade-up').forEach(el => el.classList.add('in'));
+  document.querySelectorAll('.fade-up').forEach(el => { el.classList.add('in'); el.classList.add('visible'); });
+  document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
 });
 await new Promise(r => setTimeout(r, 400));
 await page.screenshot({ path: filename, fullPage: true });
