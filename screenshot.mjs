@@ -13,7 +13,6 @@ while (fs.existsSync(path.join(dir, `screenshot-${n}${label ? '-' + label : ''}.
 const filename = path.join(dir, `screenshot-${n}${label ? '-' + label : ''}.png`);
 
 const browser = await puppeteer.launch({
-  executablePath: '/Applications/Brave Browser.app/Contents/MacOS/Brave Browser',
   args: ['--no-sandbox', '--disable-setuid-sandbox'],
 });
 const page = await browser.newPage();

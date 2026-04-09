@@ -98,7 +98,7 @@
         radial-gradient(ellipse 80% 60% at 65% 35%, rgba(196,148,90,0.13) 0%, transparent 65%),
         linear-gradient(to bottom, rgba(20,17,14,0.72) 0%, rgba(20,17,14,0.38) 50%, rgba(20,17,14,0.78) 100%),
         url('https://placehold.co/1920x1080/222018/3A3530?text=+');
-      background-size: cover; background-position: center; background-attachment: fixed;
+      background-size: cover; background-position: center;
     }
 
     /* Service cards */
@@ -164,6 +164,53 @@
     /* Fade-up */
     .fade-up { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
     .fade-up.in { opacity: 1; transform: translateY(0); }
+
+    /* Mobile menu */
+    #mobile-menu {
+      display: none; position: fixed; top: 76px; left: 0; right: 0; z-index: 99;
+      background: rgba(27,24,20,0.97); backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 24px 24px 32px;
+      flex-direction: column; gap: 0;
+    }
+    #mobile-menu.open { display: flex; }
+    #mobile-menu a {
+      color: rgba(240,235,225,0.75); font-family: 'DM Sans', sans-serif;
+      font-size: 1rem; padding: 14px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      text-decoration: none; transition: color 0.2s ease;
+    }
+    #mobile-menu a:hover { color: #F0EBE1; }
+    #mobile-menu .menu-cta { margin-top: 20px; }
+
+    /* ===== MOBILE OVERRIDES ===== */
+    @media (max-width: 639px) {
+      /* Service cards: stack image above content instead of overlay */
+      .svc-card { overflow: visible; }
+      .svc-card img { aspect-ratio: 16/9; border-radius: 3px 3px 0 0; }
+      .svc-card .overlay { display: none; }
+      .svc-content {
+        position: relative !important;
+        inset: auto !important;
+        background: #1A1714;
+        padding: 24px !important;
+        border-radius: 0 0 3px 3px;
+        justify-content: flex-start !important;
+      }
+      .svc-content .btn-gold { align-self: stretch; justify-content: center; }
+
+      /* Portfolio: single col featured, smaller rows */
+      .port-grid { grid-auto-rows: 180px !important; }
+      .port-feat { grid-column: span 2; row-span: unset; }
+
+      /* Testimonials: tighter padding */
+      .testi-card { padding: 24px; }
+
+      /* Buttons full-width in hero on mobile */
+      .hero-btns { flex-direction: column; }
+      .hero-btns a { justify-content: center; text-align: center; }
+    }
   </style>
 </head>
 <body>
@@ -194,27 +241,39 @@
       <a href="#contact" class="btn-gold">Get a Quote</a>
     </div>
 
-    <button class="md:hidden p-2 text-[#F0EBE1]" aria-label="Menu">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+    <button id="menu-btn" class="md:hidden p-2 text-[#F0EBE1]" aria-label="Menu" aria-expanded="false">
+      <svg id="menu-icon" width="22" height="22" viewBox="0 0 24 24" fill="none">
         <path d="M3 7h18M3 12h18M3 17h18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      <svg id="close-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" style="display:none">
+        <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
       </svg>
     </button>
   </div>
 </nav>
 
+<!-- MOBILE MENU -->
+<div id="mobile-menu" role="navigation">
+  <a href="#services" class="mobile-link">Services</a>
+  <a href="#portfolio" class="mobile-link">Portfolio</a>
+  <a href="#about" class="mobile-link">About</a>
+  <a href="#reviews" class="mobile-link">Reviews</a>
+  <a href="#contact" class="btn-gold menu-cta" style="justify-content:center">Get a Quote</a>
+</div>
+
 
 <!-- HERO -->
 <section class="hero-section grain relative min-h-screen flex flex-col justify-center overflow-hidden">
-  <div class="relative z-10 max-w-7xl mx-auto px-6 md:px-10 lg:px-16 xl:px-24 pt-36 pb-24">
+  <div class="relative z-10 max-w-7xl mx-auto px-6 md:px-10 lg:px-16 xl:px-24 pt-28 md:pt-36 pb-16 md:pb-24">
     <div class="max-w-2xl">
-      <p class="text-[#C4945A] text-[0.72rem] tracking-[0.22em] uppercase font-body font-medium mb-6 fade-up">Premium Windows & Custom Decks · Serving the Greater Area</p>
-      <h1 class="font-display text-[#F0EBE1] text-[3.5rem] md:text-[4.75rem] lg:text-[5.5rem] leading-[1.04] tracking-[-0.03em] mb-8 fade-up" style="transition-delay:0.1s">
+      <p class="text-[#C4945A] text-[0.72rem] tracking-[0.22em] uppercase font-body font-medium mb-5 fade-up">Premium Windows & Custom Decks · Serving the Greater Area</p>
+      <h1 class="font-display text-[#F0EBE1] text-[2.75rem] md:text-[4.75rem] lg:text-[5.5rem] leading-[1.07] tracking-[-0.03em] mb-6 md:mb-8 fade-up" style="transition-delay:0.1s">
         Where Craft<br><em style="color:#C4945A;font-style:normal;">Meets</em> Precision.
       </h1>
-      <p class="text-[#F0EBE1]/68 text-[1.0625rem] leading-[1.78] font-body max-w-lg mb-12 fade-up" style="transition-delay:0.2s">
+      <p class="text-[#F0EBE1]/68 text-[0.9375rem] md:text-[1.0625rem] leading-[1.78] font-body max-w-lg mb-8 md:mb-12 fade-up" style="transition-delay:0.2s">
         High-end window installation and custom deck construction — executed with the care of a craftsman who signs every project with their name.
       </p>
-      <div class="flex flex-wrap gap-4 fade-up" style="transition-delay:0.3s">
+      <div class="hero-btns flex flex-wrap gap-4 fade-up" style="transition-delay:0.3s">
         <a href="#contact" class="btn-gold">Schedule a Consultation</a>
         <a href="#portfolio" class="btn-outline">View Our Work</a>
       </div>
@@ -253,11 +312,11 @@
 
 
 <!-- SERVICES -->
-<section id="services" class="py-28 px-6 md:px-10 lg:px-16 xl:px-24 bg-[#F0EBE1]">
+<section id="services" class="py-16 md:py-28 px-6 md:px-10 lg:px-16 xl:px-24 bg-[#F0EBE1]">
   <div class="max-w-7xl mx-auto">
-    <div class="mb-16 fade-up">
+    <div class="mb-10 md:mb-16 fade-up">
       <p class="text-[#C4945A] text-[0.72rem] tracking-[0.22em] uppercase font-body font-medium mb-4">What We Do</p>
-      <h2 class="font-display text-[#272320] text-[2.5rem] md:text-[3.25rem] tracking-[-0.03em] leading-[1.08] max-w-md">Expert Services,<br>Premium Results</h2>
+      <h2 class="font-display text-[#272320] text-[2.25rem] md:text-[3.25rem] tracking-[-0.03em] leading-[1.08] max-w-md">Expert Services,<br>Premium Results</h2>
     </div>
 
     <div class="grid md:grid-cols-2 gap-6">
@@ -265,7 +324,7 @@
       <div class="svc-card fade-up">
         <img src="https://placehold.co/880x550/2A2520/3D3830?text=+" alt="Window Installation">
         <div class="overlay"></div>
-        <div class="absolute inset-0 flex flex-col justify-end p-9 z-10">
+        <div class="svc-content absolute inset-0 flex flex-col justify-end p-9 z-10">
           <span class="gold-bar mb-5"></span>
           <h3 class="font-display text-[#F0EBE1] text-[1.9rem] leading-tight mb-3">Premium Window<br>Installation</h3>
           <p class="text-[#F0EBE1]/60 text-[0.875rem] font-body leading-[1.75] mb-6 max-w-sm">
@@ -285,7 +344,7 @@
       <div class="svc-card fade-up" style="transition-delay:0.12s">
         <img src="https://placehold.co/880x550/252018/383025?text=+" alt="Custom Deck Construction">
         <div class="overlay"></div>
-        <div class="absolute inset-0 flex flex-col justify-end p-9 z-10">
+        <div class="svc-content absolute inset-0 flex flex-col justify-end p-9 z-10">
           <span class="gold-bar mb-5"></span>
           <h3 class="font-display text-[#F0EBE1] text-[1.9rem] leading-tight mb-3">Custom Deck<br>Construction</h3>
           <p class="text-[#F0EBE1]/60 text-[0.875rem] font-body leading-[1.75] mb-6 max-w-sm">
@@ -306,11 +365,11 @@
 
 
 <!-- WHY US -->
-<section id="about" class="bg-[#272320] grain relative overflow-hidden py-28 px-6 md:px-10 lg:px-16 xl:px-24">
+<section id="about" class="bg-[#272320] grain relative overflow-hidden py-16 md:py-28 px-6 md:px-10 lg:px-16 xl:px-24">
   <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 65% 80% at 8% 50%, rgba(196,148,90,0.07) 0%, transparent 60%)"></div>
 
   <div class="max-w-7xl mx-auto relative z-10">
-    <div class="grid lg:grid-cols-2 gap-20 items-center">
+    <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
       <div class="fade-up">
         <p class="text-[#C4945A] text-[0.72rem] tracking-[0.22em] uppercase font-body font-medium mb-5">Why The Window Professor</p>
         <h2 class="font-display text-[#F0EBE1] text-[2.5rem] md:text-[3.25rem] tracking-[-0.03em] leading-[1.08] mb-8">Built on Integrity.<br>Finished to Perfection.</h2>
@@ -364,9 +423,9 @@
 
 
 <!-- PORTFOLIO -->
-<section id="portfolio" class="py-28 px-6 md:px-10 lg:px-16 xl:px-24 bg-[#F8F4ED]">
+<section id="portfolio" class="py-16 md:py-28 px-6 md:px-10 lg:px-16 xl:px-24 bg-[#F8F4ED]">
   <div class="max-w-7xl mx-auto">
-    <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 fade-up">
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 md:mb-16 fade-up">
       <div>
         <p class="text-[#C4945A] text-[0.72rem] tracking-[0.22em] uppercase font-body font-medium mb-4">Our Work</p>
         <h2 class="font-display text-[#272320] text-[2.5rem] md:text-[3.25rem] tracking-[-0.03em] leading-[1.08]">Recent Projects</h2>
@@ -374,7 +433,7 @@
       <a href="#contact" class="mt-6 md:mt-0 text-[#272320] text-[0.875rem] font-body underline underline-offset-4 decoration-[#C4945A]/50 hover:text-[#C4945A] hover:decoration-[#C4945A] transition-colors">View all projects &rarr;</a>
     </div>
 
-    <div class="grid grid-cols-2 md:grid-cols-3 gap-4" style="grid-auto-rows: 220px;">
+    <div class="port-grid grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4" style="grid-auto-rows: 180px;">
       <div class="port-item col-span-2 row-span-2 fade-up">
         <img src="https://placehold.co/840x660/2A2520/403830?text=+" alt="Featured project">
         <div class="port-overlay flex items-end p-7">
@@ -417,9 +476,9 @@
 
 
 <!-- TESTIMONIALS -->
-<section id="reviews" class="py-28 px-6 md:px-10 lg:px-16 xl:px-24 bg-[#F0EBE1]">
+<section id="reviews" class="py-16 md:py-28 px-6 md:px-10 lg:px-16 xl:px-24 bg-[#F0EBE1]">
   <div class="max-w-7xl mx-auto">
-    <div class="mb-16 text-center fade-up">
+    <div class="mb-10 md:mb-16 text-center fade-up">
       <p class="text-[#C4945A] text-[0.72rem] tracking-[0.22em] uppercase font-body font-medium mb-4">What Clients Say</p>
       <h2 class="font-display text-[#272320] text-[2.5rem] md:text-[3.25rem] tracking-[-0.03em] leading-[1.08]">Trusted by Homeowners</h2>
     </div>
@@ -483,11 +542,11 @@
 
 
 <!-- CONTACT -->
-<section id="contact" class="bg-[#272320] grain relative overflow-hidden py-28 px-6 md:px-10 lg:px-16 xl:px-24">
+<section id="contact" class="bg-[#272320] grain relative overflow-hidden py-16 md:py-28 px-6 md:px-10 lg:px-16 xl:px-24">
   <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 55% 65% at 92% 50%, rgba(196,148,90,0.08) 0%, transparent 60%)"></div>
 
   <div class="max-w-7xl mx-auto relative z-10">
-    <div class="grid lg:grid-cols-2 gap-20">
+    <div class="grid lg:grid-cols-2 gap-12 lg:gap-20">
       <div class="fade-up">
         <p class="text-[#C4945A] text-[0.72rem] tracking-[0.22em] uppercase font-body font-medium mb-5">Get in Touch</p>
         <h2 class="font-display text-[#F0EBE1] text-[2.5rem] md:text-[3.25rem] tracking-[-0.03em] leading-[1.08] mb-8">Ready to Start<br>Your Project?</h2>
@@ -610,6 +669,27 @@
   const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 50);
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
+
+  // Mobile menu toggle
+  const menuBtn = document.getElementById('menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const menuIcon = document.getElementById('menu-icon');
+  const closeIcon = document.getElementById('close-icon');
+  menuBtn.addEventListener('click', () => {
+    const open = mobileMenu.classList.toggle('open');
+    menuBtn.setAttribute('aria-expanded', open);
+    menuIcon.style.display = open ? 'none' : 'block';
+    closeIcon.style.display = open ? 'block' : 'none';
+  });
+  // Close menu when a link is tapped
+  document.querySelectorAll('#mobile-menu a').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu.classList.remove('open');
+      menuBtn.setAttribute('aria-expanded', 'false');
+      menuIcon.style.display = 'block';
+      closeIcon.style.display = 'none';
+    });
+  });
 
   // Fade-up on scroll
   const io = new IntersectionObserver(entries => {
