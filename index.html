@@ -101,9 +101,10 @@
       background-size: cover; background-position: center;
     }
 
-    /* Service cards */
+    /* Service cards — CSS Grid stacking (no absolute on content) */
     .svc-card {
-      position: relative; overflow: hidden; border-radius: 3px; background: #1A1714;
+      display: grid;
+      border-radius: 3px; background: #1A1714; overflow: hidden;
       box-shadow: 0 2px 4px rgba(0,0,0,0.2), 0 8px 24px rgba(0,0,0,0.18), 0 20px 48px rgba(0,0,0,0.14);
       transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.35s ease;
     }
@@ -111,10 +112,26 @@
       transform: translateY(-8px);
       box-shadow: 0 4px 8px rgba(0,0,0,0.25), 0 16px 40px rgba(0,0,0,0.22), 0 32px 64px rgba(0,0,0,0.18);
     }
-    .svc-card img { width: 100%; aspect-ratio: 16/10; object-fit: cover; display: block; }
-    .svc-card .overlay {
-      position: absolute; inset: 0;
+    /* Stack all children in same grid cell on desktop */
+    .svc-card > img, .svc-card > .overlay, .svc-card > .svc-content { grid-area: 1/1; }
+    .svc-card > img { width: 100%; height: 100%; min-height: 480px; object-fit: cover; display: block; }
+    .svc-card > .overlay {
       background: linear-gradient(to top, rgba(20,17,14,0.97) 0%, rgba(20,17,14,0.55) 45%, rgba(20,17,14,0.15) 100%);
+      z-index: 1;
+    }
+    .svc-card > .svc-content { z-index: 2; align-self: end; }
+
+    @media (max-width: 639px) {
+      .svc-card { display: flex; flex-direction: column; }
+      .svc-card > img { min-height: unset; aspect-ratio: 16/9; height: auto; }
+      .svc-card > .overlay { display: none; }
+      .svc-card > .svc-content {
+        background: #1A1714;
+        justify-content: flex-start !important;
+        padding: 22px 20px !important;
+        border-radius: 0 0 3px 3px;
+      }
+      .svc-card > .svc-content .btn-gold { align-self: stretch; justify-content: center; }
     }
 
     /* Feature rows */
@@ -186,26 +203,11 @@
 
     /* ===== MOBILE OVERRIDES ===== */
     @media (max-width: 639px) {
-      /* Service cards: stack image above content instead of overlay */
-      .svc-card { overflow: visible; }
-      .svc-card img { aspect-ratio: 16/9; border-radius: 3px 3px 0 0; }
-      .svc-card .overlay { display: none; }
-      .svc-content {
-        position: relative !important;
-        inset: auto !important;
-        background: #1A1714;
-        padding: 24px !important;
-        border-radius: 0 0 3px 3px;
-        justify-content: flex-start !important;
-      }
-      .svc-content .btn-gold { align-self: stretch; justify-content: center; }
-
-      /* Portfolio: single col featured, smaller rows */
-      .port-grid { grid-auto-rows: 180px !important; }
-      .port-feat { grid-column: span 2; row-span: unset; }
+      /* Portfolio: smaller rows */
+      .port-grid { grid-auto-rows: 160px; }
 
       /* Testimonials: tighter padding */
-      .testi-card { padding: 24px; }
+      .testi-card { padding: 22px; }
 
       /* Buttons full-width in hero on mobile */
       .hero-btns { flex-direction: column; }
@@ -324,7 +326,7 @@
       <div class="svc-card fade-up">
         <img src="https://placehold.co/880x550/2A2520/3D3830?text=+" alt="Window Installation">
         <div class="overlay"></div>
-        <div class="svc-content absolute inset-0 flex flex-col justify-end p-9 z-10">
+        <div class="svc-content flex flex-col justify-end p-9">
           <span class="gold-bar mb-5"></span>
           <h3 class="font-display text-[#F0EBE1] text-[1.9rem] leading-tight mb-3">Premium Window<br>Installation</h3>
           <p class="text-[#F0EBE1]/60 text-[0.875rem] font-body leading-[1.75] mb-6 max-w-sm">
@@ -344,7 +346,7 @@
       <div class="svc-card fade-up" style="transition-delay:0.12s">
         <img src="https://placehold.co/880x550/252018/383025?text=+" alt="Custom Deck Construction">
         <div class="overlay"></div>
-        <div class="svc-content absolute inset-0 flex flex-col justify-end p-9 z-10">
+        <div class="svc-content flex flex-col justify-end p-9">
           <span class="gold-bar mb-5"></span>
           <h3 class="font-display text-[#F0EBE1] text-[1.9rem] leading-tight mb-3">Custom Deck<br>Construction</h3>
           <p class="text-[#F0EBE1]/60 text-[0.875rem] font-body leading-[1.75] mb-6 max-w-sm">
