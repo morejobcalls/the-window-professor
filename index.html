@@ -1,704 +1,1557 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Window Professor — Premium Windows & Custom Decks</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Window Professor — Window Replacement & Deck Construction | Oakland County & Livingston County, MI</title>
+  <meta name="description" content="The Window Professor provides premium window replacement, window installation, and custom deck construction for homeowners across Oakland County and Livingston County, Michigan. Serving Clarkston, Rochester Hills, Brighton, Milford, Howell, White Lake, and surrounding areas. Free estimates." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://thewindowprofessor.pro/" />
+  <meta property="og:title" content="The Window Professor — Window Replacement & Deck Construction in Oakland & Livingston County, MI" />
+  <meta property="og:description" content="Premium window replacement and custom deck construction for homeowners across Oakland County and Livingston County, Michigan. Licensed, insured, and locally trusted." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://thewindowprofessor.pro/" />
 
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            cream: { 50: '#FDFAF6', 100: '#F8F4ED', 200: '#F0EBE1', 300: '#E5DDD0' },
-            charcoal: { 400: '#1A1714', 300: '#211F1C', 200: '#272320', 100: '#38342F', 50: '#4A4540' },
-            gold: { 300: '#D4A96A', 400: '#C4945A', 500: '#B07D45' },
-          },
-          fontFamily: {
-            display: ['Playfair Display', 'Georgia', 'serif'],
-            body: ['DM Sans', 'system-ui', 'sans-serif'],
-          },
-        }
-      }
-    }
-  </script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
 
   <style>
-    *, *::before, *::after { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body { font-family: 'DM Sans', sans-serif; background: #F0EBE1; color: #272320; }
-
-    /* Grain overlay */
-    .grain::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: 1;
+    /* ─── TOKENS ──────────────────────────────────────────────── */
+    :root {
+      --bg:        #FFFFFF;
+      --cream:     #F8F5F0;
+      --pale:      #F3EFE9;
+      --ink:       #0E1A26;
+      --ink-mid:   #3A4D5C;
+      --ink-light: #7A8E9A;
+      --rule:      #E0D8CF;
+      --gold:      #C4945A;
+      --gold-dk:   #A87040;
     }
 
-    /* Nav */
+    /* ─── RESET / BASE ────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--ink-mid);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+    }
+    img { display: block; max-width: 100%; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ─── TYPOGRAPHY ──────────────────────────────────────────── */
+    .font-display   { font-family: 'Playfair Display', Georgia, serif; }
+    .font-body      { font-family: 'DM Sans', sans-serif; }
+
+    /* ─── UTILITY CLASSES ─────────────────────────────────────── */
+    .rule-h { border: none; border-top: 1px solid var(--rule); }
+    .rule-v { width: 1px; background: var(--rule); align-self: stretch; }
+    .gold-rule { height: 2px; background: var(--gold); border: none; }
+    .gold-rule-short { height: 2px; width: 48px; background: var(--gold); }
+
+    /* ─── FADE-UP ANIMATION ───────────────────────────────────── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .fade-up.delay-1 { transition-delay: 0.1s; }
+    .fade-up.delay-2 { transition-delay: 0.2s; }
+    .fade-up.delay-3 { transition-delay: 0.3s; }
+    .fade-up.delay-4 { transition-delay: 0.4s; }
+
+    /* ─── NAV ─────────────────────────────────────────────────── */
     #main-nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      transition: background 0.4s ease, box-shadow 0.4s ease;
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: var(--bg);
+      border-bottom: 1px solid var(--rule);
+      transition: box-shadow 0.3s ease;
     }
     #main-nav.scrolled {
-      background: rgba(27, 24, 20, 0.95);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      box-shadow: 0 1px 0 rgba(255,255,255,0.05);
+      box-shadow: 0 2px 16px rgba(14, 26, 38, 0.08);
     }
-    .nav-link { position: relative; }
-    .nav-link::after {
-      content: ''; position: absolute; bottom: -2px; left: 0;
-      width: 0; height: 1px; background: #C4945A;
-      transition: width 0.3s ease;
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 32px;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
     }
-    .nav-link:hover::after { width: 100%; }
+    .nav-logo-mark {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+    }
+    .nav-logo-sub {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      display: block;
+      margin-top: 1px;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      color: var(--ink-mid);
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--ink); }
 
-    /* Buttons */
-    .btn-gold {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: linear-gradient(135deg, #C4945A 0%, #A87040 100%);
-      color: #FAF6EF; font-family: 'DM Sans', sans-serif; font-weight: 500;
-      font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase;
-      padding: 13px 26px; border-radius: 2px; border: none; cursor: pointer;
-      box-shadow: 0 2px 8px rgba(196,148,90,0.25), 0 8px 24px rgba(196,148,90,0.12);
-      transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.25s ease;
-      text-decoration: none;
+    .btn-ink {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--ink);
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      padding: 11px 24px;
+      border: 1px solid var(--ink);
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      white-space: nowrap;
     }
-    .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(196,148,90,0.35), 0 12px 32px rgba(196,148,90,0.18); }
-    .btn-gold:active { transform: translateY(0); }
-    .btn-gold:focus-visible { outline: 2px solid #C4945A; outline-offset: 3px; }
-
+    .btn-ink:hover {
+      background: var(--ink-mid);
+      border-color: var(--ink-mid);
+    }
     .btn-outline {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: transparent; color: #F0EBE1;
-      border: 1px solid rgba(240,235,225,0.35);
-      font-family: 'DM Sans', sans-serif; font-weight: 500;
-      font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase;
-      padding: 13px 26px; border-radius: 2px; cursor: pointer; text-decoration: none;
-      transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1), border-color 0.2s ease, background 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      padding: 10px 24px;
+      border: 1px solid var(--ink);
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      white-space: nowrap;
     }
-    .btn-outline:hover { transform: translateY(-2px); border-color: rgba(240,235,225,0.65); background: rgba(240,235,225,0.07); }
-    .btn-outline:active { transform: translateY(0); }
-    .btn-outline:focus-visible { outline: 2px solid #F0EBE1; outline-offset: 3px; }
-
-    /* Gold accent line */
-    .gold-bar { width: 40px; height: 2px; background: linear-gradient(90deg, #C4945A, #D4A96A); display: block; }
-
-    /* Hero */
-    .hero-section {
-      background-image:
-        radial-gradient(ellipse 80% 60% at 65% 35%, rgba(196,148,90,0.13) 0%, transparent 65%),
-        linear-gradient(to bottom, rgba(20,17,14,0.72) 0%, rgba(20,17,14,0.38) 50%, rgba(20,17,14,0.78) 100%),
-        url('https://placehold.co/1920x1080/222018/3A3530?text=+');
-      background-size: cover; background-position: center;
+    .btn-outline:hover {
+      background: var(--ink);
+      color: #fff;
     }
 
-    /* Service cards — CSS Grid stacking (no absolute on content) */
-    .svc-card {
+    /* Hamburger */
+    #hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+      background: none;
+      border: none;
+    }
+    #hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--ink);
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    #hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    #hamburger.open span:nth-child(2) { opacity: 0; }
+    #hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    #mobile-menu {
+      display: none;
+      background: var(--bg);
+      border-top: 1px solid var(--rule);
+      padding: 24px 32px 28px;
+    }
+    #mobile-menu.open { display: block; }
+    #mobile-menu ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    #mobile-menu ul li a {
+      display: block;
+      padding: 13px 0;
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--ink);
+      border-bottom: 1px solid var(--rule);
+    }
+    #mobile-menu .mob-cta {
+      margin-top: 20px;
+    }
+
+    /* ─── HERO ────────────────────────────────────────────────── */
+    #hero {
+      padding-top: 72px; /* nav offset */
+      background: var(--bg);
+    }
+    .hero-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 96px 32px 80px;
       display: grid;
-      border-radius: 3px; background: #1A1714; overflow: hidden;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.2), 0 8px 24px rgba(0,0,0,0.18), 0 20px 48px rgba(0,0,0,0.14);
-      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.35s ease;
+      grid-template-columns: 1fr 280px;
+      gap: 80px;
+      align-items: start;
     }
-    .svc-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 4px 8px rgba(0,0,0,0.25), 0 16px 40px rgba(0,0,0,0.22), 0 32px 64px rgba(0,0,0,0.18);
+    .hero-eyebrow {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 24px;
     }
-    /* Stack all children in same grid cell on desktop */
-    .svc-card > img, .svc-card > .overlay, .svc-card > .svc-content { grid-area: 1/1; }
-    .svc-card > img { width: 100%; height: 100%; min-height: 480px; object-fit: cover; display: block; }
-    .svc-card > .overlay {
-      background: linear-gradient(to top, rgba(20,17,14,0.97) 0%, rgba(20,17,14,0.55) 45%, rgba(20,17,14,0.15) 100%);
-      z-index: 1;
+    .hero-headline {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(38px, 5vw, 64px);
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+      margin-bottom: 28px;
     }
-    .svc-card > .svc-content { z-index: 2; align-self: end; }
+    .hero-headline em {
+      font-style: italic;
+      color: var(--gold);
+    }
+    .hero-gold-rule {
+      height: 2px;
+      width: 56px;
+      background: var(--gold);
+      margin-bottom: 28px;
+    }
+    .hero-body {
+      font-size: 17px;
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--ink-mid);
+      max-width: 520px;
+      margin-bottom: 40px;
+    }
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .hero-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      padding-top: 16px;
+    }
+    .hero-stat-item {
+      padding: 28px 0;
+      border-bottom: 1px solid var(--rule);
+    }
+    .hero-stat-item:first-child { border-top: 1px solid var(--rule); }
+    .hero-stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 40px;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1;
+      letter-spacing: -0.02em;
+      margin-bottom: 4px;
+    }
+    .hero-stat-label {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+    }
 
-    @media (max-width: 639px) {
-      .svc-card { display: flex; flex-direction: column; }
-      .svc-card > img { min-height: unset; aspect-ratio: 16/9; height: auto; }
-      .svc-card > .overlay { display: none; }
-      .svc-card > .svc-content {
-        background: #1A1714;
-        justify-content: flex-start !important;
-        padding: 22px 20px !important;
-        border-radius: 0 0 3px 3px;
-      }
-      .svc-card > .svc-content .btn-gold { align-self: stretch; justify-content: center; }
+    /* ─── STATS STRIP ─────────────────────────────────────────── */
+    #stats-strip {
+      background: var(--cream);
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+    }
+    .stats-strip-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 32px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+    }
+    .stat-cell {
+      padding: 48px 32px;
+      text-align: center;
+      position: relative;
+    }
+    .stat-cell + .stat-cell::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 32px; bottom: 32px;
+      width: 1px;
+      background: var(--rule);
+    }
+    .stat-big {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(32px, 3.5vw, 48px);
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+    .stat-gold-accent {
+      color: var(--gold);
+    }
+    .stat-label {
+      margin-top: 8px;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      color: var(--ink-light);
     }
 
-    /* Feature rows */
-    .feature-row {
-      display: flex; gap: 20px; align-items: flex-start;
-      padding: 22px 24px; border-radius: 3px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.055);
-      box-shadow: 0 1px 3px rgba(0,0,0,0.25), 0 4px 12px rgba(0,0,0,0.18);
+    /* ─── SECTION WRAPPER ─────────────────────────────────────── */
+    .section-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 96px 32px;
     }
-    .feature-icon {
-      width: 42px; height: 42px; flex-shrink: 0; border-radius: 3px;
-      background: rgba(196,148,90,0.12);
-      display: flex; align-items: center; justify-content: center;
+    .section-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+    .section-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 3.5vw, 44px);
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+    .section-heading-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 32px;
+      margin-bottom: 56px;
     }
 
-    /* Portfolio */
-    .port-item { position: relative; overflow: hidden; border-radius: 3px; }
-    .port-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.55s ease; }
-    .port-item:hover img { transform: scale(1.06); }
-    .port-overlay {
-      position: absolute; inset: 0;
-      background: linear-gradient(to top, rgba(20,17,14,0.85) 0%, transparent 55%);
-      opacity: 0; transition: opacity 0.3s ease;
+    /* ─── SERVICES ────────────────────────────────────────────── */
+    #services { background: var(--bg); }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 32px;
     }
-    .port-item:hover .port-overlay { opacity: 1; }
+    .service-card {
+      display: grid;
+      grid-template-rows: auto 1fr;
+      border: 1px solid var(--rule);
+      overflow: hidden;
+      transition: box-shadow 0.3s;
+    }
+    .service-card:hover {
+      box-shadow: 0 8px 40px rgba(14,26,38,0.08);
+    }
+    .service-card-img {
+      width: 100%;
+      height: 320px;
+      object-fit: cover;
+      display: block;
+    }
+    .service-card-body {
+      padding: 36px 36px 32px;
+      border-top: 3px solid var(--gold);
+      background: var(--bg);
+    }
+    .service-category {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 14px;
+    }
+    .service-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.25;
+      margin-bottom: 16px;
+      letter-spacing: -0.01em;
+    }
+    .service-desc {
+      font-size: 15px;
+      font-weight: 300;
+      line-height: 1.72;
+      color: var(--ink-mid);
+      margin-bottom: 28px;
+    }
+    .service-link {
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      color: var(--ink);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 2px;
+      transition: gap 0.2s, border-color 0.2s;
+    }
+    .service-link:hover {
+      gap: 12px;
+      border-color: var(--gold);
+      color: var(--gold-dk);
+    }
+    .arrow-icon { font-size: 14px; }
 
-    /* Testimonials */
+    /* ─── ABOUT / WHY US ──────────────────────────────────────── */
+    #about { background: var(--pale); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .about-left {}
+    .about-pull-quote {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(20px, 2.2vw, 27px);
+      font-style: italic;
+      font-weight: 400;
+      color: var(--ink);
+      line-height: 1.5;
+      border-left: 3px solid var(--gold);
+      padding-left: 24px;
+      margin: 32px 0;
+    }
+    .about-body {
+      font-size: 15px;
+      font-weight: 300;
+      line-height: 1.78;
+      color: var(--ink-mid);
+    }
+    .about-body + .about-body { margin-top: 16px; }
+    .about-right {}
+    .why-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .why-item {
+      padding: 28px 0;
+      border-bottom: 1px solid var(--rule);
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+    .why-item:first-child { border-top: 1px solid var(--rule); }
+    .why-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.06em;
+      padding-top: 3px;
+    }
+    .why-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 6px;
+      letter-spacing: -0.01em;
+    }
+    .why-desc {
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 1.7;
+      color: var(--ink-mid);
+    }
+
+    /* ─── TESTIMONIALS ────────────────────────────────────────── */
+    #testimonials { background: var(--cream); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+    .testi-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
     .testi-card {
-      background: #F8F4ED; border-radius: 3px; padding: 36px;
-      border-top: 3px solid #C4945A;
-      box-shadow: 0 1px 3px rgba(39,35,32,0.05), 0 6px 20px rgba(39,35,32,0.08), 0 16px 40px rgba(39,35,32,0.05);
+      background: var(--bg);
+      border: 1px solid var(--rule);
+      padding: 40px 36px 36px;
+      display: flex;
+      flex-direction: column;
+    }
+    .testi-open-quote {
+      font-family: 'Playfair Display', serif;
+      font-size: 72px;
+      line-height: 0.7;
+      color: var(--gold);
+      margin-bottom: 20px;
+      font-weight: 700;
+      opacity: 0.6;
+      select: none;
+    }
+    .testi-quote {
+      font-family: 'Playfair Display', serif;
+      font-size: 17px;
+      font-style: italic;
+      font-weight: 400;
+      color: var(--ink);
+      line-height: 1.65;
+      flex: 1;
+      margin-bottom: 28px;
+    }
+    .testi-rule { height: 1px; background: var(--rule); margin-bottom: 20px; }
+    .testi-stars {
+      font-size: 13px;
+      color: var(--gold);
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+    }
+    .testi-name {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ink);
+      letter-spacing: 0.04em;
+    }
+    .testi-location {
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--ink-light);
+      margin-top: 2px;
+    }
+
+    /* ─── CONTACT / CTA ───────────────────────────────────────── */
+    #contact { background: var(--ink); }
+    .contact-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 96px 32px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .contact-left {}
+    .contact-eyebrow {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+    .contact-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 3.2vw, 42px);
+      font-weight: 700;
+      color: var(--cream);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 28px;
+    }
+    .contact-body {
+      font-size: 15px;
+      font-weight: 300;
+      line-height: 1.75;
+      color: rgba(248,245,240,0.65);
+      margin-bottom: 40px;
+    }
+    .contact-details {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .contact-detail-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+    .contact-detail-icon {
+      font-size: 16px;
+      color: var(--gold);
+      margin-top: 1px;
+      flex-shrink: 0;
+    }
+    .contact-detail-label {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(248,245,240,0.45);
+      margin-bottom: 2px;
+    }
+    .contact-detail-value {
+      font-size: 15px;
+      font-weight: 400;
+      color: rgba(248,245,240,0.85);
     }
 
     /* Form */
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
     .form-field {
-      width: 100%; background: rgba(240,235,225,0.07); border: 1px solid rgba(240,235,225,0.18);
-      border-radius: 2px; padding: 13px 16px; color: #F0EBE1;
-      font-family: 'DM Sans', sans-serif; font-size: 0.9375rem; line-height: 1.6;
-      transition: border-color 0.2s ease, background 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
     }
-    .form-field::placeholder { color: rgba(240,235,225,0.32); }
-    .form-field:hover { border-color: rgba(240,235,225,0.35); }
-    .form-field:focus { outline: none; border-color: #C4945A; background: rgba(240,235,225,0.10); }
-    .form-field option { background: #272320; }
-
-    /* Fade-up */
-    .fade-up { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
-    .fade-up.in { opacity: 1; transform: translateY(0); }
-
-    /* Mobile menu */
-    #mobile-menu {
-      display: none; position: fixed; top: 76px; left: 0; right: 0; z-index: 99;
-      background: rgba(27,24,20,0.97); backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border-top: 1px solid rgba(255,255,255,0.06);
-      padding: 24px 24px 32px;
-      flex-direction: column; gap: 0;
+    .form-field label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      color: rgba(248,245,240,0.5);
     }
-    #mobile-menu.open { display: flex; }
-    #mobile-menu a {
-      color: rgba(240,235,225,0.75); font-family: 'DM Sans', sans-serif;
-      font-size: 1rem; padding: 14px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-      text-decoration: none; transition: color 0.2s ease;
+    .form-field input,
+    .form-field select,
+    .form-field textarea {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(224,216,207,0.25);
+      color: var(--cream);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      padding: 13px 16px;
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+      width: 100%;
+      -webkit-appearance: none;
     }
-    #mobile-menu a:hover { color: #F0EBE1; }
-    #mobile-menu .menu-cta { margin-top: 20px; }
+    .form-field select option { background: var(--ink); color: var(--cream); }
+    .form-field input::placeholder,
+    .form-field textarea::placeholder { color: rgba(248,245,240,0.3); }
+    .form-field input:focus,
+    .form-field select:focus,
+    .form-field textarea:focus {
+      border-color: var(--gold);
+      background: rgba(255,255,255,0.09);
+    }
+    .form-field textarea { resize: vertical; min-height: 120px; }
+    .btn-gold {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: var(--gold);
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      padding: 14px 32px;
+      border: 1px solid var(--gold);
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      width: 100%;
+    }
+    .btn-gold:hover {
+      background: var(--gold-dk);
+      border-color: var(--gold-dk);
+    }
+    .form-note {
+      font-size: 12px;
+      color: rgba(248,245,240,0.35);
+      text-align: center;
+      margin-top: 4px;
+    }
 
-    /* ===== MOBILE OVERRIDES ===== */
+    /* ─── FOOTER ──────────────────────────────────────────────── */
+    #footer {
+      background: var(--bg);
+      border-top: 1px solid var(--rule);
+    }
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+    }
+    .footer-logo-mark {
+      font-family: 'Playfair Display', serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+    }
+    .footer-logo-sub {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-top: 2px;
+    }
+    .footer-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      list-style: none;
+    }
+    .footer-links a {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      color: var(--ink-light);
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--ink); }
+    .footer-copy {
+      font-size: 12px;
+      color: var(--ink-light);
+    }
+
+    /* ─── MOBILE ──────────────────────────────────────────────── */
     @media (max-width: 639px) {
-      /* Portfolio: smaller rows */
-      .port-grid { grid-auto-rows: 160px; }
+      /* Nav */
+      .nav-inner { padding: 0 20px; }
+      .nav-links-wrap { display: none; }
+      #hamburger { display: flex; }
+      #mobile-menu { padding: 20px 20px 24px; }
 
-      /* Testimonials: tighter padding */
-      .testi-card { padding: 22px; }
+      /* Hero */
+      .hero-inner {
+        grid-template-columns: 1fr;
+        padding: 56px 20px 48px;
+        gap: 40px;
+      }
+      .hero-stats {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0;
+        padding-top: 0;
+      }
+      .hero-stat-item {
+        flex: 0 0 50%;
+        padding: 20px 16px;
+        border-bottom: 1px solid var(--rule);
+        border-right: 1px solid var(--rule);
+      }
+      .hero-stat-item:first-child { border-top: none; }
+      .hero-stat-item:nth-child(even) { border-right: none; }
+      .hero-stat-item:last-child, .hero-stat-item:nth-last-child(2) { border-bottom: none; }
+      .hero-stat-num { font-size: 32px; }
+      .hero-buttons { gap: 12px; }
+      .hero-buttons .btn-ink,
+      .hero-buttons .btn-outline { padding: 12px 20px; font-size: 13px; }
 
-      /* Buttons full-width in hero on mobile */
-      .hero-btns { flex-direction: column; }
-      .hero-btns a { justify-content: center; text-align: center; }
+      /* Stats strip */
+      .stats-strip-inner {
+        grid-template-columns: 1fr 1fr;
+        padding: 0 20px;
+      }
+      .stat-cell {
+        padding: 32px 16px;
+      }
+      .stat-cell:nth-child(3)::before {
+        display: none;
+      }
+      .stat-cell:nth-child(3) {
+        border-top: 1px solid var(--rule);
+      }
+      .stat-cell:nth-child(4)::before {
+        top: 32px; bottom: 32px;
+      }
+      .stat-cell:nth-child(4) {
+        border-top: 1px solid var(--rule);
+      }
+
+      /* Section wrap */
+      .section-wrap { padding: 56px 20px; }
+      .section-heading-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+        margin-bottom: 36px;
+      }
+
+      /* Services */
+      .services-grid { grid-template-columns: 1fr; gap: 24px; }
+      .service-card-img { height: 220px; }
+      .service-card-body { padding: 24px 24px 20px; }
+
+      /* About */
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+      .about-pull-quote { font-size: 18px; }
+
+      /* Testimonials */
+      .testi-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      .testi-card { padding: 28px 24px 24px; }
+
+      /* Contact */
+      .contact-inner {
+        grid-template-columns: 1fr;
+        padding: 56px 20px;
+        gap: 48px;
+      }
+      .form-row { grid-template-columns: 1fr; }
+
+      /* Footer */
+      .footer-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+        padding: 32px 20px;
+      }
+      .footer-links { flex-wrap: wrap; gap: 16px; }
+    }
+
+    @media (min-width: 640px) and (max-width: 900px) {
+      .testi-grid { grid-template-columns: 1fr 1fr; }
+      .testi-card:last-child { grid-column: span 2; }
+      .hero-inner { gap: 40px; }
+      .section-wrap { padding: 72px 28px; }
+    }
+
+    /* ─── SERVICE AREAS — MOBILE ─────────────────────────────── */
+    @media (max-width: 639px) {
+      #service-areas-grid { grid-template-columns: 1fr !important; gap: 36px !important; }
     }
   </style>
+
+  <!-- ═══ SCHEMA MARKUP — GEO/LLMO OPTIMIZATION ═══ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "HomeAndConstructionBusiness",
+        "@id": "https://thewindowprofessor.pro/#business",
+        "name": "The Window Professor",
+        "url": "https://thewindowprofessor.pro",
+        "email": "jeff@thewindowprofessor.pro",
+        "telephone": "[INSERT PHONE NUMBER]",
+        "address": {
+          "@type": "PostalAddress",
+          "addressRegion": "MI",
+          "addressCountry": "US"
+        },
+        "description": "The Window Professor provides premium window replacement, window installation, and custom deck construction for homeowners across Oakland County and Livingston County, Michigan. Serving Clarkston, Rochester Hills, Brighton, Milford, Howell, White Lake, Waterford, Auburn Hills, Commerce Township, Bloomfield Hills, Hartland, Pinckney, and surrounding communities.",
+        "areaServed": [
+          {"@type": "AdministrativeArea", "name": "Oakland County, Michigan"},
+          {"@type": "AdministrativeArea", "name": "Livingston County, Michigan"},
+          {"@type": "City", "name": "Clarkston, Michigan"},
+          {"@type": "City", "name": "Independence Township, Michigan"},
+          {"@type": "City", "name": "Rochester Hills, Michigan"},
+          {"@type": "City", "name": "Auburn Hills, Michigan"},
+          {"@type": "City", "name": "Milford, Michigan"},
+          {"@type": "City", "name": "White Lake Township, Michigan"},
+          {"@type": "City", "name": "Commerce Township, Michigan"},
+          {"@type": "City", "name": "Waterford Township, Michigan"},
+          {"@type": "City", "name": "Bloomfield Hills, Michigan"},
+          {"@type": "City", "name": "Birmingham, Michigan"},
+          {"@type": "City", "name": "Troy, Michigan"},
+          {"@type": "City", "name": "Brighton, Michigan"},
+          {"@type": "City", "name": "Howell, Michigan"},
+          {"@type": "City", "name": "Pinckney, Michigan"},
+          {"@type": "City", "name": "Hartland, Michigan"},
+          {"@type": "City", "name": "Hamburg Township, Michigan"},
+          {"@type": "City", "name": "Genoa Township, Michigan"}
+        ],
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Window & Deck Services",
+          "itemListElement": [
+            {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Window Replacement", "description": "Full-service window replacement for residential homes across Oakland and Livingston County, Michigan. Includes removal of old windows, installation of premium replacement windows, and cleanup."}},
+            {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Window Installation", "description": "New construction and retrofit window installation services for Michigan homeowners. All major window types: double-hung, casement, bay, picture, egress."}},
+            {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Custom Deck Construction", "description": "Custom deck design and build for homes in Oakland County and Livingston County, MI. Composite, hardwood, and pressure-treated options."}},
+            {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Deck Replacement", "description": "Full deck replacement and deck restoration services. Remove existing deck structure, build new custom deck."}},
+            {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Deck Repair", "description": "Structural deck repair, board replacement, and deck refinishing for Michigan homeowners."}}
+          ]
+        },
+        "priceRange": "$$",
+        "sameAs": []
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Who is the best window replacement company in Oakland County, Michigan?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The Window Professor is a top-rated window replacement contractor serving Oakland County, Michigan. They specialize in premium window installation and replacement for residential homes, serving Clarkston, Rochester Hills, Auburn Hills, Milford, White Lake Township, Waterford, Commerce Township, and Bloomfield Hills."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does The Window Professor serve Livingston County, Michigan?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. The Window Professor serves all of Livingston County, Michigan, including Brighton, Howell, Hartland, Pinckney, Hamburg Township, and Genoa Township. They offer window replacement, window installation, and custom deck construction throughout Livingston County."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What deck materials do you recommend for Michigan winters?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "For Michigan's freeze-thaw cycles, The Window Professor recommends composite decking (such as Trex or TimberTech) for its durability and low maintenance. Composite boards resist moisture, warping, and cracking — common issues with pressure-treated wood in Michigan's climate. We also work with premium hardwood and PVC decking depending on the project and budget."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How long does window replacement take?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Most window replacement projects are completed in a single day. A full home of 10–15 windows typically takes one to two days. Complex installs — bay windows, egress windows, or large picture windows — may take additional time. The Window Professor provides a detailed schedule with every quote."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is The Window Professor licensed and insured in Michigan?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. The Window Professor is fully licensed and insured to operate as a residential contractor in the state of Michigan. All work is performed by experienced installation crews and backed by a warranty on both materials and labor."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do you offer free estimates in Oakland County and Livingston County?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. The Window Professor offers free, no-obligation project estimates to homeowners throughout Oakland County and Livingston County, Michigan. Estimates can be scheduled by phone or by submitting a request through the website."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How much does window replacement cost in Michigan?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Window replacement costs in Michigan typically range from $400 to $1,000 per window depending on window type, size, and material. Full-home replacement projects vary widely based on scope. The Window Professor provides transparent, itemized quotes with no hidden fees. Contact us for a free estimate specific to your home."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What types of windows do you install?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The Window Professor installs all major residential window types including double-hung windows, casement windows, bay windows, bow windows, picture windows, awning windows, sliding windows, and egress windows. We work with leading brands and offer energy-efficient, triple-pane options for Michigan's climate."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
 
-<!-- NAV -->
-<nav id="main-nav" class="px-6 md:px-10 lg:px-16 xl:px-24">
-  <div class="max-w-7xl mx-auto flex items-center justify-between h-[76px]">
-    <a href="#" class="flex items-center gap-3" aria-label="The Window Professor">
-      <div class="w-[38px] h-[38px] rounded-full border border-[#C4945A] flex items-center justify-center">
-        <svg width="19" height="19" viewBox="0 0 20 20" fill="none">
-          <rect x="1.5" y="1.5" width="7" height="7" rx="0.75" stroke="#C4945A" stroke-width="1.3"/>
-          <rect x="11.5" y="1.5" width="7" height="7" rx="0.75" stroke="#C4945A" stroke-width="1.3"/>
-          <rect x="1.5" y="11.5" width="7" height="7" rx="0.75" stroke="#C4945A" stroke-width="1.3"/>
-          <rect x="11.5" y="11.5" width="7" height="7" rx="0.75" stroke="#C4945A" stroke-width="1.3"/>
-        </svg>
-      </div>
-      <div class="leading-none">
-        <span class="font-display text-[#F0EBE1] text-[1.1rem] tracking-[-0.01em] block">The Window</span>
-        <span class="font-display text-[#C4945A] italic text-[1.1rem] tracking-[-0.01em] block">Professor</span>
-      </div>
-    </a>
+  <!-- ═══════════════════════════════════════════════
+       NAV
+  ═══════════════════════════════════════════════ -->
+  <nav id="main-nav" role="navigation" aria-label="Main navigation">
+    <div class="nav-inner">
+      <!-- Logo -->
+      <a href="#hero" class="nav-logo-mark" aria-label="The Window Professor home">
+        The Window<br>Professor
+        <span class="nav-logo-sub">Premium Windows &amp; Decks</span>
+      </a>
 
-    <div class="hidden md:flex items-center gap-7">
-      <a href="#services" class="nav-link text-[#F0EBE1]/75 hover:text-[#F0EBE1] text-[0.85rem] font-body tracking-[0.02em] transition-colors">Services</a>
-      <a href="#portfolio" class="nav-link text-[#F0EBE1]/75 hover:text-[#F0EBE1] text-[0.85rem] font-body tracking-[0.02em] transition-colors">Portfolio</a>
-      <a href="#about" class="nav-link text-[#F0EBE1]/75 hover:text-[#F0EBE1] text-[0.85rem] font-body tracking-[0.02em] transition-colors">About</a>
-      <a href="#reviews" class="nav-link text-[#F0EBE1]/75 hover:text-[#F0EBE1] text-[0.85rem] font-body tracking-[0.02em] transition-colors">Reviews</a>
-      <a href="#contact" class="btn-gold">Get a Quote</a>
-    </div>
-
-    <button id="menu-btn" class="md:hidden p-2 text-[#F0EBE1]" aria-label="Menu" aria-expanded="false">
-      <svg id="menu-icon" width="22" height="22" viewBox="0 0 24 24" fill="none">
-        <path d="M3 7h18M3 12h18M3 17h18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-      </svg>
-      <svg id="close-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" style="display:none">
-        <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-      </svg>
-    </button>
-  </div>
-</nav>
-
-<!-- MOBILE MENU -->
-<div id="mobile-menu" role="navigation">
-  <a href="#services" class="mobile-link">Services</a>
-  <a href="#portfolio" class="mobile-link">Portfolio</a>
-  <a href="#about" class="mobile-link">About</a>
-  <a href="#reviews" class="mobile-link">Reviews</a>
-  <a href="#contact" class="btn-gold menu-cta" style="justify-content:center">Get a Quote</a>
-</div>
-
-
-<!-- HERO -->
-<section class="hero-section grain relative min-h-screen flex flex-col justify-center overflow-hidden">
-  <div class="relative z-10 max-w-7xl mx-auto px-6 md:px-10 lg:px-16 xl:px-24 pt-28 md:pt-36 pb-16 md:pb-24">
-    <div class="max-w-2xl">
-      <p class="text-[#C4945A] text-[0.72rem] tracking-[0.22em] uppercase font-body font-medium mb-5 fade-up">Premium Windows & Custom Decks · Serving the Greater Area</p>
-      <h1 class="font-display text-[#F0EBE1] text-[2.75rem] md:text-[4.75rem] lg:text-[5.5rem] leading-[1.07] tracking-[-0.03em] mb-6 md:mb-8 fade-up" style="transition-delay:0.1s">
-        Where Craft<br><em style="color:#C4945A;font-style:normal;">Meets</em> Precision.
-      </h1>
-      <p class="text-[#F0EBE1]/68 text-[0.9375rem] md:text-[1.0625rem] leading-[1.78] font-body max-w-lg mb-8 md:mb-12 fade-up" style="transition-delay:0.2s">
-        High-end window installation and custom deck construction — executed with the care of a craftsman who signs every project with their name.
-      </p>
-      <div class="hero-btns flex flex-wrap gap-4 fade-up" style="transition-delay:0.3s">
-        <a href="#contact" class="btn-gold">Schedule a Consultation</a>
-        <a href="#portfolio" class="btn-outline">View Our Work</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- Scroll cue -->
-  <div class="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2">
-    <span class="text-[#F0EBE1]/35 text-[0.68rem] tracking-[0.18em] uppercase font-body">Scroll</span>
-    <div class="w-px h-12 bg-gradient-to-b from-[#C4945A]/50 to-transparent"></div>
-  </div>
-</section>
-
-
-<!-- STATS -->
-<div class="bg-[#272320] border-b border-white/[0.06]">
-  <div class="max-w-7xl mx-auto px-6 md:px-10 lg:px-16 xl:px-24 py-12 grid grid-cols-2 md:grid-cols-4 gap-8">
-    <div class="text-center fade-up">
-      <span class="font-display text-[#C4945A] text-[2.5rem] font-semibold leading-none block">15+</span>
-      <span class="text-[#F0EBE1]/45 text-[0.8rem] font-body mt-2 block">Years in Business</span>
-    </div>
-    <div class="text-center fade-up" style="transition-delay:0.08s">
-      <span class="font-display text-[#C4945A] text-[2.5rem] font-semibold leading-none block">600+</span>
-      <span class="text-[#F0EBE1]/45 text-[0.8rem] font-body mt-2 block">Projects Completed</span>
-    </div>
-    <div class="text-center fade-up" style="transition-delay:0.16s">
-      <span class="font-display text-[#C4945A] text-[2.5rem] font-semibold leading-none block">5.0</span>
-      <span class="text-[#F0EBE1]/45 text-[0.8rem] font-body mt-2 block">Average Star Rating</span>
-    </div>
-    <div class="text-center fade-up" style="transition-delay:0.24s">
-      <span class="font-display text-[#C4945A] text-[2.5rem] font-semibold leading-none block">100%</span>
-      <span class="text-[#F0EBE1]/45 text-[0.8rem] font-body mt-2 block">Satisfaction Guaranteed</span>
-    </div>
-  </div>
-</div>
-
-
-<!-- SERVICES -->
-<section id="services" class="py-16 md:py-28 px-6 md:px-10 lg:px-16 xl:px-24 bg-[#F0EBE1]">
-  <div class="max-w-7xl mx-auto">
-    <div class="mb-10 md:mb-16 fade-up">
-      <p class="text-[#C4945A] text-[0.72rem] tracking-[0.22em] uppercase font-body font-medium mb-4">What We Do</p>
-      <h2 class="font-display text-[#272320] text-[2.25rem] md:text-[3.25rem] tracking-[-0.03em] leading-[1.08] max-w-md">Expert Services,<br>Premium Results</h2>
-    </div>
-
-    <div class="grid md:grid-cols-2 gap-6">
-      <!-- Windows -->
-      <div class="svc-card fade-up">
-        <img src="https://placehold.co/880x550/2A2520/3D3830?text=+" alt="Window Installation">
-        <div class="overlay"></div>
-        <div class="svc-content flex flex-col justify-end p-9">
-          <span class="gold-bar mb-5"></span>
-          <h3 class="font-display text-[#F0EBE1] text-[1.9rem] leading-tight mb-3">Premium Window<br>Installation</h3>
-          <p class="text-[#F0EBE1]/60 text-[0.875rem] font-body leading-[1.75] mb-6 max-w-sm">
-            From energy-efficient double-pane to custom architectural windows — precision-fit installations that transform your home inside and out.
-          </p>
-          <div class="flex flex-wrap gap-2 mb-8">
-            <span class="text-[#C4945A] text-[0.72rem] font-body border border-[#C4945A]/30 rounded-[2px] px-3 py-1 tracking-wide">Double-Pane</span>
-            <span class="text-[#C4945A] text-[0.72rem] font-body border border-[#C4945A]/30 rounded-[2px] px-3 py-1 tracking-wide">Bay & Bow</span>
-            <span class="text-[#C4945A] text-[0.72rem] font-body border border-[#C4945A]/30 rounded-[2px] px-3 py-1 tracking-wide">Custom Sizes</span>
-            <span class="text-[#C4945A] text-[0.72rem] font-body border border-[#C4945A]/30 rounded-[2px] px-3 py-1 tracking-wide">Energy Star</span>
-          </div>
-          <a href="#contact" class="btn-gold self-start">Get a Window Quote</a>
-        </div>
+      <!-- Desktop links -->
+      <div class="nav-links-wrap" style="flex:1; display:flex; align-items:center; justify-content:center;">
+        <ul class="nav-links">
+          <li><a href="#services">Services</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#testimonials">Reviews</a></li>
+          <li><a href="#service-areas">Service Areas</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
       </div>
 
-      <!-- Decks -->
-      <div class="svc-card fade-up" style="transition-delay:0.12s">
-        <img src="https://placehold.co/880x550/252018/383025?text=+" alt="Custom Deck Construction">
-        <div class="overlay"></div>
-        <div class="svc-content flex flex-col justify-end p-9">
-          <span class="gold-bar mb-5"></span>
-          <h3 class="font-display text-[#F0EBE1] text-[1.9rem] leading-tight mb-3">Custom Deck<br>Construction</h3>
-          <p class="text-[#F0EBE1]/60 text-[0.875rem] font-body leading-[1.75] mb-6 max-w-sm">
-            Handcrafted decks built to last — from intimate cedar retreats to sprawling composite spaces that become the heart of your outdoor living.
-          </p>
-          <div class="flex flex-wrap gap-2 mb-8">
-            <span class="text-[#C4945A] text-[0.72rem] font-body border border-[#C4945A]/30 rounded-[2px] px-3 py-1 tracking-wide">Composite</span>
-            <span class="text-[#C4945A] text-[0.72rem] font-body border border-[#C4945A]/30 rounded-[2px] px-3 py-1 tracking-wide">Cedar & Hardwood</span>
-            <span class="text-[#C4945A] text-[0.72rem] font-body border border-[#C4945A]/30 rounded-[2px] px-3 py-1 tracking-wide">Multi-Level</span>
-            <span class="text-[#C4945A] text-[0.72rem] font-body border border-[#C4945A]/30 rounded-[2px] px-3 py-1 tracking-wide">Railings & Pergolas</span>
-          </div>
-          <a href="#contact" class="btn-gold self-start">Get a Deck Quote</a>
-        </div>
+      <!-- CTA + Hamburger -->
+      <a href="#contact" class="btn-ink nav-links-wrap">Get a Quote</a>
+      <button id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+
+    <!-- Mobile menu -->
+    <div id="mobile-menu" role="menu">
+      <ul>
+        <li><a href="#services" role="menuitem">Services</a></li>
+        <li><a href="#about" role="menuitem">About</a></li>
+        <li><a href="#testimonials" role="menuitem">Reviews</a></li>
+        <li><a href="#service-areas" role="menuitem">Service Areas</a></li>
+        <li><a href="#faq" role="menuitem">FAQ</a></li>
+        <li><a href="#contact" role="menuitem">Contact</a></li>
+      </ul>
+      <div class="mob-cta">
+        <a href="#contact" class="btn-ink" style="width:100%; justify-content:center;">Get a Quote</a>
       </div>
     </div>
-  </div>
-</section>
+  </nav>
 
 
-<!-- WHY US -->
-<section id="about" class="bg-[#272320] grain relative overflow-hidden py-16 md:py-28 px-6 md:px-10 lg:px-16 xl:px-24">
-  <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 65% 80% at 8% 50%, rgba(196,148,90,0.07) 0%, transparent 60%)"></div>
-
-  <div class="max-w-7xl mx-auto relative z-10">
-    <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-      <div class="fade-up">
-        <p class="text-[#C4945A] text-[0.72rem] tracking-[0.22em] uppercase font-body font-medium mb-5">Why The Window Professor</p>
-        <h2 class="font-display text-[#F0EBE1] text-[2.5rem] md:text-[3.25rem] tracking-[-0.03em] leading-[1.08] mb-8">Built on Integrity.<br>Finished to Perfection.</h2>
-        <p class="text-[#F0EBE1]/55 font-body leading-[1.82] mb-10 max-w-md">
-          We don't cut corners because our reputation lives in every seam, every seal, and every board we install. When you invest in your home, you deserve a contractor who treats it like their own.
-        </p>
-        <a href="#contact" class="btn-gold">Start Your Project</a>
-      </div>
-
-      <div class="flex flex-col gap-4 fade-up" style="transition-delay:0.15s">
-        <div class="feature-row">
-          <div class="feature-icon">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="#C4945A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </div>
-          <div>
-            <h4 class="font-display text-[#F0EBE1] text-[1.0625rem] mb-1">Lifetime Workmanship Warranty</h4>
-            <p class="text-[#F0EBE1]/48 text-[0.85rem] font-body leading-[1.7]">Every installation backed by our guarantee — if it fails, we fix it. No fine print, no exceptions.</p>
-          </div>
-        </div>
-        <div class="feature-row">
-          <div class="feature-icon">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="#C4945A" stroke-width="1.6"/><path d="M10 6v4l2.5 2.5" stroke="#C4945A" stroke-width="1.6" stroke-linecap="round"/></svg>
-          </div>
-          <div>
-            <h4 class="font-display text-[#F0EBE1] text-[1.0625rem] mb-1">On-Time, On-Budget</h4>
-            <p class="text-[#F0EBE1]/48 text-[0.85rem] font-body leading-[1.7]">Transparent quoting, no surprise charges. Your timeline is our commitment — not a suggestion.</p>
-          </div>
-        </div>
-        <div class="feature-row">
-          <div class="feature-icon">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2.5l2.2 5 5.3.7-3.8 3.7.9 5.3L10 14.5l-4.6 2.7.9-5.3L2.5 8.2l5.3-.7z" stroke="#C4945A" stroke-width="1.5" stroke-linejoin="round"/></svg>
-          </div>
-          <div>
-            <h4 class="font-display text-[#F0EBE1] text-[1.0625rem] mb-1">Premium Materials Only</h4>
-            <p class="text-[#F0EBE1]/48 text-[0.85rem] font-body leading-[1.7]">We source from trusted manufacturers — nothing that won't look great and hold up decades from now.</p>
-          </div>
-        </div>
-        <div class="feature-row">
-          <div class="feature-icon">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2a8 8 0 100 16A8 8 0 0010 2z" stroke="#C4945A" stroke-width="1.6"/><path d="M7 10s.7 2.5 3 2.5S13 10 13 10" stroke="#C4945A" stroke-width="1.6" stroke-linecap="round"/><path d="M7.5 7.5h.01M12.5 7.5h.01" stroke="#C4945A" stroke-width="1.8" stroke-linecap="round"/></svg>
-          </div>
-          <div>
-            <h4 class="font-display text-[#F0EBE1] text-[1.0625rem] mb-1">White-Glove Experience</h4>
-            <p class="text-[#F0EBE1]/48 text-[0.85rem] font-body leading-[1.7]">We leave your home cleaner than we found it. Professional, respectful, and tidy — every single day.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<!-- PORTFOLIO -->
-<section id="portfolio" class="py-16 md:py-28 px-6 md:px-10 lg:px-16 xl:px-24 bg-[#F8F4ED]">
-  <div class="max-w-7xl mx-auto">
-    <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 md:mb-16 fade-up">
+  <!-- ═══════════════════════════════════════════════
+       HERO
+  ═══════════════════════════════════════════════ -->
+  <section id="hero">
+    <div class="hero-inner">
+      <!-- Left: copy -->
       <div>
-        <p class="text-[#C4945A] text-[0.72rem] tracking-[0.22em] uppercase font-body font-medium mb-4">Our Work</p>
-        <h2 class="font-display text-[#272320] text-[2.5rem] md:text-[3.25rem] tracking-[-0.03em] leading-[1.08]">Recent Projects</h2>
+        <p class="hero-eyebrow fade-up">Serving the Pacific Northwest Since 2009</p>
+        <h1 class="hero-headline fade-up delay-1">
+          The Art of<br><em>Exceptional</em><br>Windows &amp; Decks
+        </h1>
+        <div class="hero-gold-rule fade-up delay-2"></div>
+        <p class="hero-body fade-up delay-2">
+          We design, supply, and install premium windows and custom decks for discerning homeowners who refuse to compromise. Every project is approached as a craft — with rigorous attention to detail, quality materials, and a process built around you.
+        </p>
+        <div class="hero-buttons fade-up delay-3">
+          <a href="#contact" class="btn-ink">Request a Free Quote</a>
+          <a href="#services" class="btn-outline">See Our Work</a>
+        </div>
       </div>
-      <a href="#contact" class="mt-6 md:mt-0 text-[#272320] text-[0.875rem] font-body underline underline-offset-4 decoration-[#C4945A]/50 hover:text-[#C4945A] hover:decoration-[#C4945A] transition-colors">View all projects &rarr;</a>
-    </div>
 
-    <div class="port-grid grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4" style="grid-auto-rows: 180px;">
-      <div class="port-item col-span-2 row-span-2 fade-up">
-        <img src="https://placehold.co/840x660/2A2520/403830?text=+" alt="Featured project">
-        <div class="port-overlay flex items-end p-7">
-          <div><p class="text-[#C4945A] text-[0.68rem] font-body tracking-[0.18em] uppercase mb-1">Windows</p><p class="text-[#F0EBE1] font-display text-[1.25rem]">Modern Bay Window Suite</p></div>
+      <!-- Right: stats column -->
+      <div class="hero-stats fade-up delay-2">
+        <div class="hero-stat-item">
+          <div class="hero-stat-num">15<span style="font-size:0.55em; color:var(--gold);">+</span></div>
+          <div class="hero-stat-label">Years in Business</div>
         </div>
-      </div>
-      <div class="port-item fade-up" style="transition-delay:0.1s">
-        <img src="https://placehold.co/420x220/352E26/4A4035?text=+" alt="Cedar deck">
-        <div class="port-overlay flex items-end p-5">
-          <div><p class="text-[#C4945A] text-[0.65rem] font-body tracking-[0.18em] uppercase mb-1">Decks</p><p class="text-[#F0EBE1] font-display text-[1.05rem]">Cedar Wraparound</p></div>
+        <div class="hero-stat-item">
+          <div class="hero-stat-num">600<span style="font-size:0.55em; color:var(--gold);">+</span></div>
+          <div class="hero-stat-label">Projects Completed</div>
         </div>
-      </div>
-      <div class="port-item fade-up" style="transition-delay:0.18s">
-        <img src="https://placehold.co/420x220/272320/3A3530?text=+" alt="Window project">
-        <div class="port-overlay flex items-end p-5">
-          <div><p class="text-[#C4945A] text-[0.65rem] font-body tracking-[0.18em] uppercase mb-1">Windows</p><p class="text-[#F0EBE1] font-display text-[1.05rem]">Casement Replacement</p></div>
+        <div class="hero-stat-item">
+          <div class="hero-stat-num">5<span style="font-size:0.55em; color:var(--gold);">★</span></div>
+          <div class="hero-stat-label">Average Rating</div>
         </div>
-      </div>
-      <div class="port-item fade-up" style="transition-delay:0.12s">
-        <img src="https://placehold.co/420x220/302A22/463D32?text=+" alt="Composite deck">
-        <div class="port-overlay flex items-end p-5">
-          <div><p class="text-[#C4945A] text-[0.65rem] font-body tracking-[0.18em] uppercase mb-1">Decks</p><p class="text-[#F0EBE1] font-display text-[1.05rem]">Composite Patio Deck</p></div>
-        </div>
-      </div>
-      <div class="port-item fade-up" style="transition-delay:0.22s">
-        <img src="https://placehold.co/420x220/222018/38342E?text=+" alt="Multi-level deck">
-        <div class="port-overlay flex items-end p-5">
-          <div><p class="text-[#C4945A] text-[0.65rem] font-body tracking-[0.18em] uppercase mb-1">Decks</p><p class="text-[#F0EBE1] font-display text-[1.05rem]">Multi-Level Retreat</p></div>
-        </div>
-      </div>
-      <div class="port-item fade-up" style="transition-delay:0.3s">
-        <img src="https://placehold.co/420x220/1A1714/2E2A26?text=+" alt="Skylight">
-        <div class="port-overlay flex items-end p-5">
-          <div><p class="text-[#C4945A] text-[0.65rem] font-body tracking-[0.18em] uppercase mb-1">Windows</p><p class="text-[#F0EBE1] font-display text-[1.05rem]">Skylight Installation</p></div>
+        <div class="hero-stat-item">
+          <div class="hero-stat-num">100<span style="font-size:0.55em; color:var(--gold);">%</span></div>
+          <div class="hero-stat-label">Satisfaction Guarantee</div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
 
-<!-- TESTIMONIALS -->
-<section id="reviews" class="py-16 md:py-28 px-6 md:px-10 lg:px-16 xl:px-24 bg-[#F0EBE1]">
-  <div class="max-w-7xl mx-auto">
-    <div class="mb-10 md:mb-16 text-center fade-up">
-      <p class="text-[#C4945A] text-[0.72rem] tracking-[0.22em] uppercase font-body font-medium mb-4">What Clients Say</p>
-      <h2 class="font-display text-[#272320] text-[2.5rem] md:text-[3.25rem] tracking-[-0.03em] leading-[1.08]">Trusted by Homeowners</h2>
+  <!-- ═══════════════════════════════════════════════
+       STATS STRIP
+  ═══════════════════════════════════════════════ -->
+  <section id="stats-strip">
+    <div class="stats-strip-inner">
+      <div class="stat-cell fade-up">
+        <div class="stat-big">15<span class="stat-gold-accent">+</span></div>
+        <div class="stat-label">Years Experience</div>
+      </div>
+      <div class="stat-cell fade-up delay-1">
+        <div class="stat-big">600<span class="stat-gold-accent">+</span></div>
+        <div class="stat-label">Projects Delivered</div>
+      </div>
+      <div class="stat-cell fade-up delay-2">
+        <div class="stat-big">5<span class="stat-gold-accent">★</span></div>
+        <div class="stat-label">Average Review</div>
+      </div>
+      <div class="stat-cell fade-up delay-3">
+        <div class="stat-big">100<span class="stat-gold-accent">%</span></div>
+        <div class="stat-label">Satisfaction Guaranteed</div>
+      </div>
     </div>
-    <div class="grid md:grid-cols-3 gap-6">
-      <div class="testi-card fade-up">
-        <div class="flex gap-1 mb-6">
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="#C4945A"><path d="M7 1l1.5 3.7L12 5.2l-2.6 2.6.6 3.8L7 9.7l-3 1.9.6-3.8L2 5.2l3.5-.5z"/></svg>
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="#C4945A"><path d="M7 1l1.5 3.7L12 5.2l-2.6 2.6.6 3.8L7 9.7l-3 1.9.6-3.8L2 5.2l3.5-.5z"/></svg>
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="#C4945A"><path d="M7 1l1.5 3.7L12 5.2l-2.6 2.6.6 3.8L7 9.7l-3 1.9.6-3.8L2 5.2l3.5-.5z"/></svg>
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="#C4945A"><path d="M7 1l1.5 3.7L12 5.2l-2.6 2.6.6 3.8L7 9.7l-3 1.9.6-3.8L2 5.2l3.5-.5z"/></svg>
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="#C4945A"><path d="M7 1l1.5 3.7L12 5.2l-2.6 2.6.6 3.8L7 9.7l-3 1.9.6-3.8L2 5.2l3.5-.5z"/></svg>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════
+       SERVICES
+  ═══════════════════════════════════════════════ -->
+  <section id="services">
+    <div class="section-wrap">
+      <div class="section-heading-row">
+        <div>
+          <p class="section-label">What We Do</p>
+          <h2 class="section-heading fade-up">Expert Craftsmanship,<br>Two Core Disciplines</h2>
         </div>
-        <p class="font-display text-[#272320] text-[1.0625rem] italic leading-[1.72] mb-7">"The team replaced every window in our 1920s craftsman without a single issue. The craftsmanship is stunning — our heating bill dropped 30% that winter."</p>
-        <div class="flex items-center gap-3 pt-5 border-t border-[#272320]/10">
-          <div class="w-9 h-9 rounded-full bg-[#272320]/12 flex items-center justify-center font-display text-[#272320] font-semibold text-sm">M</div>
-          <div>
-            <p class="font-body font-medium text-[#272320] text-[0.875rem]">Margaret T.</p>
-            <p class="font-body text-[#7A706A] text-[0.78rem]">Window Replacement — 14 windows</p>
+        <a href="#contact" class="btn-outline fade-up" style="flex-shrink:0;">Get a Quote &rarr;</a>
+      </div>
+
+      <div class="services-grid">
+        <!-- Windows Card -->
+        <div class="service-card fade-up">
+          <img
+            class="service-card-img"
+            src="https://placehold.co/880x550/EDE8E0/D5CEC5?text=+"
+            alt="Premium window installation project"
+            loading="lazy"
+          />
+          <div class="service-card-body">
+            <p class="service-category">Windows</p>
+            <h3 class="service-title">Premium Window<br>Installation &amp; Replacement</h3>
+            <p class="service-desc">
+              From energy-efficient double-pane upgrades to bespoke architectural windows, we handle every step — measurement, ordering, and a flawless installation. Brands we trust: Andersen, Marvin, Milgard, and Pella.
+            </p>
+            <a href="#contact" class="service-link">
+              Explore Windows <span class="arrow-icon">&rarr;</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Decks Card -->
+        <div class="service-card fade-up delay-1">
+          <img
+            class="service-card-img"
+            src="https://placehold.co/880x550/EDE8E0/D5CEC5?text=+"
+            alt="Custom deck design and build project"
+            loading="lazy"
+          />
+          <div class="service-card-body">
+            <p class="service-category">Decks</p>
+            <h3 class="service-title">Custom Deck Design<br>&amp; Construction</h3>
+            <p class="service-desc">
+              We design and build decks that become extensions of your living space. Composite, hardwood, or treated lumber — each deck is engineered for longevity and styled to complement your home's architecture.
+            </p>
+            <a href="#contact" class="service-link">
+              Explore Decks <span class="arrow-icon">&rarr;</span>
+            </a>
           </div>
         </div>
       </div>
+    </div>
+  </section>
 
-      <div class="testi-card fade-up" style="transition-delay:0.1s">
-        <div class="flex gap-1 mb-6">
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="#C4945A"><path d="M7 1l1.5 3.7L12 5.2l-2.6 2.6.6 3.8L7 9.7l-3 1.9.6-3.8L2 5.2l3.5-.5z"/></svg>
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="#C4945A"><path d="M7 1l1.5 3.7L12 5.2l-2.6 2.6.6 3.8L7 9.7l-3 1.9.6-3.8L2 5.2l3.5-.5z"/></svg>
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="#C4945A"><path d="M7 1l1.5 3.7L12 5.2l-2.6 2.6.6 3.8L7 9.7l-3 1.9.6-3.8L2 5.2l3.5-.5z"/></svg>
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="#C4945A"><path d="M7 1l1.5 3.7L12 5.2l-2.6 2.6.6 3.8L7 9.7l-3 1.9.6-3.8L2 5.2l3.5-.5z"/></svg>
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="#C4945A"><path d="M7 1l1.5 3.7L12 5.2l-2.6 2.6.6 3.8L7 9.7l-3 1.9.6-3.8L2 5.2l3.5-.5z"/></svg>
-        </div>
-        <p class="font-display text-[#272320] text-[1.0625rem] italic leading-[1.72] mb-7">"We had three contractors bid our deck. We chose The Window Professor because they were the only ones who actually listened. The result exceeded every expectation."</p>
-        <div class="flex items-center gap-3 pt-5 border-t border-[#272320]/10">
-          <div class="w-9 h-9 rounded-full bg-[#272320]/12 flex items-center justify-center font-display text-[#272320] font-semibold text-sm">R</div>
-          <div>
-            <p class="font-body font-medium text-[#272320] text-[0.875rem]">Robert & Lisa H.</p>
-            <p class="font-body text-[#7A706A] text-[0.78rem]">Composite Deck — 800 sq ft</p>
-          </div>
-        </div>
-      </div>
 
-      <div class="testi-card fade-up" style="transition-delay:0.2s">
-        <div class="flex gap-1 mb-6">
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="#C4945A"><path d="M7 1l1.5 3.7L12 5.2l-2.6 2.6.6 3.8L7 9.7l-3 1.9.6-3.8L2 5.2l3.5-.5z"/></svg>
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="#C4945A"><path d="M7 1l1.5 3.7L12 5.2l-2.6 2.6.6 3.8L7 9.7l-3 1.9.6-3.8L2 5.2l3.5-.5z"/></svg>
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="#C4945A"><path d="M7 1l1.5 3.7L12 5.2l-2.6 2.6.6 3.8L7 9.7l-3 1.9.6-3.8L2 5.2l3.5-.5z"/></svg>
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="#C4945A"><path d="M7 1l1.5 3.7L12 5.2l-2.6 2.6.6 3.8L7 9.7l-3 1.9.6-3.8L2 5.2l3.5-.5z"/></svg>
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="#C4945A"><path d="M7 1l1.5 3.7L12 5.2l-2.6 2.6.6 3.8L7 9.7l-3 1.9.6-3.8L2 5.2l3.5-.5z"/></svg>
+  <!-- ═══════════════════════════════════════════════
+       ABOUT / WHY US
+  ═══════════════════════════════════════════════ -->
+  <section id="about">
+    <div class="section-wrap">
+      <div class="about-grid">
+        <!-- Left: editorial copy -->
+        <div class="about-left">
+          <p class="section-label fade-up">About The Professor</p>
+          <h2 class="section-heading fade-up delay-1" style="margin-bottom:0;">A Different Kind<br>of Contractor</h2>
+          <blockquote class="about-pull-quote fade-up delay-2">
+            "We don't just install windows and build decks — we obsess over the details most contractors skip."
+          </blockquote>
+          <p class="about-body fade-up delay-2">
+            The Window Professor was founded on a simple conviction: homeowners deserve a contractor who shows up on time, communicates clearly, and delivers work that looks as good in ten years as the day it was finished.
+          </p>
+          <p class="about-body fade-up delay-3" style="margin-top:16px;">
+            Our team combines decades of hands-on installation experience with a genuine passion for craft. We're fully licensed, bonded, and insured — and every project comes with our written satisfaction guarantee.
+          </p>
         </div>
-        <p class="font-display text-[#272320] text-[1.0625rem] italic leading-[1.72] mb-7">"Hired them for the whole house. Professional from day one — prompt, clean, and the finish work is immaculate. Already referring them to everyone on our street."</p>
-        <div class="flex items-center gap-3 pt-5 border-t border-[#272320]/10">
-          <div class="w-9 h-9 rounded-full bg-[#272320]/12 flex items-center justify-center font-display text-[#272320] font-semibold text-sm">S</div>
-          <div>
-            <p class="font-body font-medium text-[#272320] text-[0.875rem]">Sarah K.</p>
-            <p class="font-body text-[#7A706A] text-[0.78rem]">Full Home Window Replacement</p>
+
+        <!-- Right: numbered reasons -->
+        <div class="about-right">
+          <p class="section-label fade-up" style="margin-bottom:20px;">Why Homeowners Choose Us</p>
+          <div class="why-list">
+            <div class="why-item fade-up">
+              <span class="why-num">01</span>
+              <div>
+                <h4 class="why-title">Transparent Pricing</h4>
+                <p class="why-desc">Detailed written quotes with zero hidden fees. What you're quoted is what you pay — always.</p>
+              </div>
+            </div>
+            <div class="why-item fade-up delay-1">
+              <span class="why-num">02</span>
+              <div>
+                <h4 class="why-title">Premium Materials Only</h4>
+                <p class="why-desc">We source from top-tier manufacturers and will never substitute materials without your explicit approval.</p>
+              </div>
+            </div>
+            <div class="why-item fade-up delay-2">
+              <span class="why-num">03</span>
+              <div>
+                <h4 class="why-title">On-Time, Every Time</h4>
+                <p class="why-desc">We respect your schedule. Projects are planned carefully and we communicate any changes proactively.</p>
+              </div>
+            </div>
+            <div class="why-item fade-up delay-3">
+              <span class="why-num">04</span>
+              <div>
+                <h4 class="why-title">Workmanship Warranty</h4>
+                <p class="why-desc">All installations are backed by our written workmanship warranty, in addition to manufacturer guarantees.</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
 
-<!-- CONTACT -->
-<section id="contact" class="bg-[#272320] grain relative overflow-hidden py-16 md:py-28 px-6 md:px-10 lg:px-16 xl:px-24">
-  <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 55% 65% at 92% 50%, rgba(196,148,90,0.08) 0%, transparent 60%)"></div>
+  <!-- ═══════════════════════════════════════════════
+       TESTIMONIALS
+  ═══════════════════════════════════════════════ -->
+  <section id="testimonials">
+    <div class="section-wrap">
+      <div style="text-align:center; margin-bottom:56px;">
+        <p class="section-label fade-up">Client Reviews</p>
+        <h2 class="section-heading fade-up delay-1">What Homeowners Are Saying</h2>
+      </div>
 
-  <div class="max-w-7xl mx-auto relative z-10">
-    <div class="grid lg:grid-cols-2 gap-12 lg:gap-20">
-      <div class="fade-up">
-        <p class="text-[#C4945A] text-[0.72rem] tracking-[0.22em] uppercase font-body font-medium mb-5">Get in Touch</p>
-        <h2 class="font-display text-[#F0EBE1] text-[2.5rem] md:text-[3.25rem] tracking-[-0.03em] leading-[1.08] mb-8">Ready to Start<br>Your Project?</h2>
-        <p class="text-[#F0EBE1]/55 font-body leading-[1.82] mb-12 max-w-sm">
-          Schedule a free consultation and get a detailed, no-obligation quote. We typically respond within one business day.
+      <div class="testi-grid">
+        <!-- Card 1 -->
+        <div class="testi-card fade-up">
+          <div class="testi-open-quote">&ldquo;</div>
+          <p class="testi-quote">
+            From the initial consultation to the final walkthrough, every step was handled with professionalism I didn't know was possible in a contractor. Our new windows have transformed how the house feels — lighter, quieter, warmer.
+          </p>
+          <div class="testi-rule"></div>
+          <div class="testi-stars">★★★★★</div>
+          <div class="testi-name">Margaret &amp; Tom H.</div>
+          <div class="testi-location">Bellevue, WA</div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="testi-card fade-up delay-1">
+          <div class="testi-open-quote">&ldquo;</div>
+          <p class="testi-quote">
+            The deck they built for us is genuinely one of the best investments we've made in this home. The craftsmanship is exceptional, the timeline was honored, and the crew left the site cleaner than they found it.
+          </p>
+          <div class="testi-rule"></div>
+          <div class="testi-stars">★★★★★</div>
+          <div class="testi-name">Kevin R.</div>
+          <div class="testi-location">Kirkland, WA</div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="testi-card fade-up delay-2">
+          <div class="testi-open-quote">&ldquo;</div>
+          <p class="testi-quote">
+            I've worked with three other contractors before calling The Window Professor. The difference is night and day. Honest communication, no surprises on the bill, and work that looks exactly like the rendering we approved.
+          </p>
+          <div class="testi-rule"></div>
+          <div class="testi-stars">★★★★★</div>
+          <div class="testi-name">Sandra L.</div>
+          <div class="testi-location">Redmond, WA</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SERVICE AREAS
+  ═══════════════════════════════════════════════════════════ -->
+  <section id="service-areas">
+    <div class="section-wrap">
+      <hr class="rule-h" style="margin-bottom: 64px;" />
+      <div class="section-heading-row fade-up">
+        <div>
+          <p class="section-label">Where We Work</p>
+          <h2 class="section-heading" style="margin-bottom: 0;">Oakland County &amp; Livingston County,&nbsp;Michigan</h2>
+        </div>
+      </div>
+      <p class="fade-up delay-1" style="max-width:640px; margin: 20px 0 48px; color: var(--ink-mid); font-size: 1.0625rem; line-height: 1.75;">We serve homeowners across two Michigan counties. If your town isn't listed below, call us — our service area is broad and we're happy to travel for the right project.</p>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 48px 64px; max-width: 900px;" class="fade-up delay-1" id="service-areas-grid">
+        <div>
+          <p style="font-family: 'DM Sans', sans-serif; font-size: 0.6875rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px;">Oakland County</p>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px;">
+            <li style="display:flex; align-items:center; gap:10px; color: var(--ink-mid); font-size: 0.9375rem;"><span style="width:4px; height:4px; border-radius:50%; background:var(--gold); flex-shrink:0; display:inline-block;"></span>Clarkston &amp; Independence Township</li>
+            <li style="display:flex; align-items:center; gap:10px; color: var(--ink-mid); font-size: 0.9375rem;"><span style="width:4px; height:4px; border-radius:50%; background:var(--gold); flex-shrink:0; display:inline-block;"></span>Rochester Hills</li>
+            <li style="display:flex; align-items:center; gap:10px; color: var(--ink-mid); font-size: 0.9375rem;"><span style="width:4px; height:4px; border-radius:50%; background:var(--gold); flex-shrink:0; display:inline-block;"></span>Auburn Hills</li>
+            <li style="display:flex; align-items:center; gap:10px; color: var(--ink-mid); font-size: 0.9375rem;"><span style="width:4px; height:4px; border-radius:50%; background:var(--gold); flex-shrink:0; display:inline-block;"></span>Milford</li>
+            <li style="display:flex; align-items:center; gap:10px; color: var(--ink-mid); font-size: 0.9375rem;"><span style="width:4px; height:4px; border-radius:50%; background:var(--gold); flex-shrink:0; display:inline-block;"></span>White Lake Township</li>
+            <li style="display:flex; align-items:center; gap:10px; color: var(--ink-mid); font-size: 0.9375rem;"><span style="width:4px; height:4px; border-radius:50%; background:var(--gold); flex-shrink:0; display:inline-block;"></span>Commerce Township</li>
+            <li style="display:flex; align-items:center; gap:10px; color: var(--ink-mid); font-size: 0.9375rem;"><span style="width:4px; height:4px; border-radius:50%; background:var(--gold); flex-shrink:0; display:inline-block;"></span>Waterford Township</li>
+            <li style="display:flex; align-items:center; gap:10px; color: var(--ink-mid); font-size: 0.9375rem;"><span style="width:4px; height:4px; border-radius:50%; background:var(--gold); flex-shrink:0; display:inline-block;"></span>Bloomfield Hills &amp; Birmingham</li>
+            <li style="display:flex; align-items:center; gap:10px; color: var(--ink-mid); font-size: 0.9375rem;"><span style="width:4px; height:4px; border-radius:50%; background:var(--gold); flex-shrink:0; display:inline-block;"></span>Troy</li>
+            <li style="display:flex; align-items:center; gap:10px; color: var(--ink-mid); font-size: 0.9375rem;"><span style="width:4px; height:4px; border-radius:50%; background:var(--gold); flex-shrink:0; display:inline-block;"></span>Pontiac &amp; Waterford</li>
+          </ul>
+        </div>
+        <div>
+          <p style="font-family: 'DM Sans', sans-serif; font-size: 0.6875rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px;">Livingston County</p>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px;">
+            <li style="display:flex; align-items:center; gap:10px; color: var(--ink-mid); font-size: 0.9375rem;"><span style="width:4px; height:4px; border-radius:50%; background:var(--gold); flex-shrink:0; display:inline-block;"></span>Brighton</li>
+            <li style="display:flex; align-items:center; gap:10px; color: var(--ink-mid); font-size: 0.9375rem;"><span style="width:4px; height:4px; border-radius:50%; background:var(--gold); flex-shrink:0; display:inline-block;"></span>Howell</li>
+            <li style="display:flex; align-items:center; gap:10px; color: var(--ink-mid); font-size: 0.9375rem;"><span style="width:4px; height:4px; border-radius:50%; background:var(--gold); flex-shrink:0; display:inline-block;"></span>Hartland Township</li>
+            <li style="display:flex; align-items:center; gap:10px; color: var(--ink-mid); font-size: 0.9375rem;"><span style="width:4px; height:4px; border-radius:50%; background:var(--gold); flex-shrink:0; display:inline-block;"></span>Pinckney</li>
+            <li style="display:flex; align-items:center; gap:10px; color: var(--ink-mid); font-size: 0.9375rem;"><span style="width:4px; height:4px; border-radius:50%; background:var(--gold); flex-shrink:0; display:inline-block;"></span>Hamburg Township</li>
+            <li style="display:flex; align-items:center; gap:10px; color: var(--ink-mid); font-size: 0.9375rem;"><span style="width:4px; height:4px; border-radius:50%; background:var(--gold); flex-shrink:0; display:inline-block;"></span>Genoa Township</li>
+            <li style="display:flex; align-items:center; gap:10px; color: var(--ink-mid); font-size: 0.9375rem;"><span style="width:4px; height:4px; border-radius:50%; background:var(--gold); flex-shrink:0; display:inline-block;"></span>Cohoctah Township</li>
+            <li style="display:flex; align-items:center; gap:10px; color: var(--ink-mid); font-size: 0.9375rem;"><span style="width:4px; height:4px; border-radius:50%; background:var(--gold); flex-shrink:0; display:inline-block;"></span>Livingston County (all townships)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="fade-up delay-2" style="margin-top: 48px; display: flex; flex-wrap: wrap; gap: 12px;">
+        <a href="brighton-mi.html" style="font-family:'DM Sans',sans-serif; font-size:0.8125rem; font-weight:500; color:var(--ink); border:1px solid var(--rule); padding:6px 14px; border-radius:2px; transition:border-color 0.2s, color 0.2s;">Brighton, MI</a>
+        <a href="clarkston-mi.html" style="font-family:'DM Sans',sans-serif; font-size:0.8125rem; font-weight:500; color:var(--ink); border:1px solid var(--rule); padding:6px 14px; border-radius:2px; transition:border-color 0.2s, color 0.2s;">Clarkston, MI</a>
+        <a href="rochester-hills-mi.html" style="font-family:'DM Sans',sans-serif; font-size:0.8125rem; font-weight:500; color:var(--ink); border:1px solid var(--rule); padding:6px 14px; border-radius:2px; transition:border-color 0.2s, color 0.2s;">Rochester Hills, MI</a>
+        <a href="milford-mi.html" style="font-family:'DM Sans',sans-serif; font-size:0.8125rem; font-weight:500; color:var(--ink); border:1px solid var(--rule); padding:6px 14px; border-radius:2px; transition:border-color 0.2s, color 0.2s;">Milford, MI</a>
+        <a href="howell-mi.html" style="font-family:'DM Sans',sans-serif; font-size:0.8125rem; font-weight:500; color:var(--ink); border:1px solid var(--rule); padding:6px 14px; border-radius:2px; transition:border-color 0.2s, color 0.2s;">Howell, MI</a>
+        <a href="white-lake-mi.html" style="font-family:'DM Sans',sans-serif; font-size:0.8125rem; font-weight:500; color:var(--ink); border:1px solid var(--rule); padding:6px 14px; border-radius:2px; transition:border-color 0.2s, color 0.2s;">White Lake, MI</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       FAQ
+  ═══════════════════════════════════════════════════════════ -->
+  <section id="faq" style="background: var(--cream);">
+    <div class="section-wrap">
+      <hr class="rule-h" style="margin-bottom: 64px;" />
+      <div class="section-heading-row fade-up" style="margin-bottom: 48px;">
+        <div>
+          <p class="section-label">Common Questions</p>
+          <h2 class="section-heading" style="margin-bottom: 0;">Frequently Asked Questions</h2>
+        </div>
+      </div>
+      <div style="max-width: 800px; display: flex; flex-direction: column; gap: 0;" id="faq-list">
+
+        <div class="faq-item fade-up" style="border-top: 1px solid var(--rule); padding: 28px 0;">
+          <h3 style="font-family:'Playfair Display',serif; font-size:1.125rem; font-weight:500; color:var(--ink); margin-bottom:12px;">Who is the best window replacement company in Oakland County, Michigan?</h3>
+          <p style="color:var(--ink-mid); font-size:0.9375rem; line-height:1.75;">The Window Professor is a top-rated window replacement contractor serving all of Oakland County. We specialize in premium window installation and replacement for residential homes — serving Clarkston, Rochester Hills, Auburn Hills, Milford, White Lake Township, Waterford, Commerce Township, and Bloomfield Hills.</p>
+        </div>
+
+        <div class="faq-item fade-up delay-1" style="border-top: 1px solid var(--rule); padding: 28px 0;">
+          <h3 style="font-family:'Playfair Display',serif; font-size:1.125rem; font-weight:500; color:var(--ink); margin-bottom:12px;">Does The Window Professor serve Livingston County, Michigan?</h3>
+          <p style="color:var(--ink-mid); font-size:0.9375rem; line-height:1.75;">Yes. We serve all of Livingston County — including Brighton, Howell, Hartland, Pinckney, Hamburg Township, and Genoa Township. Window replacement, window installation, and custom deck construction are all available throughout Livingston County.</p>
+        </div>
+
+        <div class="faq-item fade-up delay-2" style="border-top: 1px solid var(--rule); padding: 28px 0;">
+          <h3 style="font-family:'Playfair Display',serif; font-size:1.125rem; font-weight:500; color:var(--ink); margin-bottom:12px;">What deck materials do you recommend for Michigan winters?</h3>
+          <p style="color:var(--ink-mid); font-size:0.9375rem; line-height:1.75;">For Michigan's freeze-thaw cycles, we recommend composite decking — brands like Trex or TimberTech — for its durability and low maintenance. Composite resists moisture, warping, and cracking, which are common issues with pressure-treated wood. We also work with premium hardwood and PVC depending on the project.</p>
+        </div>
+
+        <div class="faq-item fade-up" style="border-top: 1px solid var(--rule); padding: 28px 0;">
+          <h3 style="font-family:'Playfair Display',serif; font-size:1.125rem; font-weight:500; color:var(--ink); margin-bottom:12px;">How long does window replacement take?</h3>
+          <p style="color:var(--ink-mid); font-size:0.9375rem; line-height:1.75;">Most window replacement projects are completed in a single day. A full home of 10–15 windows typically takes one to two days. Complex installs — bay windows, egress windows, or large picture windows — may require additional time. We provide a clear schedule with every quote.</p>
+        </div>
+
+        <div class="faq-item fade-up delay-1" style="border-top: 1px solid var(--rule); padding: 28px 0;">
+          <h3 style="font-family:'Playfair Display',serif; font-size:1.125rem; font-weight:500; color:var(--ink); margin-bottom:12px;">Is The Window Professor licensed and insured in Michigan?</h3>
+          <p style="color:var(--ink-mid); font-size:0.9375rem; line-height:1.75;">Yes. We are fully licensed and insured to operate as a residential contractor in Michigan. All work is performed by experienced installation crews and backed by a warranty on both materials and labor.</p>
+        </div>
+
+        <div class="faq-item fade-up delay-2" style="border-top: 1px solid var(--rule); padding: 28px 0;">
+          <h3 style="font-family:'Playfair Display',serif; font-size:1.125rem; font-weight:500; color:var(--ink); margin-bottom:12px;">Do you offer free estimates?</h3>
+          <p style="color:var(--ink-mid); font-size:0.9375rem; line-height:1.75;">Yes. We offer free, no-obligation project estimates to homeowners throughout Oakland County and Livingston County. Use the contact form below or call us directly to schedule.</p>
+        </div>
+
+        <div class="faq-item fade-up" style="border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); padding: 28px 0;">
+          <h3 style="font-family:'Playfair Display',serif; font-size:1.125rem; font-weight:500; color:var(--ink); margin-bottom:12px;">How much does window replacement cost in Michigan?</h3>
+          <p style="color:var(--ink-mid); font-size:0.9375rem; line-height:1.75;">Window replacement in Michigan typically ranges from $400 to $1,000 per window depending on type, size, and material. Full-home replacement projects vary widely based on scope. We provide transparent, itemized quotes with no hidden fees — contact us for a free estimate specific to your home.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════
+       CONTACT / CTA
+  ═══════════════════════════════════════════════ -->
+  <section id="contact">
+    <div class="contact-inner">
+      <!-- Left: heading + details -->
+      <div class="contact-left fade-up">
+        <p class="contact-eyebrow">Get in Touch</p>
+        <h2 class="contact-heading">Let's Discuss<br>Your Project</h2>
+        <p class="contact-body">
+          Ready to explore what's possible? Fill out the form or reach us directly. We respond to every inquiry within one business day and offer free on-site consultations throughout the greater Seattle metro area.
         </p>
 
-        <div class="flex flex-col gap-7">
-          <div class="flex items-center gap-4">
-            <div class="w-10 h-10 rounded-[3px] bg-[#C4945A]/12 flex items-center justify-center flex-shrink-0">
-              <svg width="17" height="17" viewBox="0 0 18 18" fill="none"><path d="M3 5a1 1 0 011-1h10a1 1 0 011 1v9a1 1 0 01-1 1H4a1 1 0 01-1-1V5z" stroke="#C4945A" stroke-width="1.3"/><path d="M3 5l6 5 6-5" stroke="#C4945A" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
+        <div class="contact-details">
+          <div class="contact-detail-item">
+            <div class="contact-detail-icon">&#9742;</div>
             <div>
-              <p class="text-[#F0EBE1]/38 text-[0.68rem] font-body uppercase tracking-wider mb-0.5">Email</p>
-              <a href="mailto:info@thewindowprofessor.com" class="text-[#F0EBE1] font-body text-[0.9375rem] hover:text-[#C4945A] transition-colors">info@thewindowprofessor.com</a>
+              <div class="contact-detail-label">Phone</div>
+              <div class="contact-detail-value">(206) 555-0184</div>
             </div>
           </div>
-          <div class="flex items-center gap-4">
-            <div class="w-10 h-10 rounded-[3px] bg-[#C4945A]/12 flex items-center justify-center flex-shrink-0">
-              <svg width="17" height="17" viewBox="0 0 18 18" fill="none"><path d="M2.5 3.5a1 1 0 011-1h2.7a.5.5 0 01.48.36l.9 3.2a.5.5 0 01-.17.53L5.9 7.7a10.5 10.5 0 004.4 4.4l1.12-1.5a.5.5 0 01.52-.18l3.2.9a.5.5 0 01.36.48v2.7a1 1 0 01-1 1C6 15.5 2.5 12 2.5 7.5v-4z" stroke="#C4945A" stroke-width="1.3"/></svg>
-            </div>
+          <div class="contact-detail-item">
+            <div class="contact-detail-icon">&#9993;</div>
             <div>
-              <p class="text-[#F0EBE1]/38 text-[0.68rem] font-body uppercase tracking-wider mb-0.5">Phone</p>
-              <a href="tel:+15555555555" class="text-[#F0EBE1] font-body text-[0.9375rem] hover:text-[#C4945A] transition-colors">(555) 555-5555</a>
+              <div class="contact-detail-label">Email</div>
+              <div class="contact-detail-value">hello@thewindowprofessor.com</div>
             </div>
           </div>
-          <div class="flex items-center gap-4">
-            <div class="w-10 h-10 rounded-[3px] bg-[#C4945A]/12 flex items-center justify-center flex-shrink-0">
-              <svg width="17" height="17" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7" stroke="#C4945A" stroke-width="1.3"/><path d="M9 5v4l2.5 2.5" stroke="#C4945A" stroke-width="1.3" stroke-linecap="round"/></svg>
-            </div>
+          <div class="contact-detail-item">
+            <div class="contact-detail-icon">&#9679;</div>
             <div>
-              <p class="text-[#F0EBE1]/38 text-[0.68rem] font-body uppercase tracking-wider mb-0.5">Hours</p>
-              <p class="text-[#F0EBE1] font-body text-[0.9375rem]">Mon – Fri: 7am – 6pm &nbsp;·&nbsp; Sat: 8am – 2pm</p>
+              <div class="contact-detail-label">Service Area</div>
+              <div class="contact-detail-value">Greater Seattle — Bellevue, Kirkland,<br>Redmond, Sammamish &amp; surrounding cities</div>
+            </div>
+          </div>
+          <div class="contact-detail-item">
+            <div class="contact-detail-icon">&#9673;</div>
+            <div>
+              <div class="contact-detail-label">Hours</div>
+              <div class="contact-detail-value">Mon–Fri 8am–6pm · Sat by appointment</div>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="fade-up" style="transition-delay:0.15s">
-        <form class="flex flex-col gap-4" novalidate>
-          <div class="grid grid-cols-2 gap-4">
-            <div>
-              <label class="text-[#F0EBE1]/40 text-[0.68rem] uppercase tracking-wider font-body block mb-2" for="fname">First Name</label>
-              <input id="fname" type="text" placeholder="John" class="form-field">
+      <!-- Right: form -->
+      <div class="contact-right fade-up delay-2">
+        <form class="contact-form" novalidate>
+          <div class="form-row">
+            <div class="form-field">
+              <label for="f-first">First Name</label>
+              <input id="f-first" type="text" placeholder="Jane" autocomplete="given-name" />
             </div>
-            <div>
-              <label class="text-[#F0EBE1]/40 text-[0.68rem] uppercase tracking-wider font-body block mb-2" for="lname">Last Name</label>
-              <input id="lname" type="text" placeholder="Smith" class="form-field">
+            <div class="form-field">
+              <label for="f-last">Last Name</label>
+              <input id="f-last" type="text" placeholder="Smith" autocomplete="family-name" />
             </div>
           </div>
-          <div>
-            <label class="text-[#F0EBE1]/40 text-[0.68rem] uppercase tracking-wider font-body block mb-2" for="email">Email Address</label>
-            <input id="email" type="email" placeholder="john@email.com" class="form-field">
+          <div class="form-row">
+            <div class="form-field">
+              <label for="f-email">Email Address</label>
+              <input id="f-email" type="email" placeholder="jane@example.com" autocomplete="email" />
+            </div>
+            <div class="form-field">
+              <label for="f-phone">Phone Number</label>
+              <input id="f-phone" type="tel" placeholder="(206) 555-0100" autocomplete="tel" />
+            </div>
           </div>
-          <div>
-            <label class="text-[#F0EBE1]/40 text-[0.68rem] uppercase tracking-wider font-body block mb-2" for="phone">Phone Number</label>
-            <input id="phone" type="tel" placeholder="(555) 000-0000" class="form-field">
-          </div>
-          <div>
-            <label class="text-[#F0EBE1]/40 text-[0.68rem] uppercase tracking-wider font-body block mb-2" for="service">Service Needed</label>
-            <select id="service" class="form-field cursor-pointer">
-              <option value="">Select a service...</option>
+          <div class="form-field">
+            <label for="f-service">Service Interested In</label>
+            <select id="f-service">
+              <option value="" disabled selected>Select a service…</option>
               <option value="windows">Window Installation / Replacement</option>
-              <option value="decks">Custom Deck Construction</option>
-              <option value="both">Both Windows & Decks</option>
+              <option value="decks">Custom Deck Design &amp; Build</option>
+              <option value="both">Both Windows &amp; Decks</option>
+              <option value="other">Other / Not Sure Yet</option>
             </select>
           </div>
-          <div>
-            <label class="text-[#F0EBE1]/40 text-[0.68rem] uppercase tracking-wider font-body block mb-2" for="msg">Project Details</label>
-            <textarea id="msg" rows="4" placeholder="Tell us about your project — size, timeline, any specific requirements..." class="form-field resize-none"></textarea>
+          <div class="form-field">
+            <label for="f-message">Tell Us About Your Project</label>
+            <textarea id="f-message" placeholder="Describe your project — scope, timeline, any specific requirements…"></textarea>
           </div>
-          <button type="submit" class="btn-gold justify-center mt-1">
-            Request a Free Quote
-            <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <button type="submit" class="btn-gold">
+            Send My Request &rarr;
           </button>
+          <p class="form-note">No spam. We respond within one business day.</p>
         </form>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
 
-<!-- FOOTER -->
-<footer class="bg-[#1A1714] py-12 px-6 md:px-10 lg:px-16 xl:px-24 border-t border-white/[0.05]">
-  <div class="max-w-7xl mx-auto">
-    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 pb-10 mb-10 border-b border-white/[0.06]">
-      <a href="#" class="flex items-center gap-3">
-        <div class="w-8 h-8 rounded-full border border-[#C4945A]/55 flex items-center justify-center">
-          <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
-            <rect x="1.5" y="1.5" width="7" height="7" rx="0.75" stroke="#C4945A" stroke-width="1.3"/>
-            <rect x="11.5" y="1.5" width="7" height="7" rx="0.75" stroke="#C4945A" stroke-width="1.3"/>
-            <rect x="1.5" y="11.5" width="7" height="7" rx="0.75" stroke="#C4945A" stroke-width="1.3"/>
-            <rect x="11.5" y="11.5" width="7" height="7" rx="0.75" stroke="#C4945A" stroke-width="1.3"/>
-          </svg>
-        </div>
-        <div class="leading-none">
-          <span class="font-display text-[#F0EBE1] text-[1rem] tracking-[-0.01em] block">The Window</span>
-          <span class="font-display text-[#C4945A] italic text-[1rem] tracking-[-0.01em] block">Professor</span>
-        </div>
-      </a>
-      <div class="flex flex-wrap gap-7">
-        <a href="#services" class="text-[#F0EBE1]/42 hover:text-[#F0EBE1] text-[0.85rem] font-body transition-colors">Services</a>
-        <a href="#portfolio" class="text-[#F0EBE1]/42 hover:text-[#F0EBE1] text-[0.85rem] font-body transition-colors">Portfolio</a>
-        <a href="#about" class="text-[#F0EBE1]/42 hover:text-[#F0EBE1] text-[0.85rem] font-body transition-colors">About</a>
-        <a href="#reviews" class="text-[#F0EBE1]/42 hover:text-[#F0EBE1] text-[0.85rem] font-body transition-colors">Reviews</a>
-        <a href="#contact" class="text-[#F0EBE1]/42 hover:text-[#F0EBE1] text-[0.85rem] font-body transition-colors">Contact</a>
+  <!-- ═══════════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════════ -->
+  <footer id="footer" role="contentinfo">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-logo-mark">The Window Professor</div>
+        <div class="footer-logo-sub">Premium Windows &amp; Decks</div>
       </div>
+      <ul class="footer-links">
+        <li><a href="#services">Services</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#testimonials">Reviews</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <div class="footer-copy">&copy; 2026 The Window Professor. All rights reserved.</div>
     </div>
-    <div class="flex flex-col md:flex-row justify-between items-center gap-3">
-      <p class="text-[#F0EBE1]/28 text-[0.78rem] font-body">© 2025 The Window Professor. All rights reserved. &nbsp;·&nbsp; Licensed & Insured</p>
-      <p class="text-[#F0EBE1]/18 text-[0.78rem] font-body">Premium Windows & Custom Decks</p>
-    </div>
-  </div>
-</footer>
+  </footer>
 
 
-<script>
-  // Sticky nav
-  const nav = document.getElementById('main-nav');
-  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 50);
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
+  <!-- ═══════════════════════════════════════════════
+       JAVASCRIPT
+  ═══════════════════════════════════════════════ -->
+  <script>
+    // ── Nav scroll state ─────────────────────────────
+    const nav = document.getElementById('main-nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 16);
+    }, { passive: true });
 
-  // Mobile menu toggle
-  const menuBtn = document.getElementById('menu-btn');
-  const mobileMenu = document.getElementById('mobile-menu');
-  const menuIcon = document.getElementById('menu-icon');
-  const closeIcon = document.getElementById('close-icon');
-  menuBtn.addEventListener('click', () => {
-    const open = mobileMenu.classList.toggle('open');
-    menuBtn.setAttribute('aria-expanded', open);
-    menuIcon.style.display = open ? 'none' : 'block';
-    closeIcon.style.display = open ? 'block' : 'none';
-  });
-  // Close menu when a link is tapped
-  document.querySelectorAll('#mobile-menu a').forEach(link => {
-    link.addEventListener('click', () => {
-      mobileMenu.classList.remove('open');
-      menuBtn.setAttribute('aria-expanded', 'false');
-      menuIcon.style.display = 'block';
-      closeIcon.style.display = 'none';
+    // ── Hamburger toggle ─────────────────────────────
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    hamburger.addEventListener('click', () => {
+      const isOpen = mobileMenu.classList.toggle('open');
+      hamburger.classList.toggle('open', isOpen);
+      hamburger.setAttribute('aria-expanded', isOpen.toString());
     });
-  });
 
-  // Fade-up on scroll
-  const io = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-  document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
-</script>
+    // Close mobile menu on link click
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.remove('open');
+        hamburger.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', 'false');
+      });
+    });
 
+    // ── IntersectionObserver fade-up ─────────────────
+    const fadeEls = document.querySelectorAll('.fade-up');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.12,
+      rootMargin: '0px 0px -40px 0px'
+    });
+
+    fadeEls.forEach(el => observer.observe(el));
+
+    // ── Form submit placeholder ───────────────────────
+    document.querySelector('.contact-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const btn = e.target.querySelector('.btn-gold');
+      btn.textContent = 'Message Sent — We\'ll be in touch!';
+      btn.style.background = 'var(--gold-dk)';
+      btn.disabled = true;
+    });
+  </script>
 </body>
-</html>
