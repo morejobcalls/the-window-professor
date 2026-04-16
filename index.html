@@ -438,25 +438,25 @@
     }
     .arrow-icon { font-size: 14px; }
 
-    /* ─── ABOUT / WHY US ──────────────────────────────────────── */
+    /* ─── ABOUT / OUR STORY ───────────────────────────────────── */
     #about { background: var(--pale); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
     .about-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 80px;
-      align-items: start;
+      align-items: center;
     }
     .about-left {}
     .about-pull-quote {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(20px, 2.2vw, 27px);
+      font-size: clamp(18px, 2vw, 24px);
       font-style: italic;
       font-weight: 400;
       color: var(--ink);
-      line-height: 1.5;
+      line-height: 1.55;
       border-left: 3px solid var(--gold);
       padding-left: 24px;
-      margin: 32px 0;
+      margin: 28px 0;
     }
     .about-body {
       font-size: 15px;
@@ -465,7 +465,86 @@
       color: var(--ink-mid);
     }
     .about-body + .about-body { margin-top: 16px; }
-    .about-right {}
+    .about-right { position: relative; }
+    .about-photo-wrap {
+      position: relative;
+    }
+    .about-photo {
+      width: 100%;
+      aspect-ratio: 4/5;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+      border-radius: 4px;
+    }
+    .about-nameplate {
+      position: absolute;
+      bottom: -1px;
+      left: 0; right: 0;
+      background: var(--ink);
+      padding: 20px 24px;
+      border-radius: 0 0 4px 4px;
+    }
+    .about-nameplate-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-weight: 500;
+      color: #fff;
+      letter-spacing: -0.01em;
+    }
+    .about-nameplate-title {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-top: 4px;
+    }
+    .about-stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      border: 1px solid var(--rule);
+      margin-top: 20px;
+      background: var(--bg);
+    }
+    .about-stat {
+      padding: 20px 16px;
+      text-align: center;
+      border-right: 1px solid var(--rule);
+    }
+    .about-stat:last-child { border-right: none; }
+    .about-stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      font-weight: 500;
+      color: var(--ink);
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+    .about-stat-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-top: 6px;
+    }
+    .about-cta-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--gold);
+      margin-top: 28px;
+      text-decoration: none;
+      letter-spacing: 0.02em;
+      transition: color 0.2s;
+    }
+    .about-cta-link:hover { color: var(--gold-dk); }
     .why-list {
       display: flex;
       flex-direction: column;
@@ -910,6 +989,11 @@
         margin-bottom: 36px;
       }
 
+      /* About */
+      .about-grid { grid-template-columns: 1fr; gap: 48px; }
+      .about-right { order: -1; }
+      .about-stats-row { grid-template-columns: repeat(3, 1fr); }
+
       /* Services */
       .services-grid { grid-template-columns: 1fr; gap: 24px; }
       .service-card-img { height: 220px; }
@@ -1102,6 +1186,7 @@
           <li><a href="#services">Services</a></li>
           <li><a href="#gallery">Gallery</a></li>
           <li><a href="#about">About</a></li>
+          <li><a href="our-story.html">Our Story</a></li>
           <li><a href="#testimonials">Reviews</a></li>
           <li><a href="#service-areas">Service Areas</a></li>
           <li><a href="#faq">FAQ</a></li>
@@ -1122,6 +1207,7 @@
         <li><a href="#services" role="menuitem">Services</a></li>
         <li><a href="#gallery" role="menuitem">Gallery</a></li>
         <li><a href="#about" role="menuitem">About</a></li>
+        <li><a href="our-story.html" role="menuitem">Our Story</a></li>
         <li><a href="#testimonials" role="menuitem">Reviews</a></li>
         <li><a href="#service-areas" role="menuitem">Service Areas</a></li>
         <li><a href="#faq" role="menuitem">FAQ</a></li>
@@ -1354,52 +1440,52 @@
   <section id="about">
     <div class="section-wrap">
       <div class="about-grid">
-        <!-- Left: editorial copy -->
+        <!-- Left: Jeff's story -->
         <div class="about-left">
-          <p class="section-label fade-up">About The Professor</p>
-          <h2 class="section-heading fade-up delay-1" style="margin-bottom:0;">A Different Kind<br>of Contractor</h2>
+          <p class="section-label fade-up">Meet the Owner</p>
+          <h2 class="section-heading fade-up delay-1">He was a teacher<br>before he was a contractor.</h2>
           <blockquote class="about-pull-quote fade-up delay-2">
-            "We don't just install windows and build decks — we obsess over the details most contractors skip."
+            "I'm not a salesman. I never have been. My job is to help you understand what you're buying and why it's right for your home."
           </blockquote>
           <p class="about-body fade-up delay-2">
-            The Window Professor was founded on a simple conviction: homeowners deserve a contractor who shows up on time, communicates clearly, and delivers work that looks as good in ten years as the day it was finished.
+            Before Jeff Haring ever measured a window or swung a hammer, he stood in front of a classroom. When he made the move into home improvement, he brought the one thing almost nobody in the trades ever does: the instinct to teach first and sell second.
+          </p>
+          <p class="about-body fade-up delay-3">
+            Homeowners started calling him "the professor" not because it was on a truck door, but because sitting across from Jeff at a kitchen table felt different from every other contractor they'd met. He explained product grades. He told them what questions to ask competitors. He was honest about what their home needed — and what it didn't.
           </p>
           <p class="about-body fade-up delay-3" style="margin-top:16px;">
-            Our team combines decades of hands-on installation experience with a genuine passion for craft. We're fully licensed, bonded, and insured — and every project comes with our written satisfaction guarantee.
+            That philosophy built a company from the ground up — and still drives every estimate, every install, and every follow-up call today.
           </p>
+          <a href="our-story.html" class="about-cta-link fade-up delay-3">
+            Read Jeff's Full Story &rarr;
+          </a>
         </div>
 
-        <!-- Right: numbered reasons -->
-        <div class="about-right">
-          <p class="section-label fade-up" style="margin-bottom:20px;">Why Homeowners Choose Us</p>
-          <div class="why-list">
-            <div class="why-item fade-up">
-              <span class="why-num">01</span>
-              <div>
-                <h4 class="why-title">Transparent Pricing</h4>
-                <p class="why-desc">Detailed written quotes with zero hidden fees. What you're quoted is what you pay — always.</p>
-              </div>
+        <!-- Right: Jeff's photo + stats -->
+        <div class="about-right fade-up delay-1">
+          <div class="about-photo-wrap">
+            <img
+              src="images/jeff-haring-owner.jpeg"
+              alt="Jeff Haring, founder of The Window Professor, on a job site"
+              class="about-photo"
+            />
+            <div class="about-nameplate">
+              <div class="about-nameplate-name">Jeff Haring</div>
+              <div class="about-nameplate-title">Founder &amp; Owner, The Window Professor</div>
             </div>
-            <div class="why-item fade-up delay-1">
-              <span class="why-num">02</span>
-              <div>
-                <h4 class="why-title">Premium Materials Only</h4>
-                <p class="why-desc">We source from top-tier manufacturers and will never substitute materials without your explicit approval.</p>
-              </div>
+          </div>
+          <div class="about-stats-row">
+            <div class="about-stat">
+              <div class="about-stat-num">20<span style="font-size:0.6em; color:var(--gold);">+</span></div>
+              <div class="about-stat-label">Years in Michigan</div>
             </div>
-            <div class="why-item fade-up delay-2">
-              <span class="why-num">03</span>
-              <div>
-                <h4 class="why-title">On-Time, Every Time</h4>
-                <p class="why-desc">We respect your schedule. Projects are planned carefully and we communicate any changes proactively.</p>
-              </div>
+            <div class="about-stat">
+              <div class="about-stat-num">75<span style="font-size:0.6em; color:var(--gold);">mi</span></div>
+              <div class="about-stat-label">Service Radius</div>
             </div>
-            <div class="why-item fade-up delay-3">
-              <span class="why-num">04</span>
-              <div>
-                <h4 class="why-title">Workmanship Warranty</h4>
-                <p class="why-desc">All installations are backed by our written workmanship warranty, in addition to manufacturer guarantees.</p>
-              </div>
+            <div class="about-stat">
+              <div class="about-stat-num">40<span style="font-size:0.6em; color:var(--gold);">%+</span></div>
+              <div class="about-stat-label">Close Rate</div>
             </div>
           </div>
         </div>
@@ -1734,6 +1820,7 @@
       <ul class="footer-links">
         <li><a href="#services">Services</a></li>
         <li><a href="siding-mi.html">Siding</a></li>
+        <li><a href="our-story.html">Our Story</a></li>
         <li><a href="#about">About</a></li>
         <li><a href="#testimonials">Reviews</a></li>
         <li><a href="#contact">Contact</a></li>
