@@ -12,6 +12,9 @@
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://thewindowprofessor.pro/" />
 
+  <!-- Favicon -->
+  <link rel="icon" type="image/jpeg" href="images/logo-icon.jpeg" />
+
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -97,23 +100,13 @@
       gap: 24px;
     }
     .nav-logo-mark {
-      font-family: 'Playfair Display', serif;
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--ink);
-      line-height: 1.2;
-      letter-spacing: -0.01em;
-      white-space: nowrap;
+      display: flex;
+      align-items: center;
     }
-    .nav-logo-sub {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 10px;
-      font-weight: 500;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--ink-light);
+    .nav-logo-img {
+      height: 48px;
+      width: auto;
       display: block;
-      margin-top: 1px;
     }
     .nav-links {
       display: flex;
@@ -510,19 +503,28 @@
       color: var(--ink-mid);
     }
 
-    /* ─── TESTIMONIALS ────────────────────────────────────────── */
-    #testimonials { background: var(--cream); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
-    .testi-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 32px;
+    /* ─── TESTIMONIALS CAROUSEL ──────────────────────────────── */
+    #testimonials { background: var(--cream); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); overflow: hidden; }
+    .testi-carousel-outer { position: relative; }
+    .testi-track-wrap {
+      overflow: hidden;
+      -webkit-mask-image: linear-gradient(to right, transparent 0, black 60px, black calc(100% - 60px), transparent 100%);
+      mask-image: linear-gradient(to right, transparent 0, black 60px, black calc(100% - 60px), transparent 100%);
+    }
+    .testi-track {
+      display: flex;
+      gap: 24px;
+      transition: transform 0.48s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      will-change: transform;
     }
     .testi-card {
+      flex: 0 0 calc(33.333% - 16px);
       background: var(--bg);
       border: 1px solid var(--rule);
       padding: 40px 36px 36px;
       display: flex;
       flex-direction: column;
+      user-select: none;
     }
     .testi-open-quote {
       font-family: 'Playfair Display', serif;
@@ -532,7 +534,6 @@
       margin-bottom: 20px;
       font-weight: 700;
       opacity: 0.6;
-      select: none;
     }
     .testi-quote {
       font-family: 'Playfair Display', serif;
@@ -563,6 +564,42 @@
       color: var(--ink-light);
       margin-top: 2px;
     }
+    .testi-source {
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--ink-light);
+      margin-top: 6px;
+      letter-spacing: 0.04em;
+    }
+    .testi-nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 40px;
+    }
+    .testi-btn {
+      width: 44px; height: 44px;
+      border: 1px solid var(--rule);
+      background: var(--bg);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 2px;
+      transition: border-color 0.2s, background 0.2s;
+      flex-shrink: 0;
+    }
+    .testi-btn:hover { border-color: var(--ink); background: var(--ink); }
+    .testi-btn:hover svg { stroke: white; }
+    .testi-btn svg { stroke: var(--ink); transition: stroke 0.2s; }
+    .testi-dots { display: flex; gap: 6px; }
+    .testi-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--rule);
+      transition: background 0.25s;
+      cursor: pointer;
+    }
+    .testi-dot.active { background: var(--gold); }
 
     /* ─── CONTACT / CTA ───────────────────────────────────────── */
     #contact { background: var(--ink); }
@@ -702,6 +739,51 @@
       margin-top: 4px;
     }
 
+    /* ─── GALLERY ─────────────────────────────────────────────── */
+    #gallery { background: var(--bg-soft); }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-auto-rows: 280px;
+      gap: 12px;
+      margin-top: 48px;
+    }
+    .gallery-item {
+      overflow: hidden;
+      border-radius: 8px;
+    }
+    .gallery-item.gallery-wide {
+      grid-column: span 2;
+    }
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+    .gallery-item:hover img {
+      transform: scale(1.04);
+    }
+    @media (max-width: 768px) {
+      .gallery-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-auto-rows: 200px;
+      }
+      .gallery-item.gallery-wide {
+        grid-column: span 2;
+      }
+    }
+    @media (max-width: 480px) {
+      .gallery-grid {
+        grid-template-columns: 1fr;
+        grid-auto-rows: 240px;
+      }
+      .gallery-item.gallery-wide {
+        grid-column: span 1;
+      }
+    }
+
     /* ─── FOOTER ──────────────────────────────────────────────── */
     #footer {
       background: var(--bg);
@@ -732,6 +814,18 @@
       text-transform: uppercase;
       color: var(--ink-light);
       margin-top: 2px;
+    }
+    .footer-logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .footer-logo-icon {
+      height: 44px;
+      width: 44px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
     }
     .footer-links {
       display: flex;
@@ -829,11 +923,8 @@
       .about-pull-quote { font-size: 18px; }
 
       /* Testimonials */
-      .testi-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
-      }
-      .testi-card { padding: 28px 24px 24px; }
+      .testi-card { flex: 0 0 85vw; padding: 28px 24px 24px; }
+      .testi-track-wrap { -webkit-mask-image: none; mask-image: none; }
 
       /* Contact */
       .contact-inner {
@@ -854,8 +945,7 @@
     }
 
     @media (min-width: 640px) and (max-width: 900px) {
-      .testi-grid { grid-template-columns: 1fr 1fr; }
-      .testi-card:last-child { grid-column: span 2; }
+      .testi-card { flex: 0 0 calc(50% - 12px); }
       .hero-inner { gap: 40px; }
       .section-wrap { padding: 72px 28px; }
     }
@@ -1001,14 +1091,14 @@
     <div class="nav-inner">
       <!-- Logo -->
       <a href="#hero" class="nav-logo-mark" aria-label="The Window Professor home">
-        The Window<br>Professor
-        <span class="nav-logo-sub">Premium Windows &amp; Decks</span>
+        <img src="images/logo-full.jpeg" alt="The Window Professor" class="nav-logo-img" />
       </a>
 
       <!-- Desktop links -->
       <div class="nav-links-wrap" style="flex:1; display:flex; align-items:center; justify-content:center;">
         <ul class="nav-links">
           <li><a href="#services">Services</a></li>
+          <li><a href="#gallery">Gallery</a></li>
           <li><a href="#about">About</a></li>
           <li><a href="#testimonials">Reviews</a></li>
           <li><a href="#service-areas">Service Areas</a></li>
@@ -1028,6 +1118,7 @@
     <div id="mobile-menu" role="menu">
       <ul>
         <li><a href="#services" role="menuitem">Services</a></li>
+        <li><a href="#gallery" role="menuitem">Gallery</a></li>
         <li><a href="#about" role="menuitem">About</a></li>
         <li><a href="#testimonials" role="menuitem">Reviews</a></li>
         <li><a href="#service-areas" role="menuitem">Service Areas</a></li>
@@ -1128,7 +1219,7 @@
         <div class="service-card fade-up">
           <img
             class="service-card-img"
-            src="https://placehold.co/880x550/EDE8E0/D5CEC5?text=+"
+            src="images/windows/lifestyle-windows-luxury-home-exterior.webp"
             alt="Premium window installation project"
             loading="lazy"
           />
@@ -1148,7 +1239,7 @@
         <div class="service-card fade-up delay-1">
           <img
             class="service-card-img"
-            src="https://placehold.co/880x550/EDE8E0/D5CEC5?text=+"
+            src="images/decks/deck-outdoor-fireplace.png"
             alt="Custom deck design and build project"
             loading="lazy"
           />
@@ -1162,6 +1253,56 @@
               Explore Decks <span class="arrow-icon">&rarr;</span>
             </a>
           </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════
+       GALLERY
+  ═══════════════════════════════════════════════ -->
+  <section id="gallery">
+    <div class="section-wrap">
+      <div class="section-heading-row">
+        <div>
+          <p class="section-label">Our Work</p>
+          <h2 class="section-heading fade-up">Windows &amp; Decks<br>That Speak for Themselves</h2>
+        </div>
+      </div>
+
+      <div class="gallery-grid">
+        <!-- Row 1 -->
+        <div class="gallery-item gallery-wide fade-up">
+          <img src="images/windows/impervia-casement-awning-living-room.webp" alt="Black casement windows in sunroom" loading="lazy" />
+        </div>
+        <div class="gallery-item fade-up delay-1">
+          <img src="images/windows/contemporary-wood-windows-dining-room.webp" alt="Wood windows in dining room" loading="lazy" />
+        </div>
+        <div class="gallery-item fade-up delay-2">
+          <img src="images/windows/lifestyle-tall-windows-sunroom.webp" alt="Tall windows on screened porch" loading="lazy" />
+        </div>
+
+        <!-- Row 2 -->
+        <div class="gallery-item fade-up">
+          <img src="images/windows/impervia-casement-black-wall.webp" alt="Casement windows in bold navy living room" loading="lazy" />
+        </div>
+        <div class="gallery-item gallery-wide fade-up delay-1">
+          <img src="images/decks/deck-outdoor-fireplace.png" alt="Custom deck with outdoor stone fireplace" loading="lazy" />
+        </div>
+        <div class="gallery-item fade-up delay-2">
+          <img src="images/windows/after-wood-bow-window.jpg" alt="Installed bow window in living room" loading="lazy" />
+        </div>
+
+        <!-- Row 3 -->
+        <div class="gallery-item fade-up">
+          <img src="images/windows/250-single-hung-hidden-screen.webp" alt="Single hung window above kitchen sink" loading="lazy" />
+        </div>
+        <div class="gallery-item fade-up delay-1">
+          <img src="images/windows/lifestyle-double-hung-gray-living-room.webp" alt="Double hung windows in modern living room" loading="lazy" />
+        </div>
+        <div class="gallery-item fade-up delay-2">
+          <img src="images/windows/exterior-home-wood-windows-door.jpg" alt="Classic home exterior with wood windows" loading="lazy" />
         </div>
       </div>
     </div>
@@ -1238,41 +1379,90 @@
         <h2 class="section-heading fade-up delay-1">What Homeowners Are Saying</h2>
       </div>
 
-      <div class="testi-grid">
-        <!-- Card 1 -->
-        <div class="testi-card fade-up">
-          <div class="testi-open-quote">&ldquo;</div>
-          <p class="testi-quote">
-            From the initial consultation to the final walkthrough, every step was handled with professionalism I didn't know was possible in a contractor. Our new windows have transformed how the house feels — lighter, quieter, warmer.
-          </p>
-          <div class="testi-rule"></div>
-          <div class="testi-stars">★★★★★</div>
-          <div class="testi-name">Margaret &amp; Tom H.</div>
-          <div class="testi-location">Bellevue, WA</div>
+      <div class="testi-carousel-outer fade-up delay-2">
+        <div class="testi-track-wrap">
+          <div class="testi-track" id="testi-track">
+
+            <!-- REAL REVIEW 1 — sourced from Angi -->
+            <div class="testi-card">
+              <div class="testi-open-quote">&ldquo;</div>
+              <p class="testi-quote">Jeff's install team was fabulous! Logan and his crew were respectful, efficient, and highly skilled. My windows and entry door look so great! Highly recommend this company.</p>
+              <div class="testi-rule"></div>
+              <div class="testi-stars">★★★★★</div>
+              <div class="testi-name">Verified Reviewer</div>
+              <div class="testi-location">Michigan</div>
+              <div class="testi-source">via Angi</div>
+            </div>
+
+            <!-- REAL REVIEW 2 — sourced from Angi -->
+            <div class="testi-card">
+              <div class="testi-open-quote">&ldquo;</div>
+              <p class="testi-quote">The Window Professor did a deck rebuild for us. They tore down the old, rotting deck and put in a new composite deck. They did a great job — professional, timely, and the deck turned out beautiful! I would highly recommend their services.</p>
+              <div class="testi-rule"></div>
+              <div class="testi-stars">★★★★★</div>
+              <div class="testi-name">Verified Reviewer</div>
+              <div class="testi-location">Michigan</div>
+              <div class="testi-source">via Angi</div>
+            </div>
+
+            <!-- REAL REVIEW 3 — sourced from Angi -->
+            <div class="testi-card">
+              <div class="testi-open-quote">&ldquo;</div>
+              <p class="testi-quote">It was a custom Pella window with stained glass that took a lot of planning — they did a great job, were very attentive to detail and communicated well with us every step of the way. We are thrilled with our new window. We definitely recommend The Window Professor!</p>
+              <div class="testi-rule"></div>
+              <div class="testi-stars">★★★★★</div>
+              <div class="testi-name">Verified Reviewer</div>
+              <div class="testi-location">Michigan</div>
+              <div class="testi-source">via Angi</div>
+            </div>
+
+            <!-- Clones for infinite loop feel — JS will handle positioning -->
+            <div class="testi-card" aria-hidden="true">
+              <div class="testi-open-quote">&ldquo;</div>
+              <p class="testi-quote">Jeff's install team was fabulous! Logan and his crew were respectful, efficient, and highly skilled. My windows and entry door look so great! Highly recommend this company.</p>
+              <div class="testi-rule"></div>
+              <div class="testi-stars">★★★★★</div>
+              <div class="testi-name">Verified Reviewer</div>
+              <div class="testi-location">Michigan</div>
+              <div class="testi-source">via Angi</div>
+            </div>
+
+            <div class="testi-card" aria-hidden="true">
+              <div class="testi-open-quote">&ldquo;</div>
+              <p class="testi-quote">The Window Professor did a deck rebuild for us. They tore down the old, rotting deck and put in a new composite deck. They did a great job — professional, timely, and the deck turned out beautiful! I would highly recommend their services.</p>
+              <div class="testi-rule"></div>
+              <div class="testi-stars">★★★★★</div>
+              <div class="testi-name">Verified Reviewer</div>
+              <div class="testi-location">Michigan</div>
+              <div class="testi-source">via Angi</div>
+            </div>
+
+            <div class="testi-card" aria-hidden="true">
+              <div class="testi-open-quote">&ldquo;</div>
+              <p class="testi-quote">It was a custom Pella window with stained glass that took a lot of planning — they did a great job, were very attentive to detail and communicated well with us every step of the way. We are thrilled with our new window. We definitely recommend The Window Professor!</p>
+              <div class="testi-rule"></div>
+              <div class="testi-stars">★★★★★</div>
+              <div class="testi-name">Verified Reviewer</div>
+              <div class="testi-location">Michigan</div>
+              <div class="testi-source">via Angi</div>
+            </div>
+
+          </div>
         </div>
 
-        <!-- Card 2 -->
-        <div class="testi-card fade-up delay-1">
-          <div class="testi-open-quote">&ldquo;</div>
-          <p class="testi-quote">
-            The deck they built for us is genuinely one of the best investments we've made in this home. The craftsmanship is exceptional, the timeline was honored, and the crew left the site cleaner than they found it.
-          </p>
-          <div class="testi-rule"></div>
-          <div class="testi-stars">★★★★★</div>
-          <div class="testi-name">Kevin R.</div>
-          <div class="testi-location">Kirkland, WA</div>
-        </div>
-
-        <!-- Card 3 -->
-        <div class="testi-card fade-up delay-2">
-          <div class="testi-open-quote">&ldquo;</div>
-          <p class="testi-quote">
-            I've worked with three other contractors before calling The Window Professor. The difference is night and day. Honest communication, no surprises on the bill, and work that looks exactly like the rendering we approved.
-          </p>
-          <div class="testi-rule"></div>
-          <div class="testi-stars">★★★★★</div>
-          <div class="testi-name">Sandra L.</div>
-          <div class="testi-location">Redmond, WA</div>
+        <!-- Navigation -->
+        <div class="testi-nav">
+          <button class="testi-btn" id="testi-prev" aria-label="Previous review">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="11 4 6 9 11 14"/></svg>
+          </button>
+          <div class="testi-dots" id="testi-dots">
+            <div class="testi-dot active" data-index="0"></div>
+            <div class="testi-dot" data-index="1"></div>
+            <div class="testi-dot" data-index="2"></div>
+          </div>
+          <button class="testi-btn" id="testi-next" aria-label="Next review">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="7 4 12 9 7 14"/></svg>
+          </button>
         </div>
       </div>
     </div>
@@ -1419,7 +1609,7 @@
             <div class="contact-detail-icon">&#9679;</div>
             <div>
               <div class="contact-detail-label">Service Area</div>
-              <div class="contact-detail-value">Greater Seattle — Bellevue, Kirkland,<br>Redmond, Sammamish &amp; surrounding cities</div>
+              <div class="contact-detail-value">Oakland County &amp; Livingston County,<br>Michigan</div>
             </div>
           </div>
           <div class="contact-detail-item">
@@ -1484,9 +1674,12 @@
   ═══════════════════════════════════════════════ -->
   <footer id="footer" role="contentinfo">
     <div class="footer-inner">
-      <div>
-        <div class="footer-logo-mark">The Window Professor</div>
-        <div class="footer-logo-sub">Premium Windows &amp; Decks</div>
+      <div class="footer-logo-wrap">
+        <img src="images/logo-icon.jpeg" alt="The Window Professor icon" class="footer-logo-icon" />
+        <div>
+          <div class="footer-logo-mark">The Window Professor</div>
+          <div class="footer-logo-sub">Premium Windows &amp; Decks</div>
+        </div>
       </div>
       <ul class="footer-links">
         <li><a href="#services">Services</a></li>
@@ -1544,6 +1737,100 @@
     });
 
     fadeEls.forEach(el => observer.observe(el));
+
+    // ── Testimonials Carousel ────────────────────────
+    (function() {
+      const track   = document.getElementById('testi-track');
+      const prevBtn = document.getElementById('testi-prev');
+      const nextBtn = document.getElementById('testi-next');
+      const dots    = document.querySelectorAll('.testi-dot');
+      const TOTAL   = 3; // real cards
+      let current   = 0;
+      let isAnimating = false;
+
+      function cardWidth() {
+        const card = track.querySelector('.testi-card');
+        const gap  = 24;
+        return card.offsetWidth + gap;
+      }
+
+      function goTo(index, animate) {
+        if (animate === false) {
+          track.style.transition = 'none';
+        } else {
+          track.style.transition = 'transform 0.48s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+        }
+        track.style.transform = `translateX(-${index * cardWidth()}px)`;
+        current = ((index % TOTAL) + TOTAL) % TOTAL;
+        dots.forEach((d, i) => d.classList.toggle('active', i === current));
+      }
+
+      let absIndex = 0;
+
+      nextBtn.addEventListener('click', () => {
+        if (isAnimating) return;
+        isAnimating = true;
+        absIndex++;
+        // When we reach the clones, jump back silently
+        if (absIndex >= TOTAL * 2) {
+          goTo(absIndex, true);
+          track.addEventListener('transitionend', function once() {
+            track.removeEventListener('transitionend', once);
+            absIndex = absIndex - TOTAL;
+            goTo(absIndex, false);
+            isAnimating = false;
+          });
+        } else {
+          goTo(absIndex, true);
+          track.addEventListener('transitionend', function once() {
+            track.removeEventListener('transitionend', once);
+            isAnimating = false;
+          });
+        }
+      });
+
+      prevBtn.addEventListener('click', () => {
+        if (isAnimating) return;
+        isAnimating = true;
+        absIndex--;
+        if (absIndex < 0) {
+          // Jump to clone zone first
+          absIndex = TOTAL - 1;
+          goTo(absIndex, false);
+          requestAnimationFrame(() => requestAnimationFrame(() => {
+            isAnimating = false;
+          }));
+        } else {
+          goTo(absIndex, true);
+          track.addEventListener('transitionend', function once() {
+            track.removeEventListener('transitionend', once);
+            isAnimating = false;
+          });
+        }
+      });
+
+      dots.forEach((dot, i) => {
+        dot.addEventListener('click', () => {
+          absIndex = i;
+          goTo(i, true);
+        });
+      });
+
+      // Touch/swipe support
+      let touchStartX = 0;
+      track.parentElement.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+      track.parentElement.addEventListener('touchend', e => {
+        const diff = touchStartX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 40) diff > 0 ? nextBtn.click() : prevBtn.click();
+      }, { passive: true });
+
+      // Auto-advance every 6s
+      let autoTimer = setInterval(() => nextBtn.click(), 6000);
+      document.getElementById('testimonials').addEventListener('mouseenter', () => clearInterval(autoTimer));
+      document.getElementById('testimonials').addEventListener('mouseleave', () => {
+        autoTimer = setInterval(() => nextBtn.click(), 6000);
+      });
+    })();
 
     // ── Form submit placeholder ───────────────────────
     document.querySelector('.contact-form').addEventListener('submit', (e) => {
