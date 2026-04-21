@@ -1815,6 +1815,10 @@
             </div>
           </div>
           <div class="form-field">
+            <label for="f-address">Property Address</label>
+            <input id="f-address" type="text" placeholder="123 Main St, Clarkston, MI" autocomplete="street-address" required />
+          </div>
+          <div class="form-field">
             <label for="f-service">Service Interested In</label>
             <select id="f-service" required>
               <option value="" disabled selected>Select a service…</option>
@@ -2035,11 +2039,12 @@
       const lname   = document.getElementById('f-last').value.trim();
       const email   = document.getElementById('f-email').value.trim();
       const phone   = document.getElementById('f-phone').value.trim();
+      const address = document.getElementById('f-address').value.trim();
       const service = document.getElementById('f-service').value;
       const message = document.getElementById('f-message').value.trim();
 
-      if (!fname || !lname || !phone || !service) {
-        errBox.textContent = 'Please fill in your name, phone, and service.';
+      if (!fname || !lname || !phone || !address || !service) {
+        errBox.textContent = 'Please fill in your name, phone, address, and service.';
         errBox.style.display = 'block';
         return;
       }
@@ -2066,6 +2071,7 @@
         email:           email,
         source:          'Website',
         tags:            ['website-lead'],
+        address:         address,
         project_type:    service,
         project_details: message,
         page_url:        window.location.href,
@@ -2098,6 +2104,7 @@
           'Name: ' + fname + ' ' + lname,
           'Phone: ' + phone,
           'Email: ' + email,
+          'Address: ' + address,
           'Service: ' + service,
           'Details: ' + message,
           '',
