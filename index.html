@@ -23,6 +23,17 @@
   <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
+  <!-- UTM Attribution Capture -->
+  <script>
+    (function() {
+      var params = new URLSearchParams(window.location.search);
+      ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(function(k) {
+        var v = params.get(k);
+        if (v) sessionStorage.setItem(k, v);
+      });
+    })();
+  </script>
+
   <style>
     /* ─── TOKENS ──────────────────────────────────────────────── */
     :root {
@@ -1782,15 +1793,15 @@
 
       <!-- Right: form -->
       <div class="contact-right fade-up delay-2">
-        <form class="contact-form" novalidate>
+        <form id="estimate-form" class="contact-form" novalidate>
           <div class="form-row">
             <div class="form-field">
               <label for="f-first">First Name</label>
-              <input id="f-first" type="text" placeholder="Jane" autocomplete="given-name" />
+              <input id="f-first" type="text" placeholder="Jane" autocomplete="given-name" required />
             </div>
             <div class="form-field">
               <label for="f-last">Last Name</label>
-              <input id="f-last" type="text" placeholder="Smith" autocomplete="family-name" />
+              <input id="f-last" type="text" placeholder="Smith" autocomplete="family-name" required />
             </div>
           </div>
           <div class="form-row">
@@ -1800,12 +1811,12 @@
             </div>
             <div class="form-field">
               <label for="f-phone">Phone Number</label>
-              <input id="f-phone" type="tel" placeholder="(206) 555-0100" autocomplete="tel" />
+              <input id="f-phone" type="tel" placeholder="(206) 555-0100" autocomplete="tel" required />
             </div>
           </div>
           <div class="form-field">
             <label for="f-service">Service Interested In</label>
-            <select id="f-service">
+            <select id="f-service" required>
               <option value="" disabled selected>Select a service…</option>
               <option value="windows">Window Installation / Replacement</option>
               <option value="doors">Door Installation / Replacement</option>
@@ -1820,11 +1831,16 @@
             <label for="f-message">Tell Us About Your Project</label>
             <textarea id="f-message" placeholder="Describe your project — scope, timeline, any specific requirements…"></textarea>
           </div>
-          <button type="submit" class="btn-gold">
+          <div id="form-error" style="display:none; background:#fef2f2; border:1px solid #fecaca; color:#991b1b; padding:12px 14px; border-radius:6px; font-size:0.9375rem; margin-bottom:12px;"></div>
+          <button id="submit-btn" type="submit" class="btn-gold">
             Send My Request &rarr;
           </button>
           <p class="form-note">No spam. We respond within one business day.</p>
         </form>
+        <div id="form-success" style="display:none; background:#f0fdf4; border:1px solid #bbf7d0; color:#166534; padding:20px 22px; border-radius:8px;">
+          <h3 style="font-family:'Playfair Display',serif; font-size:1.25rem; font-weight:600; margin:0 0 8px 0;">Request received — thank you!</h3>
+          <p style="font-size:0.9375rem; line-height:1.6; margin:0;">We'll review your project and reach out within one business day to schedule your free estimate.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -1995,13 +2011,106 @@
       });
     })();
 
-    // ── Form submit placeholder ───────────────────────
-    document.querySelector('.contact-form').addEventListener('submit', (e) => {
+    // ── Phone auto-format ─────────────────────────────
+    document.getElementById('f-phone').addEventListener('input', function () {
+      const digits = this.value.replace(/\D/g, '').slice(0, 10);
+      if (digits.length < 4)      this.value = digits;
+      else if (digits.length < 7) this.value = '(' + digits.slice(0,3) + ') ' + digits.slice(3);
+      else                        this.value = '(' + digits.slice(0,3) + ') ' + digits.slice(3,6) + '-' + digits.slice(6);
+    });
+
+    // ── GHL Webhook Form Submission ───────────────────
+    const GHL_WEBHOOK = 'https://services.leadconnectorhq.com/hooks/MZy3ptgD8YEaudJRozQ7/webhook-trigger/3Hb2ufvAgrjy6MjesF8k';
+
+    document.getElementById('estimate-form').addEventListener('submit', async function (e) {
       e.preventDefault();
-      const btn = e.target.querySelector('.btn-gold');
-      btn.textContent = 'Message Sent — We\'ll be in touch!';
-      btn.style.background = 'var(--gold-dk)';
-      btn.disabled = true;
+
+      const form      = this;
+      const submitBtn = document.getElementById('submit-btn');
+      const errBox    = document.getElementById('form-error');
+      const successBox = document.getElementById('form-success');
+      const originalBtnHTML = submitBtn.innerHTML;
+
+      const fname   = document.getElementById('f-first').value.trim();
+      const lname   = document.getElementById('f-last').value.trim();
+      const email   = document.getElementById('f-email').value.trim();
+      const phone   = document.getElementById('f-phone').value.trim();
+      const service = document.getElementById('f-service').value;
+      const message = document.getElementById('f-message').value.trim();
+
+      if (!fname || !lname || !phone || !service) {
+        errBox.textContent = 'Please fill in your name, phone, and service.';
+        errBox.style.display = 'block';
+        return;
+      }
+      const phoneDigits = phone.replace(/\D/g, '');
+      if (phoneDigits.length !== 10) {
+        errBox.textContent = 'Please enter a valid 10-digit phone number.';
+        errBox.style.display = 'block';
+        document.getElementById('f-phone').focus();
+        return;
+      }
+      errBox.style.display = 'none';
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending…';
+
+      const utmKeys = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'];
+      const utmData = {};
+      utmKeys.forEach(k => { utmData[k] = sessionStorage.getItem(k) || ''; });
+
+      const payload = {
+        firstName:       fname,
+        lastName:        lname,
+        phone:           phone,
+        email:           email,
+        source:          'Website',
+        tags:            ['website-lead'],
+        project_type:    service,
+        project_details: message,
+        page_url:        window.location.href,
+        utm_source:      utmData.utm_source,
+        utm_medium:      utmData.utm_medium,
+        utm_campaign:    utmData.utm_campaign,
+        utm_content:     utmData.utm_content,
+        utm_term:        utmData.utm_term
+      };
+
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({ event: 'form_submit_attempt', form: 'estimate' });
+
+      try {
+        const res = await fetch(GHL_WEBHOOK, {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify(payload)
+        });
+        if (!res.ok) throw new Error('server');
+        window.dataLayer.push({ event: 'form_submit_success', form: 'estimate' });
+        form.style.display = 'none';
+        successBox.style.display = 'block';
+      } catch (err) {
+        window.dataLayer.push({ event: 'form_submit_failure', form: 'estimate' });
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalBtnHTML;
+
+        const mailBody = [
+          'Name: ' + fname + ' ' + lname,
+          'Phone: ' + phone,
+          'Email: ' + email,
+          'Service: ' + service,
+          'Details: ' + message,
+          '',
+          'Page: ' + payload.page_url
+        ].join('\n');
+        const mailtoHref = 'mailto:sales@thewindowprofessor.pro'
+          + '?subject=' + encodeURIComponent('Estimate request from website')
+          + '&body=' + encodeURIComponent(mailBody);
+        errBox.innerHTML = 'Something went wrong. Please try again, '
+          + '<a href="' + mailtoHref + '" style="font-weight:600; text-decoration:underline;">email us directly</a>, '
+          + 'or call <a href="tel:8559987472" style="font-weight:600; text-decoration:underline;">855-99-UPGRADE</a>.';
+        errBox.style.display = 'block';
+      }
     });
   </script>
 </body>
