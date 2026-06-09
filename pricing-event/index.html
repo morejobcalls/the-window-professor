@@ -23,6 +23,8 @@ fbq('init','1871208397137520');fbq('track','PageView');
 <noscript><img height="1" width="1" style="display:none"
 src="https://www.facebook.com/tr?id=1871208397137520&ev=PageView&noscript=1"/></noscript>
 <!-- End Meta Pixel -->
+<!-- CAPI attribution relay: injects fbp/fbc/event_id + reroutes the lead POST to the Worker (server-side dedup Lead) -->
+<script src="https://twp-capi-relay.spencer-80c.workers.dev/lp.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -305,7 +307,8 @@ function buildPayload(){
 function submit(){
   nextBtn.disabled=true; nextBtn.textContent='Submitting…';
   var payload=buildPayload();
-  try{ if(window.fbq) fbq('track','Lead',{content_name:'Window Quiz',content_category:'Windows'}); }catch(e){}
+  // NOTE: browser 'Lead' is fired by the CAPI worker snippet (/lp.js) with a shared
+  // event_id so it dedupes against the server-side CAPI Lead. Do not fire it here.
   var done=function(){ document.getElementById('card').style.display='none'; showQualify(); };
   try{
     fetch(CONFIG.webhook,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
