@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Window Professor — Owner-Direct Pricing Event</title>
+<!--
+  The Window Professor — WINDOW survey landing + quiz (v3, quiz-funnel style)
+  Modeled on the Tristate/Minyona quiz funnel, rebuilt in TWP brand and wired to
+  TWP's live GHL webhook. Multi-step qualifier quiz -> contact -> inline GHL calendar booking.
+  Field rules applied: US phone auto-format (+E.164 on submit), digits-only 5-zip,
+  email format-gate, inline handlers (GHL-safe). Keep the .txt paste copy in sync.
+-->
+<!-- Meta Pixel (The Window Professor — "Window Prof. - PIXEL" 1871208397137520) -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','1871208397137520');fbq('track','PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1871208397137520&ev=PageView&noscript=1"/></noscript>
+<!-- End Meta Pixel -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0e1a26; --navy-2:#3a4d5c; --slate:#7a8e9a;
+  --gold:#c4945a; --gold-2:#a87040; --gold-soft:#d9b388;
+  --cream:#f8f5f0; --cream-2:#fef9f0; --paper:#f3efe9;
+  --cta:#c4945a; --cta-hover:#a87040; --cta-text:#0e1a26;
+  --bg:#f8f5f0; --surface:#ffffff; --text:#0e1a26; --text-muted:#7a8e9a;
+  --border:#e0d8cf; --soft:#fef9f0; --success:#10b981; --error:#dc2626;
+  --radius:14px; --radius-sm:10px;
+  --shadow:0 4px 6px -1px rgba(14,26,38,.08),0 2px 4px -1px rgba(14,26,38,.04);
+  --shadow-lg:0 20px 25px -5px rgba(14,26,38,.12),0 10px 10px -5px rgba(14,26,38,.05);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;overflow-x:hidden;max-width:100%}
+body{font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
+h1,h2,h3,.serif{font-family:'Fraunces','Iowan Old Style',Georgia,serif}
+img{max-width:100%}
+.countdown-bar{position:sticky;top:0;z-index:60;background:var(--navy);color:var(--cream);text-align:center;padding:9px 16px;font-weight:600;font-size:14px;letter-spacing:.2px;border-bottom:2px solid var(--gold)}
+.countdown-bar b{color:var(--gold-soft);font-variant-numeric:tabular-nums}
+.head{display:flex;align-items:center;justify-content:center;gap:10px;padding:16px;background:var(--surface);border-bottom:1px solid var(--border)}
+.head .brand{font-family:'Fraunces',serif;font-weight:700;font-size:20px;color:var(--navy)}
+.head .brand em{color:var(--gold-2);font-style:normal}
+.wrap{max-width:640px;margin:0 auto;padding:24px 16px 60px}
+.hero{text-align:center;margin:6px 0 18px}
+.hero h1{font-size:30px;line-height:1.16;margin:0 0 10px;color:var(--navy);overflow-wrap:break-word}
+.hero h1 em{color:var(--gold-2);font-style:normal}
+.hero p{color:var(--text-muted);font-size:16px;margin:0 auto;max-width:520px}
+.trust{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin:16px 0 4px;color:var(--text-muted);font-size:13px}
+.trust span{display:inline-flex;align-items:center;gap:6px}
+.trust .dot{color:var(--gold-2)}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-lg);padding:22px;margin-top:18px}
+.progress{height:8px;background:var(--paper);border-radius:99px;overflow:hidden;margin-bottom:6px}
+.progress>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--gold-2));transition:width .35s ease}
+.progress-meta{display:flex;justify-content:space-between;font-size:12px;color:var(--text-muted);margin-bottom:14px}
+.q{display:none}
+.q.active{display:block;animation:fade .25s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.q-label{font-family:'Fraunces',serif;font-size:21px;font-weight:600;margin:2px 0 16px;line-height:1.25;color:var(--navy)}
+.option-list{display:grid;gap:10px}
+.option{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:15px 16px;font:inherit;font-size:16px;font-weight:500;color:var(--navy);cursor:pointer;transition:.15s}
+.option:hover{border-color:var(--gold);background:var(--cream-2)}
+.option.sel{border-color:var(--gold);background:var(--cream-2);box-shadow:0 0 0 3px rgba(196,148,90,.18)}
+.option-mark{flex:0 0 22px;height:22px;border:2px solid var(--border);border-radius:99px;position:relative;transition:.15s}
+.option.multi .option-mark{border-radius:6px}
+.option.sel .option-mark{border-color:var(--gold);background:var(--gold)}
+.option.sel .option-mark:after{content:"";position:absolute;left:6px;top:2px;width:6px;height:11px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+.fields{display:grid;gap:12px}
+.field input{width:100%;padding:14px 15px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font:inherit;font-size:16px;color:var(--navy)}
+.field input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(196,148,90,.18)}
+.field.err input{border-color:var(--error)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.nav{display:flex;gap:10px;margin-top:18px}
+.btn{appearance:none;border:0;border-radius:var(--radius-sm);padding:15px 20px;font:inherit;font-size:16px;font-weight:700;cursor:pointer;transition:.15s}
+.btn-primary{flex:1;background:var(--cta);color:var(--cta-text)}
+.btn-primary:hover{background:var(--cta-hover);color:#fff}
+.btn-primary:disabled{opacity:.45;cursor:not-allowed}
+.btn-ghost{background:var(--paper);color:var(--text-muted)}
+.hint{font-size:12px;color:var(--text-muted);text-align:center;margin-top:12px}
+.qualify,.booking{display:none;text-align:center}
+.qualify.active,.booking.active{display:block;animation:fade .3s ease}
+.badge{display:inline-flex;align-items:center;gap:8px;background:var(--cream-2);color:var(--gold-2);font-weight:700;padding:8px 16px;border-radius:99px;font-size:14px;margin-bottom:12px;border:1px solid var(--gold-soft)}
+.qualify h2{font-size:26px;margin:6px 0 8px;color:var(--navy)}
+.booking h2{font-size:24px;margin:6px 0 6px;color:var(--navy)}
+.booking .sub{color:var(--text-muted);max-width:520px;margin:0 auto 14px;font-size:15px}
+.booking-frame{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;min-height:700px}
+.booking-frame iframe{display:block;width:100%;min-height:700px;border:0}
+.fineprint{color:var(--text-muted);font-size:12px;text-align:center;margin:24px auto 0;max-width:520px;line-height:1.5}
+@media(max-width:480px){.hero h1{font-size:25px}.row2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="countdown-bar">🏷️ Owner-Direct Pricing Event — <b>limited installation slots</b> this month — <b id="cd">14:59</b> left</div>
+
+<div class="head"><span class="brand">The Window <em>Professor</em></span></div>
+
+<div class="wrap">
+  <div class="hero">
+    <h1>Get <em>owner-direct window pricing</em> — skip the markup, skip the pressure</h1>
+    <p>No commissioned closers. No inflated "retail" price they discount to make you feel special. Answer a few quick questions and we'll get you a straight, owner-direct number on your window replacement.</p>
+    <div class="trust">
+      <span><span class="dot">●</span> Licensed &amp; insured</span>
+      <span><span class="dot">●</span> Owner-direct, no commissioned reps</span>
+      <span><span class="dot">●</span> Free in-home quote</span>
+    </div>
+  </div>
+
+  <div class="card" id="card">
+    <div class="progress"><i id="bar"></i></div>
+    <div class="progress-meta"><span id="step-label">Step 1</span><span id="step-pct">0%</span></div>
+    <div id="panels"></div>
+    <div class="nav" id="nav">
+      <button class="btn btn-ghost" id="back" type="button">← Back</button>
+      <button class="btn btn-primary" id="next" type="button" disabled>Continue →</button>
+    </div>
+    <div class="hint">🔒 Your info is private. We never sell or share it.</div>
+  </div>
+
+  <div class="card qualify" id="qualify">
+    <span class="badge">✓ You Qualify</span>
+    <h2>Great news — you qualify for owner-direct pricing</h2>
+    <p style="color:var(--text-muted);max-width:480px;margin:0 auto 18px">Pick a time below and the owner will measure your windows and give you the real number. No pressure, no gimmicks.</p>
+    <button class="btn btn-primary" id="toBooking" style="max-width:320px;margin:0 auto">GET MY WINDOW QUOTE →</button>
+  </div>
+
+  <!-- Booking: TWP's GHL calendar, embedded inline -->
+  <div class="card booking" id="booking">
+    <h2>Last step: pick your time</h2>
+    <p class="sub">Choose a time below and the owner will measure your windows and give you the real, owner-direct number.</p>
+    <div class="booking-frame"><iframe id="booking-iframe" title="Schedule your window quote" scrolling="no" loading="lazy"></iframe></div>
+  </div>
+
+  <p class="fineprint">By submitting you agree to be contacted by The Window Professor about your project by call, text or email. Consent is not a condition of purchase. Msg &amp; data rates may apply.</p>
+</div>
+
+<script>
+/* =================== TWP CONFIG =================== */
+var CONFIG = {
+  businessName: "The Window Professor",
+  // LIVE GHL inbound webhook (creates contact + fires automation)
+  webhook: "https://services.leadconnectorhq.com/hooks/MZy3ptgD8YEaudJRozQ7/webhook-trigger/318997d5-59d1-4417-95c8-ebb9509c2680",
+  // TWP's live GHL calendar (embedded inline after the quiz). Contact params + utms appended.
+  calendarEmbed: "https://api.seasonproofgrowth.com/widget/booking/43ZFtWcugMxc2tiMyZYN",
+  questions: [
+    { id:"homeType", type:"single", label:"What type of property is this for?",
+      options:["Single Family Home","Townhouse/Condo","Multi-Family (2-4 units)","Commercial"] },
+    { id:"sqft", type:"single", label:"About how many interior square feet is your home?",
+      options:["Under 1,500","1,500 to 2,500","2,500 to 3,500","3,500+"] },
+    { id:"timeline", type:"single", label:"When are you wanting to start this project?",
+      options:["ASAP","In the next 30 days","More than a month from now"] },
+    { id:"windowCount", type:"single", label:"Roughly how many windows are you looking to replace?",
+      options:["Less than 5 windows","5 to 10 windows","11 to 15 windows","16 to 20 windows","20+ windows"] },
+    { id:"reasons", type:"multi", label:"What are the reasons you're wanting new windows? (Select all that apply)",
+      options:["Energy Efficiency & Comfort","Damage or Wear","Aesthetic Update / Home Renovation","Noise Reduction","Security & Safety Improvements","Increase Home Value"] },
+    { id:"lookingFor", type:"single", label:"What are you looking for in a window installation company?",
+      options:["High quality materials","Professional installation","Competitive pricing","I want all three"] },
+    { id:"payment", type:"single", label:"How are you wanting to pay for this project?",
+      options:["Cash or Check","Credit Card","Financing (monthly payments)","Not sure yet"] },
+    { id:"address", type:"address", label:"What's your property address?" },
+    { id:"contact", type:"contact", label:"Almost done — how can we reach you?" },
+  ],
+  // Maps quiz answers -> the GHL custom-field keys TWP's webhook expects
+  fieldMap: {
+    homeType:"home_type_v2", sqft:"square_feet", timeline:"window_timeline",
+    windowCount:"window_count", reasons:"window_motivation",
+    lookingFor:"looking_for_in_company", payment:"payment_method"
+  },
+};
+/* ================================================= */
+
+var Q=CONFIG.questions, answers={};
+var cur=0;
+var panels=document.getElementById('panels');
+var nextBtn=document.getElementById('next'), backBtn=document.getElementById('back');
+var up=new URLSearchParams(location.search);
+
+/* phone display formatter: (xxx) xxx-xxxx from digits */
+function fmtPhone(v){
+  var d=(v||'').replace(/\D/g,'').substring(0,10);
+  if(d.length>=7) return '('+d.slice(0,3)+') '+d.slice(3,6)+'-'+d.slice(6);
+  if(d.length>=4) return '('+d.slice(0,3)+') '+d.slice(3);
+  if(d.length>0)  return '('+d;
+  return '';
+}
+function toE164(v){ var d=(v||'').replace(/\D/g,''); if(d.length===10) return '+1'+d; if(d.length===11&&d[0]==='1') return '+'+d; return ''; }
+function emailOk(v){ return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v||''); }
+
+function render(){
+  panels.innerHTML='';
+  Q.forEach(function(q,i){
+    var d=document.createElement('div'); d.className='q'+(i===cur?' active':''); d.setAttribute('data-id',q.id);
+    var body='<div class="q-label">'+q.label+'</div>';
+    if(q.type==='single'||q.type==='multi'){
+      body+='<div class="option-list">'+q.options.map(function(o){
+        return '<button type="button" class="option'+(q.type==='multi'?' multi':'')+'" data-v="'+o.replace(/"/g,'&quot;')+'"><span class="option-mark"></span><span>'+o+'</span></button>';
+      }).join('')+'</div>';
+    } else if(q.type==='address'){
+      body+='<div class="fields">'+
+        '<div class="field"><input data-f="street" placeholder="Street Address" autocomplete="address-line1"></div>'+
+        '<div class="row2"><div class="field"><input data-f="city" placeholder="City" autocomplete="address-level2"></div>'+
+        '<div class="field"><input data-f="state" placeholder="State" autocomplete="address-level1" maxlength="20"></div></div>'+
+        '<div class="field"><input data-f="zip" placeholder="ZIP Code" inputmode="numeric" maxlength="5" autocomplete="postal-code"></div></div>';
+    } else if(q.type==='contact'){
+      body+='<div class="fields">'+
+        '<div class="field"><input data-f="fullName" placeholder="Full Name" autocomplete="name"></div>'+
+        '<div class="field"><input data-f="email" type="email" placeholder="Email Address" autocomplete="email"></div>'+
+        '<div class="field"><input data-f="phone" type="tel" placeholder="(555) 555-5555" inputmode="tel" autocomplete="tel"></div></div>';
+    }
+    d.innerHTML=body; panels.appendChild(d);
+  });
+  bindActive(); updateBar();
+}
+function activeEl(){return panels.children[cur];}
+function bindActive(){
+  var q=Q[cur], el=activeEl();
+  if(q.type==='single'||q.type==='multi'){
+    el.querySelectorAll('.option').forEach(function(btn){
+      btn.onclick=function(){
+        var v=btn.getAttribute('data-v');
+        if(q.type==='multi'){
+          btn.classList.toggle('sel');
+          answers[q.id]=[].slice.call(el.querySelectorAll('.option.sel')).map(function(b){return b.getAttribute('data-v')});
+        } else {
+          el.querySelectorAll('.option').forEach(function(b){b.classList.remove('sel')});
+          btn.classList.add('sel'); answers[q.id]=v;
+          setTimeout(function(){ if(valid()) go(1); },200);
+        }
+        validate();
+      };
+    });
+    if(answers[q.id]) el.querySelectorAll('.option').forEach(function(b){
+      var a=answers[q.id]; var on=Array.isArray(a)?a.indexOf(b.getAttribute('data-v'))>=0:a===b.getAttribute('data-v');
+      if(on) b.classList.add('sel');
+    });
+  } else {
+    el.querySelectorAll('input').forEach(function(inp){
+      var store=q.id; answers[store]=answers[store]||{};
+      var f=inp.getAttribute('data-f');
+      if(answers[store][f]) inp.value=answers[store][f];
+      inp.oninput=function(){
+        var val=inp.value;
+        if(f==='zip')   val=val.replace(/\D/g,'').substring(0,5);
+        if(f==='phone') val=fmtPhone(val);
+        inp.value=val;
+        answers[store][f]=val.trim();
+        validate();
+      };
+    });
+  }
+  validate();
+}
+function valid(){
+  var q=Q[cur], a=answers[q.id];
+  if(q.type==='single') return !!a;
+  if(q.type==='multi') return Array.isArray(a)&&a.length>0;
+  if(q.type==='address') return a&&a.street&&a.city&&a.state&&/^\d{5}$/.test(a.zip||'');
+  if(q.type==='contact') return a&&a.fullName&&emailOk(a.email)&&(a.phone||'').replace(/\D/g,'').length===10;
+  return false;
+}
+function validate(){ nextBtn.disabled=!valid(); }
+function updateBar(){
+  var pct=Math.round((cur)/(Q.length)*100);
+  document.getElementById('bar').style.width=Math.max(pct,4)+'%';
+  document.getElementById('step-label').textContent='Step '+(cur+1)+' of '+Q.length;
+  document.getElementById('step-pct').textContent=pct+'%';
+  backBtn.style.visibility=cur===0?'hidden':'visible';
+  nextBtn.textContent=(cur===Q.length-1)?'Get My Quote →':'Continue →';
+}
+function go(dir){
+  if(dir>0 && !valid()) return;
+  activeEl().classList.remove('active');
+  cur+=dir;
+  if(cur>=Q.length){ return submit(); }
+  if(cur<0) cur=0;
+  activeEl().classList.add('active');
+  bindActive(); updateBar();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+nextBtn.onclick=function(){go(1)};
+backBtn.onclick=function(){go(-1)};
+
+function buildPayload(){
+  var c=answers.contact||{}, ad=answers.address||{};
+  var p={
+    full_name:c.fullName||'', phone:toE164(c.phone)||c.phone||'', email:c.email||'',
+    address1:ad.street||'', city:ad.city||'', state:ad.state||'', postal_code:ad.zip||'',
+    window_project_type:'Window Replacement', window_quote_preference:'In-home visit'
+  };
+  Q.forEach(function(q){
+    if((q.type==='single'||q.type==='multi') && CONFIG.fieldMap[q.id]){
+      var a=answers[q.id]; p[CONFIG.fieldMap[q.id]] = Array.isArray(a)?a.join(', '):(a||'');
+    }
+  });
+  ['utm_source','utm_medium','utm_campaign','utm_term','utm_content','campaign_id','adset_id','ad_id','placement'].forEach(function(k){ p[k]=up.get(k)||''; });
+  return p;
+}
+function submit(){
+  nextBtn.disabled=true; nextBtn.textContent='Submitting…';
+  var payload=buildPayload();
+  try{ if(window.fbq) fbq('track','Lead',{content_name:'Window Quiz',content_category:'Windows'}); }catch(e){}
+  var done=function(){ document.getElementById('card').style.display='none'; showQualify(); };
+  try{
+    fetch(CONFIG.webhook,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
+      .then(done).catch(done);
+  }catch(e){ done(); }
+}
+function showQualify(){
+  document.getElementById('qualify').classList.add('active');
+  document.getElementById('toBooking').onclick=goBooking;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function goBooking(){
+  var c=answers.contact||{};
+  var nameParts=(c.fullName||'').trim().split(/\s+/);
+  var params=new URLSearchParams();
+  params.set('first_name',nameParts[0]||'');
+  params.set('last_name',nameParts.slice(1).join(' ')||'');
+  params.set('email',c.email||'');
+  params.set('phone',toE164(c.phone)||c.phone||'');
+  ['utm_source','utm_medium','utm_campaign','utm_term','utm_content','campaign_id','adset_id','ad_id','placement'].forEach(function(k){ var v=up.get(k); if(v) params.set(k,v); });
+  // reveal inline calendar, prefilled + attached to the existing contact
+  document.getElementById('qualify').classList.remove('active');
+  var bk=document.getElementById('booking'); bk.classList.add('active');
+  var f=document.getElementById('booking-iframe');
+  f.src=CONFIG.calendarEmbed+(CONFIG.calendarEmbed.indexOf('?')>=0?'&':'?')+params.toString();
+  // GHL calendar resizer
+  if(!document.getElementById('ghl-embed-js')){
+    var s=document.createElement('script'); s.id='ghl-embed-js';
+    s.src='https://api.leadconnectorhq.com/js/form_embed.js'; s.async=true;
+    document.body.appendChild(s);
+  }
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* countdown bar */
+(function(){var t=15*60-1;var el=document.getElementById('cd');setInterval(function(){if(t<=0)return;t--;var m=String(Math.floor(t/60));if(m.length<2)m='0'+m;var s=String(t%60);if(s.length<2)s='0'+s;el.textContent=m+':'+s;},1000);})();
+
+render();
+</script>
+</body>
+</html>
+</content>
